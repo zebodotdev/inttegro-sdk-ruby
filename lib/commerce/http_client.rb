@@ -102,24 +102,57 @@ module Commerce
 
       return wrap_response(data) if status < 400
 
-      message = extract_error_message(data, response)
-      code = data.is_a?(Hash) ? data["code"] || data.dig("error", "code") : nil
+      payload = extract_error_payload(data)
+      message = payload[:message] || payload[:detail] || extract_error_message(data, response)
+      code = payload[:code]
+      type = payload[:type]
+      url = payload[:url]
+      detail = payload[:detail]
+      fix_code = payload[:fix_code]
+      cause = payload[:cause]
 
       case status
       when 401
-        raise AuthenticationError.new(message, status: status, code: code, body: body, data: data)
+        raise AuthenticationError.new(
+          message,
+          status: status,
+          code: code,
+          type: type,
+          url: url,
+          detail: detail,
+          fix_code: fix_code,
+          cause: cause,
+          body: body,
+          data: data
+        )
       when 429
         retry_after = response["Retry-After"]&.to_i
         raise RateLimitError.new(
           message,
           status: status,
           code: code,
+          type: type,
+          url: url,
+          detail: detail,
+          fix_code: fix_code,
+          cause: cause,
           body: body,
           data: data,
           retry_after: retry_after
         )
       else
-        raise APIError.new(message, status: status, code: code, body: body, data: data)
+        raise APIError.new(
+          message,
+          status: status,
+          code: code,
+          type: type,
+          url: url,
+          detail: detail,
+          fix_code: fix_code,
+          cause: cause,
+          body: body,
+          data: data
+        )
       end
     end
 
@@ -135,6 +168,21 @@ module Commerce
       return "HTTP #{response.code} #{response.message}" unless data.is_a?(Hash)
 
       data.dig("error", "message") || data["message"] || data["error"] || "HTTP #{response.code}"
+    end
+
+    def extract_error_payload(data)
+      return {} unless data.is_a?(Hash)
+
+      payload = data["error"].is_a?(Hash) ? data["error"] : data
+      {
+        message: payload["message"],
+        detail: payload["detail"],
+        code: payload["code"],
+        type: payload["type"],
+        url: payload["url"],
+        fix_code: payload["fix_code"],
+        cause: payload["cause"]
+      }
     end
 
     def wrap_response(data)

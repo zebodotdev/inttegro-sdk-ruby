@@ -40,7 +40,15 @@ class CommerceClientTest < Minitest::Test
   def test_authentication_errors_are_raised
     adapter = make_adapter(
       status: "401",
-      body: { error: { message: "invalid key" } },
+      body: {
+        type: "authentication_error",
+        code: "invalid_api_key",
+        url: "https://commerce.zebo.dev/e/invalid_api_key",
+        message: "invalid key",
+        detail: "API key is missing or invalid.",
+        fix_code: "check_api_key",
+        cause: "authentication_failure"
+      },
       headers: { "Content-Type" => "application/json" }
     )
 
@@ -62,11 +70,13 @@ class CommerceClientTest < Minitest::Test
     client.platform.create_app(name: "My App")
     client.platform.generate_key(app_id: "app_123")
     client.platform.new_session(app_id: "app_123")
+    client.balances.get
 
     paths = requests.map { |r| r[:uri].path }
     assert_includes paths, "/apps/create"
     assert_includes paths, "/keys/generate"
     assert_includes paths, "/sessions/new"
+    assert_includes paths, "/balances"
   end
 
   def test_otp_initiate_uses_initialize_endpoint

@@ -15,12 +15,28 @@ module Commerce
   class TimeoutError < NetworkError; end
 
   class APIError < Error
-    attr_reader :status, :code, :body, :data
+    attr_reader :status, :code, :type, :url, :detail, :fix_code, :cause, :body, :data
 
-    def initialize(message, status:, code: nil, body: nil, data: nil)
+    def initialize(
+      message,
+      status:,
+      code: nil,
+      type: nil,
+      url: nil,
+      detail: nil,
+      fix_code: nil,
+      cause: nil,
+      body: nil,
+      data: nil
+    )
       super(message)
       @status = status
       @code = code
+      @type = type
+      @url = url
+      @detail = detail
+      @fix_code = fix_code
+      @cause = cause
       @body = body
       @data = data
     end
@@ -31,8 +47,31 @@ module Commerce
   class RateLimitError < APIError
     attr_reader :retry_after
 
-    def initialize(message, status:, code: nil, body: nil, data: nil, retry_after: nil)
-      super(message, status: status, code: code, body: body, data: data)
+    def initialize(
+      message,
+      status:,
+      code: nil,
+      type: nil,
+      url: nil,
+      detail: nil,
+      fix_code: nil,
+      cause: nil,
+      body: nil,
+      data: nil,
+      retry_after: nil
+    )
+      super(
+        message,
+        status: status,
+        code: code,
+        type: type,
+        url: url,
+        detail: detail,
+        fix_code: fix_code,
+        cause: cause,
+        body: body,
+        data: data
+      )
       @retry_after = retry_after
     end
   end

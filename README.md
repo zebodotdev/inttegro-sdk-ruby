@@ -147,6 +147,7 @@ puts session["session"]["token"]
 - `client.financial_accounts.create|lookup|connect|archive|page|verify`
 - `client.chimes.send|lookup|schedule`
 - `client.otp.initiate|verify`
+- `client.balances.get`
 - `client.platform.create_app|generate_key|new_session`
 - `client.spec.countries`
 

@@ -10,6 +10,7 @@ require_relative "resources/balance_transactions"
 require_relative "resources/financial_accounts"
 require_relative "resources/platform"
 require_relative "resources/spec"
+require_relative "resources/balances"
 
 module Commerce
   # Main entry point for interacting with the Commerce API.
@@ -21,6 +22,7 @@ module Commerce
                 :payouts,
                 :balance_transactions,
                 :financial_accounts,
+                :balances,
                 :platform,
                 :spec
 
@@ -50,6 +52,7 @@ module Commerce
       @payouts = Resources::Payouts.new(@http)
       @balance_transactions = Resources::BalanceTransactions.new(@http)
       @financial_accounts = Resources::FinancialAccounts.new(@http)
+      @balances = Resources::Balances.new(@http)
       @platform = Resources::Platform.new(@http)
       @spec = Resources::Spec.new(@http)
     end
