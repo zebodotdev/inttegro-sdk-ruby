@@ -29,7 +29,7 @@ module Commerce
       # @option payload [Hash] :payment_method_data Inline payment method details
       # @option payload [Boolean] :execute_payment Whether to immediately charge (default: false)
       # @option payload [Hash] :checkout_settings Checkout flow configuration with redirect_url and cancel_url
-      # @option payload [Hash] :custom_data Key-value metadata (max 25KB, keys and values must be strings)
+      # @option payload [Hash] :custom_data Key-value custom data (max 25KB, keys and values must be strings)
       # @option payload [String] :idempotency_key Unique key to prevent duplicate order creation
       # @option payload [String] :number Optional order number for reference
       # @option payload [String] :statement_descriptor Text on customer's bank statement (max 22 characters)
@@ -335,7 +335,7 @@ module Commerce
       # @option payload [String] :created_after Filter orders created after this timestamp (ISO 8601)
       # @option payload [String] :created_before Filter orders created before this timestamp (ISO 8601)
       #
-      # @return [Commerce::ResponseObject] Paginated list of orders with pagination metadata
+      # @return [Commerce::ResponseObject] Paginated list of orders with pagination details
       #
       # @example Get first page of orders
       #   result = client.orders.page(

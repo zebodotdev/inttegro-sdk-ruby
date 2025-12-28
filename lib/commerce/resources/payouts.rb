@@ -134,7 +134,7 @@ module Commerce
       # @option payload [String] :created_after Filter payouts created after this timestamp (ISO 8601)
       # @option payload [String] :created_before Filter payouts created before this timestamp (ISO 8601)
       #
-      # @return [Commerce::ResponseObject] Paginated list of payouts with pagination metadata
+      # @return [Commerce::ResponseObject] Paginated list of payouts with pagination details
       #
       # @example Get first page of payouts
       #   result = client.payouts.page(
