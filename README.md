@@ -43,7 +43,7 @@ order = client.orders.create(
   ]
 )
 
-puts order.order.id # => "ord_..."
+puts order.order.id # => "or_..."
 ```
 
 Responses are wrapped in lightweight objects so you can access keys as either methods or hash entries (`order.order.id` or `order["order"]["id"]`).
@@ -73,7 +73,7 @@ puts order.redirect_url # present when customer action is required
 
 ```ruby
 begin
-  client.orders.lookup(order_id: "ord_missing")
+  client.orders.lookup(order_id: "or_missing")
 rescue Commerce::AuthenticationError => e
   warn "Check your API key: #{e.message}"
 rescue Commerce::RateLimitError => e
@@ -94,7 +94,7 @@ pm = client.payment_methods.tokenize(
 client.payment_methods.verify(payment_method_id: pm.payment_method.id)
 
 payment = client.orders.pay(
-  order_id: "ord_123",
+  order_id: "or_123",
   payment_method_id: pm.payment_method.id
 )
 

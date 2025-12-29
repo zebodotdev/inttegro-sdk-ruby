@@ -32,7 +32,7 @@ module Commerce
       #
       # @example Tokenize a mobile money payment method
       #   result = client.payment_methods.tokenize(
-      #     customer_id: 'cus_abc123',
+      #     customer_id: 'cu_abc123',
       #     payment_method_data: {
       #       type: 'mobile_money',
       #       mobile_money: {

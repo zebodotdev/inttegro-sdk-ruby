@@ -78,7 +78,7 @@ module Commerce
       #
       # @example Create order with existing customer
       #   result = client.orders.create(
-      #     customer_id: 'cus_abc123',
+      #     customer_id: 'cu_abc123',
       #     line_items: [{
       #       type: 'product',
       #       product: {

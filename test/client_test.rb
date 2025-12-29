@@ -14,7 +14,7 @@ class CommerceClientTest < Minitest::Test
     requests = []
     adapter = make_adapter(
       requests: requests,
-      body: { order: { id: "ord_123" }, redirect_url: "https://checkout" }
+      body: { order: { id: "or_123" }, redirect_url: "https://checkout" }
     )
 
     client = Commerce::Client.new(
@@ -33,7 +33,7 @@ class CommerceClientTest < Minitest::Test
     assert_equal "application/json", request["Content-Type"]
     assert_equal({ "number" => "ORDER-123" }, JSON.parse(request.body))
 
-    assert_equal "ord_123", response.order.id
+    assert_equal "or_123", response.order.id
     assert_equal "https://checkout", response.redirect_url
   end
 
@@ -55,7 +55,7 @@ class CommerceClientTest < Minitest::Test
     client = Commerce::Client.new(token: "bad-key", base_url: "https://api.zebo.dev", adapter: adapter)
 
     error = assert_raises(Commerce::AuthenticationError) do
-      client.orders.lookup(order_id: "ord_123")
+      client.orders.lookup(order_id: "or_123")
     end
 
     assert_equal 401, error.status
