@@ -29,6 +29,7 @@ module Commerce
       # @option payload [Hash] :payment_method_data Inline payment method details
       # @option payload [Boolean] :execute_payment Whether to immediately charge (default: false)
       # @option payload [Hash] :checkout_settings Checkout flow configuration with redirect_url and cancel_url
+      # @option payload [Hash] :payout_settings Order-specific payout destination configuration
       # @option payload [Hash] :custom_data Key-value custom data (max 25KB, keys and values must be strings)
       # @option payload [String] :idempotency_key Unique key to prevent duplicate order creation
       # @option payload [String] :number Optional order number for reference

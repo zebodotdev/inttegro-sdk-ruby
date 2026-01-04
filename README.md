@@ -27,6 +27,12 @@ order = client.orders.create(
     name: "Akua Mensah",
     phone_number: "+233544998605"
   },
+  payout_settings: {
+    destination: {
+      financial_account_id: "fa_1234567890abcdef"
+    },
+    enable_fx: false
+  },
   payment_method_data: {
     type: "mobile_money",
     mobile_money: { issuer: "mtn", number: "0544998605" }
@@ -58,6 +64,12 @@ client = Commerce::Client.new(token: ENV["COMMERCE_API_KEY"])
 order = client.orders.create(
   idempotency_key: "order_checkout_abc123_#{Time.now.to_i}",
   customer_data: { name: "Customer", phone_number: "+233200000000" },
+  payout_settings: {
+    destination: {
+      financial_account_id: "fa_1234567890abcdef"
+    },
+    enable_fx: false
+  },
   payment_method_data: { type: "mobile_money", mobile_money: { issuer: "mtn", number: "0544998605" } },
   line_items: [
     { type: "product", product: { name: "Utility Sneakers", quantity: 1, price: { currency: "ghs", value: 20000 } } }
