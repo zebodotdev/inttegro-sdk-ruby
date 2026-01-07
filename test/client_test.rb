@@ -79,14 +79,20 @@ class CommerceClientTest < Minitest::Test
     assert_includes paths, "/balances"
   end
 
-  def test_otp_initiate_uses_initialize_endpoint
+  def test_otp_initiate_uses_initiate_endpoint
     requests = []
     adapter = make_adapter(requests: requests)
     client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
 
-    client.otp.initiate(recipient: "+233", purpose: "login")
+    client.otp.initiate(
+      recipient: "+233",
+      sender: "Acme",
+      service_name: "Acme Bank",
+      idempotency_key: "otp_login_1700000000",
+      purpose: "login"
+    )
 
-    assert_equal "/otp/initialize", requests.first.fetch(:uri).path
+    assert_equal "/otp/initiate", requests.first.fetch(:uri).path
   end
 
   private

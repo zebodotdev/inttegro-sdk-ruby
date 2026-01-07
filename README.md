@@ -121,10 +121,16 @@ end
 txn = client.otp.initiate(
   recipient: "+233241234567",
   idempotency_key: "otp_login_#{Time.now.to_i}",
+  sender: "Acme",
+  service_name: "Acme Bank",
   purpose: "login"
 )
 
-verification = client.otp.verify(transaction_id: txn["transaction_id"], token: "123456")
+verification = client.otp.verify(
+  transaction_id: txn["transaction_id"] || txn.dig("transaction", "id"),
+  recipient: "+233241234567",
+  token: "123456"
+)
 puts verification["status"] # e.g., "verified"
 ```
 
@@ -158,7 +164,7 @@ puts session["session"]["token"]
 - `client.balance_transactions.page`
 - `client.financial_accounts.create|lookup|connect|archive|page|verify`
 - `client.chimes.send|lookup|schedule`
-- `client.otp.initiate|verify`
+- `client.otp.initiate|verify|lookup|cancel`
 - `client.balances.get`
 - `client.platform.create_app|generate_key|new_session`
 - `client.spec.countries`
