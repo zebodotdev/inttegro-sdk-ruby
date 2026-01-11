@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "models"
+
 module Commerce
   # Lightweight wrapper for API responses that allows both hash-style and
   # method-style access while keeping values serializable.
@@ -15,6 +17,10 @@ module Commerce
 
     def to_h
       deep_unwrap(@data)
+    end
+
+    def deserialize(klass)
+      Commerce::Models.deserialize(to_h, klass)
     end
 
     def respond_to_missing?(name, include_private = false)

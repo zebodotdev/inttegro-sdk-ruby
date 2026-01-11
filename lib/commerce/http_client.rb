@@ -5,6 +5,7 @@ require "net/http"
 require "uri"
 
 require_relative "errors"
+require_relative "models"
 require_relative "response_object"
 require_relative "version"
 
@@ -35,7 +36,7 @@ module Commerce
 
     def request(method, path, body: nil, headers: {}, query: nil)
       uri = build_uri(path, query)
-      request = build_request(method, uri, body, headers)
+      request = build_request(method, uri, validate_body(path, coerce_body(body)), headers)
 
       response =
         if @adapter
@@ -44,7 +45,7 @@ module Commerce
           http = build_http(uri)
           http.request(request)
         end
-      handle_response(response)
+      handle_response(path, response)
     rescue Timeout::Error, Errno::ETIMEDOUT => e
       raise TimeoutError.new("Request timed out", e)
     rescue SocketError, Errno::ECONNREFUSED, Errno::ECONNRESET => e
@@ -95,12 +96,12 @@ module Commerce
       req
     end
 
-    def handle_response(response)
+    def handle_response(path, response)
       status = response.code.to_i
       body = response.body.to_s
       data = parse_json(body)
 
-      return wrap_response(data) if status < 400
+      return wrap_response(data, response_model_for(path)) if status < 400
 
       payload = extract_error_payload(data)
       message = payload[:message] || payload[:detail] || extract_error_message(data, response)
@@ -185,15 +186,130 @@ module Commerce
       }
     end
 
-    def wrap_response(data)
+    def wrap_response(data, model_class = nil)
       case data
       when Hash
-        ResponseObject.new(data)
+        model_class ? Commerce::Models.deserialize(data, model_class) : ResponseObject.new(data)
       when Array
-        data.map { |item| wrap_response(item) }
+        data.map { |item| wrap_response(item, model_class) }
       else
         data
       end
+    end
+
+    def coerce_body(value)
+      return value if value.nil?
+
+      if value.respond_to?(:to_h) && !value.is_a?(Hash)
+        value = value.to_h
+      end
+
+      case value
+      when Hash
+        value.each_with_object({}) do |(key, val), output|
+          output[key] = coerce_body(val)
+        end
+      when Array
+        value.map { |item| coerce_body(item) }
+      else
+        value
+      end
+    end
+
+    def response_model_for(path)
+      case path
+      when "/otp/initiate"
+        Commerce::Models::InitiateOtpResponse
+      when "/otp/verify"
+        Commerce::Models::VerifyOtpResponse
+      when "/otp/lookup"
+        Commerce::Models::LookupOtpResponse
+      when "/otp/cancel"
+        Commerce::Models::CancelOtpResponse
+      when "/chimes/send", "/chimes/lookup"
+        Commerce::Models::ChimeResponse
+      when "/chimes/schedule"
+        Commerce::Models::ScheduleChimeResponse
+      when "/orders/new"
+        Commerce::Models::OrderCreateResponse
+      when "/orders/lookup", "/orders/confirm_payment", "/orders/finalize", "/orders/complete"
+        Commerce::Models::OrderResponse
+      when "/orders/pay"
+        Commerce::Models::PaymentResponse
+      when "/orders/page"
+        Commerce::Models::OrderPageResponse
+      when "/payment_methods/tokenize", "/payment_methods/confirm_verification", "/payment_methods/lookup"
+        Commerce::Models::PaymentMethodResponse
+      when "/payment_methods/verify"
+        Commerce::Models::PaymentMethodVerificationResponse
+      when "/payment_methods/delete"
+        Commerce::Models::PaymentMethodDeleteResponse
+      when "/payment_methods/settings"
+        Commerce::Models::PaymentMethodSettingsResponse
+      when "/financial_accounts/create", "/financial_accounts/lookup", "/financial_accounts/connect"
+        Commerce::Models::FinancialAccountResponse
+      when "/balances"
+        Commerce::Models::BalancesResponse
+      when "/balance_transactions/page"
+        Commerce::Models::BalanceTransactionsResponse
+      when "/spec/countries"
+        Commerce::Models::CountrySpecificationsResponse
+      when "/payouts/set_destinations", "/payouts/settings", "/payouts/disable", "/payouts/enable_fx", "/payouts/disable_fx"
+        Commerce::Models::PayoutSettingsResponse
+      when "/payouts/page"
+        Commerce::Models::PayoutPageResponse
+      end
+    end
+
+    def validate_body(path, body)
+      return body unless body.is_a?(Hash)
+
+      case path
+      when "/financial_accounts/create", "/financial_accounts/connect"
+        require_keys(body, %w[label type reference currency], path)
+      when "/financial_accounts/lookup"
+        require_keys(body, %w[account_id], path)
+      when "/orders/new"
+        require_any(body, %w[customer_data customer_id], path)
+        require_keys(body, %w[line_items], path)
+      when "/orders/lookup", "/orders/request_confirmation", "/orders/finalize",
+           "/orders/cancel", "/orders/refund", "/orders/complete"
+        require_keys(body, %w[order_id], path)
+      when "/orders/confirm_payment"
+        require_keys(body, %w[order_id token], path)
+      when "/orders/pay"
+        require_keys(body, %w[order_id], path)
+      when "/payment_methods/tokenize"
+        require_keys(body, %w[customer_id payment_method_data], path)
+      when "/payment_methods/verify", "/payment_methods/confirm_verification",
+           "/payment_methods/lookup", "/payment_methods/delete"
+        require_keys(body, %w[payment_method_id], path)
+      when "/payouts/set_destinations"
+        require_keys(body, %w[destinations], path)
+      end
+
+      body
+    end
+
+    def require_keys(body, keys, path)
+      missing = keys.reject { |key| present?(body[key]) }
+      return if missing.empty?
+
+      raise ArgumentError, "Missing required fields for #{path}: #{missing.join(', ')}"
+    end
+
+    def require_any(body, keys, path)
+      present = keys.any? { |key| present?(body[key]) }
+      return if present
+
+      raise ArgumentError, "Missing required fields for #{path}: one of #{keys.join(', ')}"
+    end
+
+    def present?(value)
+      return false if value.nil?
+      return !value.empty? if value.respond_to?(:empty?)
+
+      true
     end
   end
 end

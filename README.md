@@ -138,9 +138,48 @@ puts verification["status"] # e.g., "verified"
 
 ```ruby
 settings = client.payouts.set_destinations(
-  destinations: { "ghs" => "momo:0544998605", "usd" => "bank:0011223344" }
+  destinations: { "ghs" => "fa_wallet", "usd" => "fa_bank_account" }
 )
 puts settings.settings.enabled_methods
+```
+
+### Typed models
+
+```ruby
+account = client.financial_accounts.connect(
+  Commerce::Models::FinancialAccountCreateRequest.new(
+    label: "Primary GHS Bank Account",
+    type: "bank_account",
+    reference: "BANK-GHS-001",
+    currency: "ghs",
+    bank_account: Commerce::Models::BankAccountConfig.new(
+      type: "ghana_bank_account",
+      ghana_bank_account: Commerce::Models::GhanaBankAccount.new(
+        number: "1234567890",
+        sort_code: "040127",
+        owner: Commerce::Models::BankAccountOwner.new(
+          name: "John Doe",
+          address: Commerce::Models::BankAccountOwnerAddress.new(
+            name: "Home Address",
+            line_1: "123 Main Street",
+            city: "Accra",
+            region: "Greater Accra",
+            country: "Ghana"
+          )
+        )
+      )
+    ),
+    push_configuration: Commerce::Models::PullPushConfig.new(enabled: true)
+  )
+)
+
+puts account.account.id
+```
+
+Typed model requests validate required fields and raise `ArgumentError` when missing. Responses are returned as typed models for supported endpoints (no manual deserialization needed).
+
+```ruby
+puts account.account.id
 ```
 
 ### Platform: apps, keys, sessions
