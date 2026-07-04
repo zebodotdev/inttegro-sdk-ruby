@@ -26,7 +26,7 @@ jobs:
         run: COVERAGE=1 bundle exec rake
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v7
         with:
           file: sdks/ruby/coverage/.resultset.json
           flags: ruby
