@@ -16,10 +16,10 @@ require_relative "resources/file_links"
 require_relative "resources/customers"
 require_relative "resources/products"
 require_relative "resources/prices"
-require_relative "resources/platform"
 require_relative "resources/spec"
 require_relative "resources/balances"
 require_relative "resources/upload_requests"
+require_relative "resources/apps"
 
 module Commerce
   # Main entry point for interacting with the Commerce API.
@@ -40,7 +40,7 @@ module Commerce
                 :products,
                 :prices,
                 :balances,
-                :platform,
+                :apps,
                 :spec,
                 :upload_requests
 
@@ -79,7 +79,7 @@ module Commerce
       @products = Resources::Products.new(@http)
       @prices = Resources::Prices.new(@http)
       @balances = Resources::Balances.new(@http)
-      @platform = Resources::Platform.new(@http)
+      @apps = Resources::Apps.new(@http)
       @spec = Resources::Spec.new(@http)
       @upload_requests = Resources::UploadRequests.new(@http)
     end

@@ -107,20 +107,38 @@ class CommerceClientTest < Minitest::Test
     refute body.key?("idempotency_key")
   end
 
-  def test_platform_endpoints_match_spec
+  def test_message_templates_create_uses_request_meta_idempotency_by_default
     requests = []
     adapter = make_adapter(requests: requests)
     client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
 
-    client.platform.create_app(name: "My App")
-    client.platform.generate_key(app_id: "app_123")
-    client.platform.new_session(app_id: "app_123")
+    client.message_templates.create({
+      name: "welcome_sms",
+      channel: "sms",
+      purpose: "marketing",
+      sms: { message_template: "Welcome {{name}}" }
+    })
+
+    request = requests.first.fetch(:request)
+    body = JSON.parse(request.body)
+    assert_nil request["Idempotency-Key"]
+    assert_match UUID_V7_REGEX, body.dig("request_meta", "idempotency_key")
+  end
+
+  def test_apps_endpoints_match_spec
+    requests = []
+    adapter = make_adapter(requests: requests)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+
+    client.apps.create(name: "My App")
+    client.apps.lookup
+    client.apps.update(alias: "my-app")
     client.balances.get
 
     paths = requests.map { |r| r[:uri].path }
     assert_includes paths, "/apps/create"
-    assert_includes paths, "/keys/generate"
-    assert_includes paths, "/sessions/new"
+    assert_includes paths, "/apps/lookup"
+    assert_includes paths, "/apps/update"
     assert_includes paths, "/balances"
   end
 

@@ -2,21 +2,21 @@
 
 module Commerce
   module Resources
-    class Platform
+    class Apps
       def initialize(http)
         @http = http
       end
 
-      def create_app(payload)
+      def create(payload)
         @http.post("/apps/create", payload)
       end
 
-      def generate_key(payload)
-        @http.post("/keys/generate", payload)
+      def lookup
+        @http.post("/apps/lookup", {})
       end
 
-      def new_session(payload)
-        @http.post("/sessions/new", payload)
+      def update(payload)
+        @http.post("/apps/update", payload)
       end
     end
   end

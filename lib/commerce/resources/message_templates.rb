@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "securerandom"
-
 module Commerce
   module Resources
     class MessageTemplates
@@ -56,7 +54,7 @@ module Commerce
       private
 
       def idempotency_headers(idempotency_key)
-        { "Idempotency-Key" => idempotency_key || SecureRandom.uuid }
+        idempotency_key.to_s.strip.empty? ? {} : { "Idempotency-Key" => idempotency_key }
       end
     end
   end

@@ -427,6 +427,9 @@ module Commerce
     FinancialAccountTypeSpec = Struct.new(:name, :label, :description, :subtypes, keyword_init: true)
     LegalEntityTypeSpec = Struct.new(:type, :name, :description, keyword_init: true)
     IDDocumentTypeSpec = Struct.new(:name, :label, :description, keyword_init: true)
+    BankBranchSpec = Struct.new(:id, :name, :sort_code, keyword_init: true)
+    BankSpec = Struct.new(:id, :name, :swift_code, :sort_code_prefix, :branches, keyword_init: true)
+    CountryBankSpec = Struct.new(:bank_account_type, :code_scheme, :items, keyword_init: true)
     CountrySpecification = Struct.new(
       :country_code,
       :country_name,
@@ -437,6 +440,7 @@ module Commerce
       :legal_entity_types,
       :financial_account_types,
       :id_document_types,
+      :banks,
       keyword_init: true
     )
     CountrySpecificationsResponse = Struct.new(:countries, keyword_init: true)
@@ -708,8 +712,11 @@ module Commerce
       CountrySpecification => {
         legal_entity_types: LegalEntityTypeSpec,
         financial_account_types: FinancialAccountTypeSpec,
-        id_document_types: IDDocumentTypeSpec
+        id_document_types: IDDocumentTypeSpec,
+        banks: CountryBankSpec
       },
+      CountryBankSpec => { items: BankSpec },
+      BankSpec => { branches: BankBranchSpec },
       PayoutSettingsResponse => { settings: PayoutSettings },
       PayoutSettings => { schedule: PayoutSchedule },
       PayoutSchedule => { aging_spec: PayoutAgingSpec },

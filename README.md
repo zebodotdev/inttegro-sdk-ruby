@@ -260,17 +260,12 @@ client.prices.update(
 )
 ```
 
-### Platform: apps, keys, sessions
+### Apps
 
 ```ruby
-platform = client.platform
-
-app = platform.create_app(name: "My App")
-key = platform.generate_key(app_id: app["app"]["id"], name: "Server key")
-session = platform.new_session(app_id: app["app"]["id"])
-
-puts key["key"]["secret"]
-puts session["session"]["token"]
+app = client.apps.create(name: "My App")
+current_app = client.apps.lookup
+updated_app = client.apps.update(alias: "my-app")
 ```
 
 ## Available resources
@@ -288,7 +283,7 @@ puts session["session"]["token"]
 - `client.broadcasts.lookup|cancel`
 - `client.otp.initiate|verify|lookup|cancel`
 - `client.balances.get`
-- `client.platform.create_app|generate_key|new_session`
+- `client.apps.create|lookup|update`
 - `client.spec.countries`
 
 ## Development
