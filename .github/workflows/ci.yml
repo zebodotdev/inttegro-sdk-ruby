@@ -28,6 +28,6 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          file: sdks/ruby/coverage/.resultset.json
+          file: coverage/.resultset.json
           flags: ruby
           name: ruby-sdk
