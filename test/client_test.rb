@@ -76,7 +76,7 @@ class CommerceClientTest < Minitest::Test
       body: {
         type: "authentication_error",
         code: "invalid_api_key",
-        url: "https://commerce.zebo.dev/e/invalid_api_key",
+        url: "https://studio.zebo.dev/e/invalid_api_key",
         message: "invalid key",
         detail: "API key is missing or invalid.",
         fix_code: "check_api_key",

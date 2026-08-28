@@ -8,7 +8,7 @@ module Commerce
     # that customers can reuse across purchases. Use this resource to tokenize new payment methods,
     # verify ownership, and manage the payment method lifecycle.
     #
-    # @see https://commerce.zebo.dev/payment-methods for detailed guides
+    # @see https://studio.zebo.dev/payment-methods for detailed guides
     class PaymentMethods
       def initialize(http)
         @http = http
@@ -46,7 +46,7 @@ module Commerce
       #   payment_method = result.data['payment_method']
       #   puts "Tokenized payment method: #{payment_method['id']}"
       #
-      # @see https://commerce.zebo.dev/charge-repeat-customers for usage guide
+      # @see https://studio.zebo.dev/charge-repeat-customers for usage guide
       def tokenize(payload)
         @http.post("/payment_methods/tokenize", payload)
       end
@@ -70,7 +70,7 @@ module Commerce
       #   verification = result.data['verification']
       #   puts "OTP sent to: #{verification['delivery']['recipient']}"
       #
-      # @see https://commerce.zebo.dev/charge-repeat-customers for verification flow
+      # @see https://studio.zebo.dev/charge-repeat-customers for verification flow
       def verify(payment_method_id:, request_meta: nil)
         @http.post(
           "/payment_methods/verify",
@@ -103,7 +103,7 @@ module Commerce
       #     puts 'Payment method verified successfully!'
       #   end
       #
-      # @see https://commerce.zebo.dev/charge-repeat-customers for verification flow
+      # @see https://studio.zebo.dev/charge-repeat-customers for verification flow
       def confirm_verification(payload)
         @http.post("/payment_methods/confirm_verification", payload)
       end
@@ -126,7 +126,7 @@ module Commerce
       #   puts "Payment method type: #{pm['type']}"
       #   puts "Verified: #{pm['verified']}"
       #
-      # @see https://commerce.zebo.dev/payment-methods for API reference
+      # @see https://studio.zebo.dev/payment-methods for API reference
       def lookup(payment_method_id:)
         @http.post("/payment_methods/lookup", { payment_method_id: payment_method_id })
       end
@@ -148,7 +148,7 @@ module Commerce
       #
       #   puts "Payment method deleted"
       #
-      # @see https://commerce.zebo.dev/payment-methods for API reference
+      # @see https://studio.zebo.dev/payment-methods for API reference
       def delete(payment_method_id:, request_meta: nil)
         @http.post(
           "/payment_methods/delete",
@@ -172,7 +172,7 @@ module Commerce
       #   settings = result.data['settings']
       #   puts "Verification required: #{settings['requires_verification']}"
       #
-      # @see https://commerce.zebo.dev/payment-methods for API reference
+      # @see https://studio.zebo.dev/payment-methods for API reference
       def settings
         @http.post("/payment_methods/settings", {})
       end

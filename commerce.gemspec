@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Lightweight Ruby SDK for the Zebo Commerce API"
   spec.description = "First-party Ruby client for working with orders, payments, payouts, chimes, and OTP verification on the Zebo Commerce platform."
-  spec.homepage = "https://commerce.zebo.dev"
+  spec.homepage = "https://studio.zebo.dev"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
 

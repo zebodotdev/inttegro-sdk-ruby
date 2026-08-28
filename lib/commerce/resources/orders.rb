@@ -8,7 +8,7 @@ module Commerce
     # line items, customer information, and payment details. Use this resource to create
     # orders, charge customers, handle confirmations, and process refunds.
     #
-    # @see https://commerce.zebo.dev/orders for detailed guides
+    # @see https://studio.zebo.dev/orders for detailed guides
     class Orders
       def initialize(http)
         @http = http
@@ -97,8 +97,8 @@ module Commerce
       #     }
       #   )
       #
-      # @see https://commerce.zebo.dev/accept-a-payment for payment flow guide
-      # @see https://commerce.zebo.dev/order-lifecycle for order states
+      # @see https://studio.zebo.dev/accept-a-payment for payment flow guide
+      # @see https://studio.zebo.dev/order-lifecycle for order states
       def create(payload)
         @http.post("/orders/new", payload)
       end
@@ -122,7 +122,7 @@ module Commerce
       #   puts "Order status: #{order['status']}"
       #   puts "Payment status: #{order['payment']['status']}" if order['payment']
       #
-      # @see https://commerce.zebo.dev/orders for API reference
+      # @see https://studio.zebo.dev/orders for API reference
       def lookup(order_id:, **options)
         body = { order_id: order_id }.merge(options)
         @http.post("/orders/lookup", body)
@@ -175,8 +175,8 @@ module Commerce
       #     paid_out_of_band: true
       #   )
       #
-      # @see https://commerce.zebo.dev/accept-a-payment for payment flow guide
-      # @see https://commerce.zebo.dev/charge-repeat-customers for saved payment methods
+      # @see https://studio.zebo.dev/accept-a-payment for payment flow guide
+      # @see https://studio.zebo.dev/charge-repeat-customers for saved payment methods
       def pay(payload)
         @http.post("/orders/pay", payload)
       end
@@ -203,7 +203,7 @@ module Commerce
       #     puts 'Payment confirmed successfully!'
       #   end
       #
-      # @see https://commerce.zebo.dev/accept-a-payment for complete payment flow
+      # @see https://studio.zebo.dev/accept-a-payment for complete payment flow
       def confirm_payment(payload)
         @http.post("/orders/confirm_payment", payload)
       end
@@ -225,7 +225,7 @@ module Commerce
       #
       #   puts 'New OTP sent to customer'
       #
-      # @see https://commerce.zebo.dev/accept-a-payment for payment confirmation flow
+      # @see https://studio.zebo.dev/accept-a-payment for payment confirmation flow
       def request_confirmation(order_id:, request_meta: nil)
         @http.post(
           "/orders/request_confirmation",
@@ -254,7 +254,7 @@ module Commerce
       #   order = result.data['order']
       #   puts "Order finalized at: #{order['sealed_at']}"
       #
-      # @see https://commerce.zebo.dev/order-lifecycle for order states
+      # @see https://studio.zebo.dev/order-lifecycle for order states
       def finalize(order_id:, request_meta: nil)
         @http.post(
           "/orders/finalize",
@@ -309,7 +309,7 @@ module Commerce
       #     paid_out_of_band: true
       #   )
       #
-      # @see https://commerce.zebo.dev/order-lifecycle for order states
+      # @see https://studio.zebo.dev/order-lifecycle for order states
       def complete(payload)
         @http.post("/orders/complete", payload)
       end
@@ -332,7 +332,7 @@ module Commerce
       #   order = result.data['order']
       #   puts "Order #{order['id']} has been cancelled"
       #
-      # @see https://commerce.zebo.dev/order-lifecycle for order states
+      # @see https://studio.zebo.dev/order-lifecycle for order states
       def cancel(order_id:, request_meta: nil)
         @http.post(
           "/orders/cancel",
@@ -360,7 +360,7 @@ module Commerce
       #   order = result.data['order']
       #   puts "Order refunded. Refund ID: #{order['payment']['refund']['id']}"
       #
-      # @see https://commerce.zebo.dev/retry-a-payment for payment retry guide
+      # @see https://studio.zebo.dev/retry-a-payment for payment retry guide
       def refund(order_id:)
         @http.post("/orders/refund", { order_id: order_id })
       end
@@ -399,8 +399,8 @@ module Commerce
       #     per_page: 50
       #   )
       #
-      # @see https://commerce.zebo.dev/pagination for pagination guide
-      # @see https://commerce.zebo.dev/orders for API reference
+      # @see https://studio.zebo.dev/pagination for pagination guide
+      # @see https://studio.zebo.dev/orders for API reference
       def page(payload = {})
         @http.post("/orders/page", payload || {})
       end
