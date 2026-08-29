@@ -12,7 +12,7 @@ require_relative "response_object"
 require_relative "version"
 
 module Commerce
-  DEFAULT_BASE_URL = "https://api.zebo.dev"
+  DEFAULT_BASE_URL = "https://api.inttegro.com"
 
   # Minimal HTTP client that wraps Net::HTTP with JSON parsing and API-friendly errors.
   class HTTPClient

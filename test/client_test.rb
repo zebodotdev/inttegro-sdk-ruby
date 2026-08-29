@@ -21,7 +21,7 @@ class CommerceClientTest < Minitest::Test
 
     client = Commerce::Client.new(
       token: "test-key",
-      base_url: "https://api.zebo.dev",
+      base_url: "https://api.inttegro.com",
       read_timeout: 2,
       open_timeout: 2,
       adapter: adapter
@@ -61,7 +61,7 @@ class CommerceClientTest < Minitest::Test
   def test_order_document_delivery_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.orders.send_invoice(order_id: "or_123")
     client.orders.send_receipt(order_id: "or_123")
@@ -85,7 +85,7 @@ class CommerceClientTest < Minitest::Test
       headers: { "Content-Type" => "application/json" }
     )
 
-    client = Commerce::Client.new(token: "bad-key", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "bad-key", base_url: "https://api.inttegro.com", adapter: adapter)
 
     error = assert_raises(Commerce::AuthenticationError) do
       client.orders.lookup(order_id: "or_123")
@@ -98,7 +98,7 @@ class CommerceClientTest < Minitest::Test
   def test_read_style_posts_do_not_generate_idempotency_metadata
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.orders.lookup(order_id: "or_123", idempotency_key: "legacy")
 
@@ -110,7 +110,7 @@ class CommerceClientTest < Minitest::Test
   def test_message_templates_create_uses_request_meta_idempotency_by_default
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.message_templates.create({
       name: "welcome_sms",
@@ -128,7 +128,7 @@ class CommerceClientTest < Minitest::Test
   def test_apps_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.apps.create(name: "My App")
     client.apps.lookup
@@ -145,7 +145,7 @@ class CommerceClientTest < Minitest::Test
   def test_otp_initiate_uses_initiate_endpoint
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.otp.initiate(
       recipient: "+233",
@@ -161,7 +161,7 @@ class CommerceClientTest < Minitest::Test
   def test_chime_schedule_and_broadcast_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.chimes.schedule(recipients: ["+233"], full_message: "hello", send_after: "2026-01-18T10:00:00Z")
     client.chimes.broadcast(recipients: ["+233"], message_template: "hello", service_name: "test")
@@ -174,7 +174,7 @@ class CommerceClientTest < Minitest::Test
   def test_schedule_and_broadcast_lookup_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.schedules.lookup(schedule_id: "sch_123")
     client.schedules.cancel(schedule_id: "sch_123")
@@ -191,7 +191,7 @@ class CommerceClientTest < Minitest::Test
   def test_payout_cancel_endpoint_matches_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.payouts.cancel(payout_id: "po_123")
 
@@ -201,7 +201,7 @@ class CommerceClientTest < Minitest::Test
   def test_customers_and_products_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.zebo.dev", adapter: adapter)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.customers.create(name: "Jane Doe")
     client.customers.lookup(customer_id: "cu_123")
