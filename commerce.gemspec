@@ -6,11 +6,11 @@ Gem::Specification.new do |spec|
   spec.name = "zebo-commerce"
   spec.version = Commerce::VERSION
   spec.authors = ["Zebo Engineering"]
-  spec.email = ["engineering@zebo.dev"]
+  spec.email = ["engineering@inttegro.com"]
 
   spec.summary = "Lightweight Ruby SDK for the Zebo Commerce API"
   spec.description = "First-party Ruby client for working with orders, payments, payouts, chimes, and OTP verification on the Zebo Commerce platform."
-  spec.homepage = "https://studio.zebo.dev"
+  spec.homepage = "https://studio.inttegro.com"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
 

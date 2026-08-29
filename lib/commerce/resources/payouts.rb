@@ -8,7 +8,7 @@ module Commerce
     # to configure payout destinations, manage payout schedules, enable foreign exchange conversion,
     # and retrieve payout history.
     #
-    # @see https://studio.zebo.dev/payouts for detailed guides
+    # @see https://studio.inttegro.com/payouts for detailed guides
     class Payouts
       def initialize(http)
         @http = http
@@ -35,7 +35,7 @@ module Commerce
       #   settings = result.data['settings']
       #   puts "Destinations configured: #{settings['destinations']}"
       #
-      # @see https://studio.zebo.dev/enable-automatic-payouts for configuration guide
+      # @see https://studio.inttegro.com/enable-automatic-payouts for configuration guide
       def set_destinations(destinations:)
         @http.post("/payouts/set_destinations", { destinations: destinations })
       end
@@ -54,7 +54,7 @@ module Commerce
       #   puts "Payout schedule: #{settings['schedule']['name']}"
       #   puts "Destinations: #{settings['destinations']}"
       #
-      # @see https://studio.zebo.dev/product-payouts for payouts overview
+      # @see https://studio.inttegro.com/product-payouts for payouts overview
       def settings
         @http.post("/payouts/settings", {})
       end
@@ -74,7 +74,7 @@ module Commerce
       #   settings = result.data['settings']
       #   puts "Schedule type: #{settings['schedule']['type']}"  # => "manual"
       #
-      # @see https://studio.zebo.dev/disable-automatic-payouts for manual payout guide
+      # @see https://studio.inttegro.com/disable-automatic-payouts for manual payout guide
       def disable_automatic
         @http.post("/payouts/disable", {})
       end
@@ -99,7 +99,7 @@ module Commerce
       #   settings = result.data['settings']
       #   puts "FX enabled: #{settings['fx_enabled']}"
       #
-      # @see https://studio.zebo.dev/enable-fx-payouts for FX payout guide
+      # @see https://studio.inttegro.com/enable-fx-payouts for FX payout guide
       def enable_fx
         @http.post("/payouts/enable_fx", {})
       end
@@ -117,7 +117,7 @@ module Commerce
       #   settings = result.data['settings']
       #   puts "FX enabled: #{settings['fx_enabled']}"  # => false
       #
-      # @see https://studio.zebo.dev/disable-fx-payouts for FX payout guide
+      # @see https://studio.inttegro.com/disable-fx-payouts for FX payout guide
       def disable_fx
         @http.post("/payouts/disable_fx", {})
       end
@@ -156,8 +156,8 @@ module Commerce
       #     per_page: 50
       #   )
       #
-      # @see https://studio.zebo.dev/pagination for pagination guide
-      # @see https://studio.zebo.dev/product-payouts for payouts overview
+      # @see https://studio.inttegro.com/pagination for pagination guide
+      # @see https://studio.inttegro.com/product-payouts for payouts overview
       def page(payload = {})
         @http.post("/payouts/page", payload || {})
       end
