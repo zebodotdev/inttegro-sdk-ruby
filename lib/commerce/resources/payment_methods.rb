@@ -131,6 +131,32 @@ module Commerce
         @http.post("/payment_methods/lookup", { payment_method_id: payment_method_id })
       end
 
+      def page(payload = {})
+        @http.post("/payment_methods/page", payload || {})
+      end
+
+      def update(payload)
+        @http.post("/payment_methods/update", payload)
+      end
+
+      def activate(payment_method_id:)
+        @http.post("/payment_methods/activate", { payment_method_id: payment_method_id })
+      end
+
+      def disactivate(payment_method_id:)
+        @http.post("/payment_methods/disactivate", { payment_method_id: payment_method_id })
+      end
+
+      alias deactivate disactivate
+
+      def archive(payment_method_id:)
+        @http.post("/payment_methods/archive", { payment_method_id: payment_method_id })
+      end
+
+      def unarchive(payment_method_id:)
+        @http.post("/payment_methods/unarchive", { payment_method_id: payment_method_id })
+      end
+
       # Delete a saved payment method, removing it from the customer's account.
       #
       # Permanently deletes the payment method. This action cannot be undone. Use when a customer

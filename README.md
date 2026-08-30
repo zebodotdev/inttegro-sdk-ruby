@@ -270,15 +270,18 @@ updated_app = client.apps.update(alias: "my-app")
 
 ## Available resources
 
-- `client.orders.create|lookup|pay|confirm_payment|request_confirmation|finalize|complete|cancel|refund|page`
-- `client.payment_methods.tokenize|verify|confirm_verification|lookup|delete|settings`
-- `client.payouts.set_destinations|settings|disable_automatic|enable_fx|disable_fx|page|cancel`
-- `client.balance_transactions.page`
-- `client.financial_accounts.create|lookup|connect|archive|page|verify|update|enable_push|disable_push|enable_pull|disable_pull|disconnect`
+- `client.orders.create|new|lookup|update|pay|confirm_payment|request_confirmation|finalize|complete|cancel|refund|page`
+- `client.payment_methods.tokenize|verify|confirm_verification|lookup|page|update|activate|disactivate|archive|unarchive|delete|settings`
+- `client.payouts.set_destinations|settings|disable_automatic|enable_automatic|enable_fx|disable_fx|page|schedule|lookup|cancel`
+- `client.balance_transactions.lookup|page`
+- `client.financial_accounts.create|lookup|connect|archive|page|verify|update|enable_push|disable_push|enable_pull|disable_pull|disconnect|reconnect`
+- `client.file_references.reconcile`
 - `client.customers.create|lookup|page`
-- `client.prices.create|lookup|update`
+- `client.keys.generate|page|lookup|update|destroy|usage`
+- `client.prices.create|lookup|page|update|activate|deactivate`
 - `client.products.create|add_price|set_default_unit_price|lookup|update|publish|unpublish|archive|page`
-- `client.chimes.send|lookup|schedule|broadcast`
+- `client.purchase_intents.create|update|cancel|lookup|page`
+- `client.chimes.send|lookup|page|schedule|broadcast`
 - `client.schedules.lookup|cancel`
 - `client.broadcasts.lookup|cancel`
 - `client.otp.initiate|verify|lookup|cancel`

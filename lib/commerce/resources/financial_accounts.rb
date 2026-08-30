@@ -58,6 +58,10 @@ module Commerce
         payload[:unset_as_payout_destination] = unset_as_payout_destination unless unset_as_payout_destination.nil?
         @http.post("/financial_accounts/disconnect", payload)
       end
+
+      def reconnect(account_id:)
+        @http.post("/financial_accounts/reconnect", { account_id: account_id })
+      end
     end
   end
 end

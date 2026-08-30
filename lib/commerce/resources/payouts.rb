@@ -79,6 +79,12 @@ module Commerce
         @http.post("/payouts/disable", {})
       end
 
+      def enable_automatic
+        @http.post("/payouts/enable", {})
+      end
+
+      alias enable enable_automatic
+
       # Enable foreign exchange conversion for payouts.
       #
       # Enables FX conversion for payouts. When FX is enabled, Commerce can automatically convert payout
@@ -160,6 +166,14 @@ module Commerce
       # @see https://studio.inttegro.com/product-payouts for payouts overview
       def page(payload = {})
         @http.post("/payouts/page", payload || {})
+      end
+
+      def schedule(payload)
+        @http.post("/payouts/schedule", payload)
+      end
+
+      def lookup(payout_id:)
+        @http.post("/payouts/lookup", { payout_id: payout_id })
       end
 
       # Cancel a scheduled payout before execution.

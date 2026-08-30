@@ -2,6 +2,7 @@
 
 require "test_helper"
 require "json"
+require "yaml"
 
 class CommerceClientTest < Minitest::Test
   StubResponse = Struct.new(:code, :body, :headers, :message) do
@@ -11,6 +12,16 @@ class CommerceClientTest < Minitest::Test
   end
 
   UUID_V7_REGEX = /\A[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z/i
+  EXTERNALLY_SUPPLIED_CAPABILITY_PATHS = ["/file_links/open", "/upload_requests/upload"].freeze
+
+  def test_sdk_implementation_paths_cover_openapi_spec
+    missing = openapi_spec_paths - EXTERNALLY_SUPPLIED_CAPABILITY_PATHS - implemented_sdk_paths
+
+    assert_empty(
+      missing,
+      "SDK implementation is missing explicit OpenAPI path coverage:\n#{missing.join("\n")}"
+    )
+  end
 
   def test_orders_create_posts_json_and_parses_response
     requests = []
@@ -44,7 +55,7 @@ class CommerceClientTest < Minitest::Test
     )
     request = requests.first.fetch(:request)
 
-    assert_equal "/orders/new", requests.first.fetch(:uri).path
+    assert_equal "/orders/create", requests.first.fetch(:uri).path
     assert_equal "Bearer test-key", request["Authorization"]
     assert_equal "application/json", request["Content-Type"]
     parsed_body = JSON.parse(request.body)
@@ -56,6 +67,77 @@ class CommerceClientTest < Minitest::Test
 
     assert_equal "or_123", response.order.id
     refute_respond_to response, :redirect_url
+  end
+
+  def test_recent_openapi_endpoints_match_spec
+    requests = []
+    adapter = make_adapter(requests: requests)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+
+    client.orders.new(customer_id: "cu_123", line_items: [{ type: "product" }])
+    client.orders.update(order_id: "or_123", number: "ORDER-123-REV2")
+    client.chimes.page(page_number: 1, page_size: 20)
+    client.balance_transactions.lookup(transaction_id: "bt_123")
+    client.financial_accounts.reconnect(account_id: "fa_123")
+    client.file_references.reconcile(resource: { type: "product", id: "prod_123" }, file_ids: ["file_123"])
+    client.keys.generate(label: "Production")
+    client.keys.page(number: 1, size: 20)
+    client.keys.lookup(secret_key_id: "sk_123")
+    client.keys.update(secret_key_id: "sk_123", label: "Checkout")
+    client.keys.destroy(secret_key_id: "sk_123")
+    client.keys.usage(secret_key_id: "sk_123", number: 1, size: 20)
+    client.payment_methods.page(customer_id: "cu_123")
+    client.payment_methods.update(payment_method_id: "pm_123", active: true)
+    client.payment_methods.activate(payment_method_id: "pm_123")
+    client.payment_methods.disactivate(payment_method_id: "pm_123")
+    client.payment_methods.archive(payment_method_id: "pm_123")
+    client.payment_methods.unarchive(payment_method_id: "pm_123")
+    client.payouts.enable_automatic
+    client.payouts.schedule(destination_id: "fa_123", max_amount: 1, reference: "PAYOUT-1")
+    client.payouts.lookup(payout_id: "po_123")
+    client.prices.page(page_number: 1, page_size: 20)
+    client.prices.activate(price_id: "pr_123")
+    client.prices.deactivate(price_id: "pr_123")
+    client.purchase_intents.create(
+      product_id: "prod_123",
+      price_id: "pr_123",
+      quantity: { min: 1, max: 5 }
+    )
+    client.purchase_intents.update(id: "sale_123", maximum_quantity: 3)
+    client.purchase_intents.cancel(id: "sale_123")
+    client.purchase_intents.lookup(id: "sale_123")
+    client.purchase_intents.page(page_number: 1, page_size: 20)
+
+    paths = requests.map { |r| r[:uri].path }
+    assert_includes paths, "/orders/new"
+    assert_includes paths, "/orders/update"
+    assert_includes paths, "/chimes/page"
+    assert_includes paths, "/balance_transactions/lookup"
+    assert_includes paths, "/financial_accounts/reconnect"
+    assert_includes paths, "/file_references/reconcile"
+    assert_includes paths, "/keys/generate"
+    assert_includes paths, "/keys/page"
+    assert_includes paths, "/keys/lookup"
+    assert_includes paths, "/keys/update"
+    assert_includes paths, "/keys/destroy"
+    assert_includes paths, "/keys/usage"
+    assert_includes paths, "/payment_methods/page"
+    assert_includes paths, "/payment_methods/update"
+    assert_includes paths, "/payment_methods/activate"
+    assert_includes paths, "/payment_methods/disactivate"
+    assert_includes paths, "/payment_methods/archive"
+    assert_includes paths, "/payment_methods/unarchive"
+    assert_includes paths, "/payouts/enable"
+    assert_includes paths, "/payouts/schedule"
+    assert_includes paths, "/payouts/lookup"
+    assert_includes paths, "/prices/page"
+    assert_includes paths, "/prices/activate"
+    assert_includes paths, "/prices/deactivate"
+    assert_includes paths, "/purchase_intents/create"
+    assert_includes paths, "/purchase_intents/update"
+    assert_includes paths, "/purchase_intents/cancel"
+    assert_includes paths, "/purchase_intents/lookup"
+    assert_includes paths, "/purchase_intents/page"
   end
 
   def test_order_document_delivery_endpoints_match_spec
@@ -237,6 +319,26 @@ class CommerceClientTest < Minitest::Test
   end
 
   private
+
+  def openapi_spec_paths
+    spec_path = ENV.fetch("COMMERCE_OPENAPI_SPEC", "")
+    if spec_path.strip.empty?
+      sdk_root = File.expand_path("..", __dir__)
+      spec_path = File.expand_path("../../openapi/commerce.yml", sdk_root)
+    end
+    assert File.file?(spec_path), "OpenAPI spec not found at #{spec_path}"
+
+    YAML.load_file(spec_path).fetch("paths").keys.sort
+  end
+
+  def implemented_sdk_paths
+    resource_glob = File.expand_path("../lib/commerce/resources/**/*.rb", __dir__)
+    Dir[resource_glob].flat_map do |file|
+      File.read(file).scan(
+        %r{@http\.(?:get|post|post_with_headers|post_multipart|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
+      ).flatten
+    end.uniq.sort
+  end
 
   def make_adapter(status: "200", body: {}, headers: { "Content-Type" => "application/json" }, requests: [])
     lambda do |uri, request|

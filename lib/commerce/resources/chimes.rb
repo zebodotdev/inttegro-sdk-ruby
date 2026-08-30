@@ -15,6 +15,10 @@ module Commerce
         @http.post("/chimes/lookup", { chime_id: chime_id })
       end
 
+      def page(payload = {})
+        @http.post("/chimes/page", payload || {})
+      end
+
       def schedule(payload)
         @http.post("/chimes/schedule", payload)
       end

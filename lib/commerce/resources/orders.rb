@@ -100,6 +100,10 @@ module Commerce
       # @see https://studio.inttegro.com/accept-a-payment for payment flow guide
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def create(payload)
+        @http.post("/orders/create", payload)
+      end
+
+      def new(payload)
         @http.post("/orders/new", payload)
       end
 
@@ -126,6 +130,10 @@ module Commerce
       def lookup(order_id:, **options)
         body = { order_id: order_id }.merge(options)
         @http.post("/orders/lookup", body)
+      end
+
+      def update(payload)
+        @http.post("/orders/update", payload)
       end
 
       # Initiate payment for an existing order.

@@ -353,15 +353,17 @@ module Commerce
         Commerce::Models::LookupBroadcastResponse
       when "/broadcasts/cancel"
         Commerce::Models::BroadcastCancelResponse
-      when "/orders/new"
+      when "/orders/create", "/orders/new"
         Commerce::Models::OrderCreateResponse
-      when "/orders/lookup", "/orders/confirm_payment", "/orders/finalize", "/orders/complete"
+      when "/orders/lookup", "/orders/update", "/orders/confirm_payment", "/orders/finalize", "/orders/complete"
         Commerce::Models::OrderResponse
       when "/orders/pay"
         Commerce::Models::PaymentResponse
       when "/orders/page"
         Commerce::Models::OrderPageResponse
-      when "/payment_methods/tokenize", "/payment_methods/confirm_verification", "/payment_methods/lookup"
+      when "/payment_methods/tokenize", "/payment_methods/confirm_verification", "/payment_methods/lookup",
+           "/payment_methods/update", "/payment_methods/activate", "/payment_methods/disactivate",
+           "/payment_methods/archive", "/payment_methods/unarchive"
         Commerce::Models::PaymentMethodResponse
       when "/payment_methods/verify"
         Commerce::Models::PaymentMethodVerificationResponse
@@ -371,7 +373,7 @@ module Commerce
         Commerce::Models::PaymentMethodSettingsResponse
       when "/financial_accounts/create", "/financial_accounts/lookup", "/financial_accounts/connect"
         Commerce::Models::FinancialAccountResponse
-      when "/financial_accounts/update"
+      when "/financial_accounts/update", "/financial_accounts/reconnect"
         Commerce::Models::FinancialAccountResponse
       when "/financial_accounts/enable_push", "/financial_accounts/disable_push", "/financial_accounts/enable_pull", "/financial_accounts/disable_pull", "/financial_accounts/disconnect"
         Commerce::Models::FinancialAccountResponse
@@ -387,15 +389,16 @@ module Commerce
         Commerce::Models::ProductPageResponse
       when "/balances"
         Commerce::Models::BalancesResponse
-      when "/balance_transactions/page"
+      when "/balance_transactions/lookup", "/balance_transactions/page"
         Commerce::Models::BalanceTransactionsResponse
       when "/spec/countries"
         Commerce::Models::CountrySpecificationsResponse
-      when "/payouts/set_destinations", "/payouts/settings", "/payouts/disable", "/payouts/enable_fx", "/payouts/disable_fx"
+      when "/payouts/set_destinations", "/payouts/settings", "/payouts/disable", "/payouts/enable",
+           "/payouts/enable_fx", "/payouts/disable_fx"
         Commerce::Models::PayoutSettingsResponse
       when "/payouts/page"
         Commerce::Models::PayoutPageResponse
-      when "/payouts/cancel"
+      when "/payouts/schedule", "/payouts/lookup", "/payouts/cancel"
         Commerce::Models::CancelPayoutResponse
       end
     end
@@ -420,10 +423,10 @@ module Commerce
         require_keys(body, %w[product_id price_id], path)
       when "/products/lookup", "/products/update", "/products/publish", "/products/unpublish", "/products/archive"
         require_keys(body, %w[product_id], path)
-      when "/orders/new"
+      when "/orders/create", "/orders/new"
         require_any(body, %w[customer_data customer_id], path)
         require_keys(body, %w[line_items], path)
-      when "/orders/lookup", "/orders/request_confirmation", "/orders/finalize",
+      when "/orders/lookup", "/orders/update", "/orders/request_confirmation", "/orders/finalize",
            "/orders/cancel", "/orders/refund", "/orders/complete"
         require_keys(body, %w[order_id], path)
       when "/orders/confirm_payment"

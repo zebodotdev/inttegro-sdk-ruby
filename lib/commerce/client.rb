@@ -11,15 +11,18 @@ require_relative "resources/payment_methods"
 require_relative "resources/payouts"
 require_relative "resources/balance_transactions"
 require_relative "resources/financial_accounts"
+require_relative "resources/file_references"
 require_relative "resources/files"
 require_relative "resources/file_links"
 require_relative "resources/customers"
 require_relative "resources/products"
 require_relative "resources/prices"
+require_relative "resources/purchase_intents"
 require_relative "resources/spec"
 require_relative "resources/balances"
 require_relative "resources/upload_requests"
 require_relative "resources/apps"
+require_relative "resources/keys"
 
 module Commerce
   # Main entry point for interacting with the Commerce API.
@@ -34,13 +37,16 @@ module Commerce
                 :payouts,
                 :balance_transactions,
                 :financial_accounts,
+                :file_references,
                 :files,
                 :file_links,
                 :customers,
                 :products,
                 :prices,
+                :purchase_intents,
                 :balances,
                 :apps,
+                :keys,
                 :spec,
                 :upload_requests
 
@@ -73,13 +79,16 @@ module Commerce
       @payouts = Resources::Payouts.new(@http)
       @balance_transactions = Resources::BalanceTransactions.new(@http)
       @financial_accounts = Resources::FinancialAccounts.new(@http)
+      @file_references = Resources::FileReferences.new(@http)
       @files = Resources::Files.new(@http)
       @file_links = Resources::FileLinks.new(@http)
       @customers = Resources::Customers.new(@http)
       @products = Resources::Products.new(@http)
       @prices = Resources::Prices.new(@http)
+      @purchase_intents = Resources::PurchaseIntents.new(@http)
       @balances = Resources::Balances.new(@http)
       @apps = Resources::Apps.new(@http)
+      @keys = Resources::Keys.new(@http)
       @spec = Resources::Spec.new(@http)
       @upload_requests = Resources::UploadRequests.new(@http)
     end
