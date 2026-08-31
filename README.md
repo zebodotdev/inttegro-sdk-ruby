@@ -299,3 +299,14 @@ rake test
 ```
 
 `bin/console` will start an IRB session with the SDK loaded for quick experiments.
+
+## API enum values
+
+Use the frozen constants under `Commerce::Enums`:
+
+```ruby
+payload = {
+  type: Commerce::Enums::ProductType::DIGITAL,
+  reason: Commerce::Enums::RefundReason::REQUESTED_BY_CUSTOMER
+}
+```
