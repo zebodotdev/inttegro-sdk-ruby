@@ -140,6 +140,73 @@ class CommerceClientTest < Minitest::Test
     assert_includes paths, "/purchase_intents/page"
   end
 
+  def test_balance_transactions_deserialize_semantic_sources
+    payment_requests = []
+    payment_adapter = make_adapter(
+      requests: payment_requests,
+      body: {
+        transaction: {
+          id: "bt_payment",
+          type: "payment",
+          payment_id: "py_123",
+          order_id: "or_123",
+          amount: { currency: "GHS", value: 2500 },
+          created_at: "2026-08-31T12:00:00Z"
+        }
+      }
+    )
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: payment_adapter)
+
+    payment = client.balance_transactions.lookup(transaction_id: "bt_payment").transaction
+    assert_equal "payment", payment.type
+    assert_equal "py_123", payment.source_id
+    assert payment.valid_source?
+    assert payment.valid?
+    assert_instance_of Commerce::Models::Money, payment.amount
+
+    refund = Commerce::Models.deserialize(
+      {
+        id: "bt_refund",
+        type: "refund",
+        refund_id: "rf_123",
+        order_id: "or_123",
+        amount: { currency: "GHS", value: 500 },
+        created_at: "2026-08-31T12:01:00Z"
+      },
+      Commerce::Models::BalanceTransaction
+    )
+    assert_equal "rf_123", refund.source_id
+    assert refund.valid_source?
+
+    contradictory = Commerce::Models::BalanceTransaction.new(
+      type: "refund", payment_id: "py_123", refund_id: "rf_123"
+    )
+    refute contradictory.valid_source?
+  end
+
+  def test_order_payment_deserializes_embedded_balance_transaction
+    order = Commerce::Models.deserialize(
+      {
+        "id" => "or_123",
+        "payment" => {
+          "id" => "py_123",
+          "balance_transaction" => {
+            "id" => "bt_123",
+            "type" => "payment",
+            "payment_id" => "py_123",
+            "order_id" => "or_123",
+            "amount" => { "currency" => "GHS", "value" => 2500 },
+            "created_at" => "2026-08-31T12:00:00Z"
+          }
+        }
+      },
+      Commerce::Models::Order
+    )
+
+    assert_instance_of Commerce::Models::BalanceTransaction, order.payment.balance_transaction
+    assert_equal "payment", order.payment.balance_transaction.type
+  end
+
   def test_order_document_delivery_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)

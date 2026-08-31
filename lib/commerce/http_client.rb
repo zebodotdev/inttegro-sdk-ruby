@@ -389,7 +389,9 @@ module Commerce
         Commerce::Models::ProductPageResponse
       when "/balances"
         Commerce::Models::BalancesResponse
-      when "/balance_transactions/lookup", "/balance_transactions/page"
+      when "/balance_transactions/lookup"
+        Commerce::Models::BalanceTransactionResponse
+      when "/balance_transactions/page"
         Commerce::Models::BalanceTransactionsResponse
       when "/spec/countries"
         Commerce::Models::CountrySpecificationsResponse

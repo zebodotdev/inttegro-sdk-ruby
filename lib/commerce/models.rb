@@ -409,20 +409,41 @@ module Commerce
     )
     BalancesResponse = Struct.new(:balances, keyword_init: true)
 
+    BALANCE_TRANSACTION_TYPES = %w[payment refund].freeze
     BalanceTransaction = Struct.new(
       :id,
+      :type,
       :payment_id,
+      :refund_id,
       :payout_id,
       :order_id,
       :amount,
       :created_at,
       :available_at,
+      :claimed_at,
       :paid_at,
+      # Deprecated compatibility attribute; not returned by the reviewed API.
       :payout_configuration,
       keyword_init: true
-    )
+    ) do
+      def source_id
+        return payment_id if type == "payment" && !payment_id.to_s.empty? && refund_id.to_s.empty?
+        return refund_id if type == "refund" && !refund_id.to_s.empty? && payment_id.to_s.empty?
+
+        nil
+      end
+
+      def valid_source?
+        BALANCE_TRANSACTION_TYPES.include?(type) && !source_id.nil?
+      end
+
+      def valid?
+        !id.to_s.empty? && !order_id.to_s.empty? && !created_at.to_s.empty? && !amount.nil? && valid_source?
+      end
+    end
     BalanceTransactionsPage = Struct.new(:number, :size, :transactions, keyword_init: true)
     BalanceTransactionsResponse = Struct.new(:page, keyword_init: true)
+    BalanceTransactionResponse = Struct.new(:transaction, keyword_init: true)
 
     FinancialAccountTypeSpec = Struct.new(:name, :label, :description, :subtypes, keyword_init: true)
     LegalEntityTypeSpec = Struct.new(:type, :name, :description, keyword_init: true)
@@ -652,7 +673,8 @@ module Commerce
         payment_method: PaymentMethodObject,
         latest_attempt: OrderPaymentAttempt,
         next_action: OrderPaymentNextAction,
-        payout_configuration: PayoutConfiguration
+        payout_configuration: PayoutConfiguration,
+        balance_transaction: BalanceTransaction
       },
       OrderInvoice => { format: OrderInvoiceFormat },
       OrderInvoiceFormat => { web: InvoiceUrl, pdf: InvoiceUrl },
@@ -705,6 +727,7 @@ module Commerce
         refund: BalanceAmount
       },
       BalanceTransactionsResponse => { page: BalanceTransactionsPage },
+      BalanceTransactionResponse => { transaction: BalanceTransaction },
       BalanceTransactionsPage => { transactions: BalanceTransaction },
       BalanceTransaction => { amount: Money, payout_configuration: PayoutConfiguration },
       PayoutConfiguration => { destination: PayoutConfigurationDestination },
