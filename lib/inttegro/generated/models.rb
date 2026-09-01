@@ -3055,6 +3055,11 @@ FinancialAccountCreateRequest = T.type_alias { T.any(Inttegro::Models::Financial
       const :variant_set_id, T.nilable(String), default: nil
     end
 
+    class PurchaseIntentQuantity < T::Struct
+      const :min, Integer
+      const :max, T.nilable(Integer), default: nil
+    end
+
     class PurchaseIntentUsageOrder < T::Struct
       const :created_at, String
       const :id, String
@@ -3090,11 +3095,6 @@ FinancialAccountCreateRequest = T.type_alias { T.any(Inttegro::Models::Financial
       const :reference, T.nilable(String), default: nil
       const :variant_axes, T::Array[Inttegro::Models::PurchaseIntentVariantAxis]
       const :variants, T::Array[Inttegro::Models::PurchaseIntentVariant]
-    end
-
-    class PurchaseIntentQuantity < T::Struct
-      const :min, Integer
-      const :max, T.nilable(Integer), default: nil
     end
 
     class PurchaseIntent < T::Struct
@@ -3747,11 +3747,16 @@ ReviewUploadRequestAttemptRequest = T.type_alias { T.any(Inttegro::Models::Revie
       const :product, T.nilable(Inttegro::Models::UpdatedProduct), default: nil
     end
 
+    class UpdatePurchaseIntentRequestQuantity < T::Struct
+      const :min, Integer
+      const :max, T.nilable(Integer), default: nil
+    end
+
     class UpdatePurchaseIntentRequest < T::Struct
       const :expires_at, T.nilable(String), default: nil
       const :id, T.nilable(String), default: nil
+      const :quantity, T.nilable(Inttegro::Models::UpdatePurchaseIntentRequestQuantity), default: nil
       const :purchase_intent_id, T.nilable(String), default: nil
-      const :quantity, T.nilable(Inttegro::Models::PurchaseIntentQuantity), default: nil
       const :reactivate, T.nilable(T::Boolean), default: nil
     end
 

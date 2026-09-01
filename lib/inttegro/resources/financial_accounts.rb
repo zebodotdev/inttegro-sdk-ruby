@@ -24,14 +24,6 @@ module Inttegro
         )
       end
 
-      def archive(account_id:)
-        @http.post("/financial_accounts/archive", { account_id: account_id })
-      end
-
-      def verify(account_id:)
-        @http.post("/financial_accounts/verify", { account_id: account_id })
-      end
-
       def connect(payload)
         @http.post_model(
           "/financial_accounts/connect",
