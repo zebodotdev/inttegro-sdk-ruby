@@ -53,7 +53,7 @@ jobs:
       - name: Run the complete release checks
         env:
           INTTEGRO_OPENAPI_SPEC: openapi/commerce.yml
-        run: bundle exec rake
+        run: bundle exec rake test sorbet
 
       - name: Publish to RubyGems with OIDC and Sigstore provenance
         uses: rubygems/release-gem@7f9650160c1a4e7989fdc9855807bdbd421d8b6b # v1.4.1
