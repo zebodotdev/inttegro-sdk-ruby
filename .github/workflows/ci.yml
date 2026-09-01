@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      INTTEGRO_OPENAPI_SPEC: openapi/commerce.yml
     strategy:
       fail-fast: false
       matrix:
@@ -31,8 +33,6 @@ jobs:
           bundler-cache: true
 
       - name: Run tests
-        env:
-          INTTEGRO_OPENAPI_SPEC: openapi/commerce.yml
         run: COVERAGE=1 bundle exec rake test
 
       - name: Run Sorbet
