@@ -16,6 +16,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Checkout OpenAPI contract
+        uses: actions/checkout@v4
+        with:
+          repository: zebodotdev/openapi
+          ref: master
+          path: openapi
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -24,6 +31,8 @@ jobs:
           bundler-cache: true
 
       - name: Run tests
+        env:
+          INTTEGRO_OPENAPI_SPEC: openapi/commerce.yml
         run: COVERAGE=1 bundle exec rake test
 
       - name: Run Sorbet
