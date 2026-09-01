@@ -17,6 +17,8 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/zebodotdev/inttegro-sdk-ruby"
   spec.metadata["changelog_uri"] = "https://github.com/zebodotdev/inttegro-sdk-ruby/blob/master/CHANGELOG.md"
+  spec.metadata["github_repo"] = "ssh://github.com/zebodotdev/inttegro-sdk-ruby"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   gemspec = File.basename(__FILE__)
   spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|

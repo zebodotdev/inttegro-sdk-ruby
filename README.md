@@ -84,6 +84,16 @@ Hash request payloads remain available for concise Ruby code. Sorbet application
 
 See the [API reference](https://studio.inttegro.com/api-reference) for request fields and lifecycle rules, [errors](https://studio.inttegro.com/errors) for recovery guidance, and [idempotency](https://studio.inttegro.com/idempotency) for safe retries.
 
+## Verify a release
+
+The GitHub release for each version is the canonical record. It contains the exact gem uploaded to RubyGems.org, SHA-256 checksums, and GitHub and RubyGems Sigstore attestations tied to the source commit and release workflow.
+
+```bash
+sha256sum --check SHA256SUMS
+gh attestation verify inttegro-1.0.0.gem \
+  --repo zebodotdev/inttegro-sdk-ruby
+```
+
 ## Develop
 
 ```bash
