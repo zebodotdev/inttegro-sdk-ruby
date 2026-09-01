@@ -1495,7 +1495,7 @@ LineItem = T.type_alias { T.any(Inttegro::Models::ProductLineItem, Inttegro::Mod
 
     class CreatePurchaseIntentRequestQuantity < T::Struct
       const :min, Integer
-      const :max, Integer
+      const :max, T.nilable(Integer), default: nil
     end
 
     class CreatePurchaseIntentRequestUsage < T::Struct
@@ -3092,6 +3092,11 @@ FinancialAccountCreateRequest = T.type_alias { T.any(Inttegro::Models::Financial
       const :variants, T::Array[Inttegro::Models::PurchaseIntentVariant]
     end
 
+    class PurchaseIntentQuantity < T::Struct
+      const :min, Integer
+      const :max, T.nilable(Integer), default: nil
+    end
+
     class PurchaseIntent < T::Struct
       const :activity, T.nilable(Inttegro::Models::PurchaseIntentActivityInline), default: nil
       const :allow_variants, T::Boolean
@@ -3100,11 +3105,10 @@ FinancialAccountCreateRequest = T.type_alias { T.any(Inttegro::Models::Financial
       const :expires_at, T.nilable(String), default: nil
       const :id, String
       const :inactive_at, T.nilable(String), default: nil
-      const :maximum_quantity, Integer
       const :merchant, T.nilable(Inttegro::Models::PurchaseIntentMerchant), default: nil
-      const :minimum_quantity, Integer
       const :price, T.nilable(Inttegro::Models::PurchaseIntentPrice), default: nil
       const :product, T.nilable(Inttegro::Models::PurchaseIntentProduct), default: nil
+      const :quantity, Inttegro::Models::PurchaseIntentQuantity
       const :status, Inttegro::Enums::PurchaseIntentStatus
       const :updated_at, T.nilable(String), default: nil
       const :usage, Inttegro::Models::PurchaseIntentUsage
@@ -3746,9 +3750,8 @@ ReviewUploadRequestAttemptRequest = T.type_alias { T.any(Inttegro::Models::Revie
     class UpdatePurchaseIntentRequest < T::Struct
       const :expires_at, T.nilable(String), default: nil
       const :id, T.nilable(String), default: nil
-      const :maximum_quantity, T.nilable(Integer), default: nil
-      const :minimum_quantity, T.nilable(Integer), default: nil
       const :purchase_intent_id, T.nilable(String), default: nil
+      const :quantity, T.nilable(Inttegro::Models::PurchaseIntentQuantity), default: nil
       const :reactivate, T.nilable(T::Boolean), default: nil
     end
 

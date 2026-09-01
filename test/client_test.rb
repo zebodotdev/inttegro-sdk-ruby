@@ -149,7 +149,7 @@ class InttegroClientTest < Minitest::Test
       price_id: "pr_123",
       quantity: { min: 1, max: 5 }
     )
-    client.purchase_intents.update(id: "sale_123", maximum_quantity: 3)
+    client.purchase_intents.update(id: "sale_123", quantity: { min: 1, max: 3 })
     client.purchase_intents.cancel(id: "sale_123")
     client.purchase_intents.lookup(id: "sale_123")
     client.purchase_intents.page(page_number: 1, page_size: 20)
