@@ -127,11 +127,11 @@ txn = client.otp.initiate(
 )
 
 verification = client.otp.verify(
-  transaction_id: txn["transaction_id"] || txn.dig("transaction", "id"),
+  transaction_id: txn.transaction.id,
   recipient: "+233241234567",
   token: "123456"
 )
-puts verification["status"] # e.g., "verified"
+puts verification.transaction.status.serialize # e.g., "verified"
 ```
 
 ### Payout settings
@@ -147,54 +147,33 @@ puts settings.settings.enabled_methods
 
 ```ruby
 account = client.financial_accounts.connect(
-  Commerce::Models::FinancialAccountCreateRequest.new(
+  Commerce::Models::FinancialAccountBankRequest.new(
     label: "Primary GHS Bank Account",
-    type: "bank_account",
+    type: Commerce::Enums::FinancialAccountBankRequestType::BANK_ACCOUNT,
     reference: "BANK-GHS-001",
     currency: "ghs",
     custom_data: { "merchant_id" => "merch_123" },
-    pull_configuration: Commerce::Models::PullPushConfig.new(
-      enabled: true,
-      mandate: {}
-    ),
-    owner: Commerce::Models::BankAccountOwner.new(
-      name: "Jane Smith",
-      address: Commerce::Models::BankAccountOwnerAddress.new(
-        name: "Business Address",
-        line_1: "456 Business Road",
-        city: "Accra",
-        region: "Greater Accra",
-        country: "Ghana"
-      )
-    ),
-    bank_account: Commerce::Models::BankAccountConfig.new(
-      type: "ghana_bank_account",
-      ghana_bank_account: Commerce::Models::GhanaBankAccount.new(
+    bank_account: Commerce::Models::FinancialAccountBankRequestBankAccount.new(
+      type: Commerce::Enums::BankAccountType::GHANA_BANK_ACCOUNT,
+      ghana_bank_account: Commerce::Models::FinancialAccountBankRequestBankAccountGhanaBankAccount.new(
         number: "1234567890",
-        sort_code: "040127",
-        holder: Commerce::Models::BankAccountOwner.new(
-          name: "John Doe",
-          address: Commerce::Models::BankAccountOwnerAddress.new(
-            name: "Home Address",
-            line_1: "123 Main Street",
-            city: "Accra",
-            region: "Greater Accra",
-            country: "Ghana"
-          )
-        )
+        sort_code: "040127"
       )
-    ),
-    push_configuration: Commerce::Models::PullPushConfig.new(enabled: true)
+    )
   )
 )
 
-puts account.account.id
+puts account.account&.id
 ```
 
-Typed model requests validate required fields and raise `ArgumentError` when missing. Responses are returned as typed models for supported endpoints (no manual deserialization needed).
+Generated `T::Struct` request models provide field-level checking in
+Sorbet-aware applications.
+The client also validates required fields before sending supported requests.
+Responses are returned as typed models for supported endpoints, without manual
+deserialization.
 
 ```ruby
-puts account.account.id
+puts account.account&.id
 ```
 
 ```ruby
@@ -296,17 +275,59 @@ From `sdks/ruby`:
 ```bash
 bundle install
 rake test
+bundle exec rake sorbet
 ```
 
 `bin/console` will start an IRB session with the SDK loaded for quick experiments.
 
+## Sorbet
+
+Every SDK library file uses `typed: strict`, and every method has a Sorbet
+signature. The SDK uses `sorbet-runtime` for runtime declarations and ships its
+public RBI types with the gem. Contributors can type-check the SDK with:
+
+```bash
+bundle exec rake sorbet
+```
+
+OpenAPI schemas are checked in as generated `T::Struct` resource classes and
+`T::Enum` value classes. Run `bundle exec rake openapi:generate` after changing
+the public contract. `bundle exec rake openapi:check` verifies locally that the
+generated SDK surface is current; CI runs the same check through the Sorbet
+task. Resource RBI declarations are generated from the same operation registry,
+so an endpoint cannot silently fall back to a generic return type.
+
+For a direct parity check without Rake, run `bin/check-openapi-parity`.
+
+The strictness check rejects `T.untyped` and `T.unsafe` throughout the SDK type
+surface. Truly free-form JSON fields such as `custom_data` use `Object` only at
+that explicit boundary and are validated and narrowed by generated resource
+classes and the HTTP transport.
+
+Resource signatures expose the OpenAPI request type while retaining typed
+hashes for compatibility. Every documented JSON endpoint returns its exact
+generated response class; binary endpoints return `Commerce::FileDownload`.
+
+Application code can opt into checking one file at a time with a Sorbet sigil:
+
+```ruby
+# typed: strict
+
+require "commerce"
+
+client = Commerce::Client.new(api_key: ENV.fetch("COMMERCE_API_KEY"))
+```
+
 ## API enum values
 
-Use the frozen constants under `Commerce::Enums`:
+Use the `T::Enum` constants under `Commerce::Enums`. They serialize to the wire
+value automatically in request models and hashes:
 
 ```ruby
 payload = {
   type: Commerce::Enums::ProductType::DIGITAL,
   reason: Commerce::Enums::RefundReason::REQUESTED_BY_CUSTOMER
 }
+
+puts Commerce::Enums::ProductType::DIGITAL.serialize # => "digital"
 ```

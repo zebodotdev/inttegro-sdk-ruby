@@ -1,16 +1,18 @@
 # frozen_string_literal: true
+# typed: strict
 
 module Commerce
   module Resources
     class Files
       def initialize(http)
-        @http = http
+        @http = T.let(http, Commerce::HTTPClient)
       end
 
       def create(file:, purpose:, title: nil, custom_data: nil, idempotency_key: nil)
         headers = idempotency_key ? { "Idempotency-Key" => idempotency_key } : {}
-        @http.post_multipart(
+        @http.post_multipart_model(
           "/files/create",
+          Commerce::Models::FileResponse,
           fields: { purpose: purpose, title: title, custom_data: custom_data },
           files: { file: file },
           headers: headers
@@ -18,11 +20,11 @@ module Commerce
       end
 
       def lookup(file_id:)
-        @http.post("/files/lookup", { file_id: file_id })
+        @http.post_model("/files/lookup", Commerce::Models::FileResponse, { file_id: file_id })
       end
 
       def page(payload = {})
-        @http.post("/files/page", payload)
+        @http.post_model("/files/page", Commerce::Models::FilePageResponse, payload || {})
       end
 
       def contents(file_id:, disposition: "attachment")
@@ -30,7 +32,7 @@ module Commerce
       end
 
       def delete(file_id:)
-        @http.post("/files/delete", { file_id: file_id })
+        @http.post_model("/files/delete", Commerce::Models::FileResponse, { file_id: file_id })
       end
     end
   end

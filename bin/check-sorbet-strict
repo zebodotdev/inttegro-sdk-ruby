@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "pathname"
+
+sdk_root = Pathname.new(__dir__).join("..").expand_path
+library_files = Dir[sdk_root.join("lib", "**", "*.rb")].sort
+
+non_strict = library_files.reject do |path|
+  File.foreach(path).first(5).any? { |line| line.strip == "# typed: strict" }
+end
+
+generated_rbi = sdk_root.join("rbi", "commerce", "generated.rbi")
+non_strict << generated_rbi.to_s unless generated_rbi.file? && generated_rbi.open(&:readline).strip == "# typed: strict"
+
+unless non_strict.empty?
+  warn "Sorbet strictness regressed in:"
+  non_strict.each { |path| warn "- #{Pathname.new(path).relative_path_from(sdk_root)}" }
+  exit 1
+end
+
+typed_surface_files = (
+  library_files +
+  Dir[sdk_root.join("rbi", "**", "*.rbi")] +
+  Dir[sdk_root.join("sorbet", "**", "*.rb")] +
+  [
+    sdk_root.join("bin", "check-openapi-parity").to_s,
+    sdk_root.join("bin", "generate-openapi-types").to_s,
+    sdk_root.join("bin", "generate-sorbet-rbi").to_s
+  ]
+).uniq.sort
+escape_hatch = /T\.(?:untyped|unsafe)/
+escape_hatches = typed_surface_files.flat_map do |path|
+  File.readlines(path).each_with_index.filter_map do |line, index|
+    next unless line.match?(escape_hatch)
+
+    "#{Pathname.new(path).relative_path_from(sdk_root)}:#{index + 1}: #{line.strip}"
+  end
+end
+
+unless escape_hatches.empty?
+  warn "Sorbet escape hatches are not allowed in the SDK type surface:"
+  escape_hatches.each { |violation| warn "- #{violation}" }
+  exit 1
+end
+
+puts "all Ruby SDK library files and generated declarations are strict and escape-hatch free"

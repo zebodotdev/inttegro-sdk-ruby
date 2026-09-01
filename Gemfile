@@ -12,3 +12,5 @@ gem "minitest", "~> 5.16", "< 5.26"
 gem "rubocop", "~> 1.21"
 
 gem "simplecov", "~> 0.22", require: false
+
+gem "sorbet", "~> 0.6", require: false

@@ -1,26 +1,37 @@
 # frozen_string_literal: true
+# typed: strict
 
 module Commerce
   module Resources
     class FileLinks
       def initialize(http)
-        @http = http
+        @http = T.let(http, Commerce::HTTPClient)
       end
 
       def create(payload, idempotency_key: nil)
-        @http.post_with_headers("/file_links/create", payload, headers: headers(idempotency_key))
+        @http.post_model(
+          "/file_links/create",
+          Commerce::Models::CreateFileLinkResponse,
+          payload,
+          headers: headers(idempotency_key)
+        )
       end
 
       def lookup(id:)
-        @http.post("/file_links/lookup", { id: id })
+        @http.post_model("/file_links/lookup", Commerce::Models::FileLinkResponse, { id: id })
       end
 
       def page(payload = {})
-        @http.post("/file_links/page", payload)
+        @http.post_model("/file_links/page", Commerce::Models::FileLinkPageResponse, payload || {})
       end
 
       def revoke(payload, idempotency_key: nil)
-        @http.post_with_headers("/file_links/revoke", payload, headers: headers(idempotency_key))
+        @http.post_model(
+          "/file_links/revoke",
+          Commerce::Models::FileLinkResponse,
+          payload,
+          headers: headers(idempotency_key)
+        )
       end
 
       def open(url, save_to: nil)

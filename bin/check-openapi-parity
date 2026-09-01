@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "pathname"
+require "yaml"
+
+sdk_root = Pathname.new(__dir__).join("..").expand_path
+$LOAD_PATH.unshift(sdk_root.join("lib").to_s)
+
+require "commerce/generated/operations"
+
+spec_path = Pathname.new(ENV.fetch("COMMERCE_OPENAPI_SPEC", sdk_root.join("..", "..", "openapi", "commerce.yml").to_s))
+abort "OpenAPI spec not found at #{spec_path}" unless spec_path.file?
+
+spec_paths = YAML.load_file(spec_path).fetch("paths").keys.sort
+sources = Dir[sdk_root.join("lib", "commerce", "resources", "*.rb")].sort.map { |path| File.read(path) }.join("\n")
+implemented_paths = sources.scan(
+  %r{@http\.(?:get|post|post_model|post_object|post_with_headers|post_multipart|post_multipart_model|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
+).flatten.uniq.sort
+external_paths = ["/file_links/open", "/upload_requests/upload"]
+
+errors = []
+(spec_paths - external_paths - implemented_paths).each do |path|
+  errors << "missing resource method for #{path}"
+end
+
+Commerce::Operations::RESPONSE_MODELS.each do |path, model|
+  next if path == "/upload_requests/upload"
+
+  call = /post_(?:multipart_)?model\(\s*#{Regexp.escape(path.inspect)},\s*#{Regexp.escape(model.name)}/
+  errors << "#{path} must return #{model.name}" unless sources.match?(call)
+end
+
+generic_documented_paths = sources.scan(/post_object\(\s*["'](\/[a-z0-9_\/-]+)["']/).flatten & spec_paths
+generic_documented_paths.each do |path|
+  errors << "#{path} uses the generic Commerce::ResponseObject fallback"
+end
+
+unless errors.empty?
+  warn "Ruby SDK OpenAPI parity failed:"
+  errors.each { |error| warn "- #{error}" }
+  exit 1
+end
+
+puts "Ruby SDK covers #{spec_paths.size} OpenAPI paths with exact documented response models"

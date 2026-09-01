@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: strict
 
 module Commerce
   module Resources
@@ -11,7 +12,7 @@ module Commerce
     # @see https://studio.inttegro.com/orders for detailed guides
     class Orders
       def initialize(http)
-        @http = http
+        @http = T.let(http, Commerce::HTTPClient)
       end
 
       # Create a new order with line items, customer, and payment details.
@@ -37,7 +38,7 @@ module Commerce
       # @option payload [String] :statement_descriptor_prefix Static prefix, 2-10 characters, used to build prefix*order_id; mutually exclusive with statement_descriptor
       # @option payload [Boolean] :finalize Whether to explicitly finalize order (default: false)
       #
-      # @return [Commerce::ResponseObject] Response containing the created order
+      # @return [Commerce::Models::OrderResponse] Response containing the created order
       #
       # @example Create order with new customer and execute payment
       #   result = client.orders.create(
@@ -76,8 +77,7 @@ module Commerce
       #     }
       #   )
       #
-      #   order = result.data['order']
-      #   puts "Created order: #{order['id']}"
+      #   puts "Created order: #{result.order.id}"
       #
       # @example Create order with existing customer
       #   result = client.orders.create(
@@ -100,11 +100,11 @@ module Commerce
       # @see https://studio.inttegro.com/accept-a-payment for payment flow guide
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def create(payload)
-        @http.post("/orders/create", payload)
+        @http.post_model("/orders/create", Commerce::Models::OrderResponse, payload)
       end
 
       def new(payload)
-        @http.post("/orders/new", payload)
+        @http.post_model("/orders/new", Commerce::Models::OrderResponse, payload)
       end
 
       # Retrieve an existing order by its ID.
@@ -115,25 +115,23 @@ module Commerce
       # @param order_id [String] Unique identifier of the order to retrieve (required)
       # @param options [Hash] Additional options (currently unused)
       #
-      # @return [Commerce::ResponseObject] Response containing the complete order object
+      # @return [Commerce::Models::OrderResponse] Response containing the complete order object
       #
       # @example Lookup an order
       #   result = client.orders.lookup(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
       #   )
       #
-      #   order = result.data['order']
-      #   puts "Order status: #{order['status']}"
-      #   puts "Payment status: #{order['payment']['status']}" if order['payment']
+      #   puts "Order status: #{result.order.status.serialize}"
       #
       # @see https://studio.inttegro.com/orders for API reference
       def lookup(order_id:, **options)
         body = { order_id: order_id }.merge(options)
-        @http.post("/orders/lookup", body)
+        @http.post_model("/orders/lookup", Commerce::Models::OrderResponse, body)
       end
 
       def update(payload)
-        @http.post("/orders/update", payload)
+        @http.post_model("/orders/update", Commerce::Models::OrderResponse, payload)
       end
 
       # Initiate payment for an existing order.
@@ -151,7 +149,7 @@ module Commerce
       # @option payload [String] :payment_method_id ID of a saved payment method to use
       # @option payload [Boolean] :paid_out_of_band Set to true if payment received outside Commerce (default: false)
       #
-      # @return [Commerce::ResponseObject] Payment response with order and payment state
+      # @return [Commerce::Models::OrderResponse] Response containing order and payment state
       #
       # @example Pay with inline mobile money
       #   result = client.orders.pay(
@@ -165,8 +163,8 @@ module Commerce
       #     }
       #   )
       #
-      #   order = result.data['order']
-      #   if order['payment']['next_action']&.fetch('type') == 'confirm_payment'
+      #   order = result.order
+      #   if order.payment&.next_action&.type == Commerce::Enums::PaymentNextActionType::CONFIRM_PAYMENT
       #     # Customer needs to provide OTP sent to their phone
       #     puts 'Please enter the OTP sent to your phone'
       #   end
@@ -186,7 +184,7 @@ module Commerce
       # @see https://studio.inttegro.com/accept-a-payment for payment flow guide
       # @see https://studio.inttegro.com/charge-repeat-customers for saved payment methods
       def pay(payload)
-        @http.post("/orders/pay", payload)
+        @http.post_model("/orders/pay", Commerce::Models::OrderResponse, payload)
       end
 
       # Confirm a pending payment using a verification token (e.g., OTP sent to customer's phone).
@@ -198,7 +196,7 @@ module Commerce
       # @option payload [String] :order_id Unique identifier of the order being paid (required)
       # @option payload [String] :token Verification token provided by customer (required, typically 6 digits)
       #
-      # @return [Commerce::ResponseObject] Updated order with payment status
+      # @return [Commerce::Models::OrderResponse] Updated order with payment status
       #
       # @example Confirm payment with OTP
       #   result = client.orders.confirm_payment(
@@ -206,14 +204,14 @@ module Commerce
       #     token: '123456'
       #   )
       #
-      #   order = result.data['order']
-      #   if order['payment']['status'] == 'succeeded'
+      #   order = result.order
+      #   if order.payment&.status == Commerce::Enums::OrderPaymentStatus::PAID
       #     puts 'Payment confirmed successfully!'
       #   end
       #
       # @see https://studio.inttegro.com/accept-a-payment for complete payment flow
       def confirm_payment(payload)
-        @http.post("/orders/confirm_payment", payload)
+        @http.post_model("/orders/confirm_payment", Commerce::Models::OrderResponse, payload)
       end
 
       # Request a new confirmation token to be sent to the customer (e.g., resend OTP).
@@ -224,7 +222,7 @@ module Commerce
       # @param order_id [String] Unique identifier of the order requiring confirmation (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Commerce::ResponseObject] Response indicating token was resent
+      # @return [Commerce::Models::OrderResponse] Updated order
       #
       # @example Resend OTP to customer
       #   result = client.orders.request_confirmation(
@@ -235,8 +233,9 @@ module Commerce
       #
       # @see https://studio.inttegro.com/accept-a-payment for payment confirmation flow
       def request_confirmation(order_id:, request_meta: nil)
-        @http.post(
+        @http.post_model(
           "/orders/request_confirmation",
+          Commerce::Models::OrderResponse,
           {
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("request_confirmation", order_id)
@@ -252,20 +251,20 @@ module Commerce
       # @param order_id [String] Unique identifier of the order to finalize (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Commerce::ResponseObject] Finalized order object
+      # @return [Commerce::Models::FinalizeOrderResponse] Finalized order object
       #
       # @example Finalize an order
       #   result = client.orders.finalize(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
       #   )
       #
-      #   order = result.data['order']
-      #   puts "Order finalized at: #{order['sealed_at']}"
+      #   puts "Order finalized at: #{result.order&.sealed_at}"
       #
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def finalize(order_id:, request_meta: nil)
-        @http.post(
+        @http.post_model(
           "/orders/finalize",
+          Commerce::Models::FinalizeOrderResponse,
           {
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("finalize", order_id)
@@ -277,18 +276,26 @@ module Commerce
       #
       # @param order_id [String] Unique identifier of the order whose invoice should be sent (required)
       #
-      # @return [Commerce::ResponseObject] Order and delivery details
+      # @return [Commerce::Models::OrderDocumentDeliveryResponse] Order and delivery details
       def send_invoice(order_id:)
-        @http.post("/orders/send_invoice", { order_id: order_id })
+        @http.post_model(
+          "/orders/send_invoice",
+          Commerce::Models::OrderDocumentDeliveryResponse,
+          { order_id: order_id }
+        )
       end
 
       # Send the hosted receipt link for a paid order.
       #
       # @param order_id [String] Unique identifier of the paid order whose receipt should be sent (required)
       #
-      # @return [Commerce::ResponseObject] Order and delivery details
+      # @return [Commerce::Models::OrderDocumentDeliveryResponse] Order and delivery details
       def send_receipt(order_id:)
-        @http.post("/orders/send_receipt", { order_id: order_id })
+        @http.post_model(
+          "/orders/send_receipt",
+          Commerce::Models::OrderDocumentDeliveryResponse,
+          { order_id: order_id }
+        )
       end
 
       # Mark an order as completed, indicating fulfillment is done.
@@ -301,15 +308,14 @@ module Commerce
       # @option payload [String] :order_id Unique identifier of the order to complete (required)
       # @option payload [Boolean] :paid_out_of_band Set to true if payment received outside Commerce (default: false)
       #
-      # @return [Commerce::ResponseObject] Completed order object
+      # @return [Commerce::Models::CompleteOrderResponse] Completed order object
       #
       # @example Complete order after fulfillment
       #   result = client.orders.complete(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
       #   )
       #
-      #   order = result.data['order']
-      #   puts "Order completed at: #{order['completed_at']}"
+      #   puts "Order completed at: #{result.order&.completed_at}"
       #
       # @example Complete order with offline payment
       #   result = client.orders.complete(
@@ -319,7 +325,7 @@ module Commerce
       #
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def complete(payload)
-        @http.post("/orders/complete", payload)
+        @http.post_model("/orders/complete", Commerce::Models::CompleteOrderResponse, payload)
       end
 
       # Cancel an order, stopping payment execution and preventing further processing.
@@ -330,20 +336,20 @@ module Commerce
       # @param order_id [String] Unique identifier of the order to cancel (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Commerce::ResponseObject] Cancelled order object
+      # @return [Commerce::Models::OrderResponse] Cancelled order object
       #
       # @example Cancel an order
       #   result = client.orders.cancel(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
       #   )
       #
-      #   order = result.data['order']
-      #   puts "Order #{order['id']} has been cancelled"
+      #   puts "Order #{result.order.id} has been cancelled"
       #
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def cancel(order_id:, request_meta: nil)
-        @http.post(
+        @http.post_model(
           "/orders/cancel",
+          Commerce::Models::OrderResponse,
           {
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("cancel", order_id)
@@ -358,19 +364,18 @@ module Commerce
       #
       # @param order_id [String] Unique identifier of the order to refund (required)
       #
-      # @return [Commerce::ResponseObject] Refunded order object with updated payment status
+      # @return [Commerce::Models::RefundResponse] Created refund
       #
       # @example Refund an order
       #   result = client.orders.refund(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
       #   )
       #
-      #   order = result.data['order']
-      #   puts "Order refunded. Refund ID: #{order['payment']['refund']['id']}"
+      #   puts "Refund created: #{result.refund&.id}"
       #
       # @see https://studio.inttegro.com/retry-a-payment for payment retry guide
-      def refund(order_id:)
-        @http.post("/orders/refund", { order_id: order_id })
+      def refund(payload)
+        @http.post_model("/orders/refund", Commerce::Models::RefundResponse, payload)
       end
 
       # Retrieve a paginated list of orders.
@@ -385,7 +390,7 @@ module Commerce
       # @option payload [String] :created_after Filter orders created after this timestamp (ISO 8601)
       # @option payload [String] :created_before Filter orders created before this timestamp (ISO 8601)
       #
-      # @return [Commerce::ResponseObject] Paginated list of orders with pagination details
+      # @return [Commerce::Models::PageOrdersResponse] Paginated list of orders
       #
       # @example Get first page of orders
       #   result = client.orders.page(
@@ -393,13 +398,7 @@ module Commerce
       #     page: 1
       #   )
       #
-      #   puts "Retrieved #{result.data['orders'].length} orders"
-      #   puts "Has more: #{result.data['has_more']}"
-      #
-      #   # Get next page if available
-      #   if result.data['has_more']
-      #     next_page = client.orders.page(per_page: 25, page: 2)
-      #   end
+      #   puts "Retrieved #{result.page&.orders&.length || 0} orders"
       #
       # @example Filter by status
       #   paid_orders = client.orders.page(
@@ -410,7 +409,7 @@ module Commerce
       # @see https://studio.inttegro.com/pagination for pagination guide
       # @see https://studio.inttegro.com/orders for API reference
       def page(payload = {})
-        @http.post("/orders/page", payload || {})
+        @http.post_model("/orders/page", Commerce::Models::PageOrdersResponse, payload || {})
       end
 
       private

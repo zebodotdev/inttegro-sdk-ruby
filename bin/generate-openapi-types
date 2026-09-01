@@ -1,0 +1,555 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "pathname"
+require "yaml"
+
+class OpenAPITypeGenerator
+  HTTP_METHODS = %w[get post put patch delete].freeze
+  SUCCESS_STATUS = /\A2\d\d\z/
+  PREFERRED_ENUM_NAMES = {
+    ["parent", "child"] => "AppManagementRole",
+    ["child", "parent"] => "AppCredentialOwner",
+    ["placement"] => "AppRelationshipKind",
+    ["active", "inactive", "suspended", "revoked"] => "AppRelationshipStatus",
+    ["bearer"] => "SecretKeyTokenType",
+    ["active", "revoked", "expired"] => "SecretKeyStatus",
+    ["succeeded", "failed"] => "SecretKeyAuthResult",
+    ["uploading", "processing", "available", "failed", "deleted"] => "FileStatus",
+    ["attachment", "inline"] => "FileDisposition",
+    ["stream", "redirect"] => "FileDelivery",
+    ["pending", "passed", "failed", "skipped"] => "FileScanStatus",
+    ["direct", "upload_request", "service"] => "FileSourceType",
+    ["identity", "br"] => "FileStorageEncoding",
+    ["active", "revoked", "expired", "disabled"] => "FileLinkStatus",
+    ["public"] => "FileLinkKind",
+    ["redirect", "download", "inline"] => "FileLinkDeliveryMode",
+    ["pending", "uploading", "fulfilled", "expired", "canceled", "failed"] => "UploadRequestStatus",
+    ["approved", "rejected"] => "UploadReviewDecision",
+    ["automatic", "manual"] => "UploadReviewType",
+    ["confirm_payment", "execute", "redirect", "authorize", "none"] => "PaymentNextActionType",
+    ["sms", "email", "push"] => "PaymentConfirmationChannel",
+    ["mobile_money", "bank_account", "card", "motito"] => "PaymentMethodType",
+    ["airtel", "mtn", "telecel", "vodafone"] => "MobileMoneyNetwork",
+    ["physical", "digital", "service", "voucher", "custom", "cause"] => "ProductType",
+    ["delivery", "download", "render", "service", "stream"] => "ProductShipmentType",
+    ["delivery", "download", "render", "stream"] => "ProductShipmentInputType",
+    ["product", "fee", "shipping"] => "LineItemType",
+    ["active", "expired", "inactive", "used"] => "PurchaseIntentStatus",
+    ["expired_viewed", "order_created", "payment_failed", "payment_started", "viewed"] => "PurchaseIntentActivityType",
+    ["wallet", "bank_account", "dosh_account"] => "FinancialAccountType",
+    ["ghana_bank_account"] => "BankAccountType",
+    ["draft", "published", "archived"] => "MessageTemplateStatus",
+    ["string", "number", "integer", "boolean", "url", "email", "phone", "date", "datetime", "array"] => "MessageTemplateVariableType",
+    ["string", "number", "integer", "boolean", "url", "email", "phone", "date", "datetime"] => "MessageTemplateVariableItemType",
+    ["allowed", "rejected", "quarantined"] => "ContentSafetyStatus",
+    ["invoice", "receipt"] => "OrderDocumentKind",
+    ["email", "sms"] => "DeliveryChannel",
+    ["preparing", "requires_payment", "completed", "canceled", "expired"] => "CheckoutOrderStatus",
+    ["preparing", "requires_payment", "paid", "completed", "canceled", "expired", "unknown"] => "OrderStatus",
+    ["initiated", "requires_action", "overdue", "executed", "paid", "canceled", "expired", "failed", "unknown"] => "OrderPaymentStatus",
+    ["initiated", "executed", "succeeded", "canceled", "expired", "failed", "unknown"] => "PaymentAttemptStatus",
+    ["requires_action", "processing", "succeeded", "failed", "cancelled"] => "CheckoutPaymentStatus",
+    ["pending", "requires_confirmation", "processing", "succeeded", "failed"] => "PaymentResponseStatus",
+    ["purchase_intent"] => "OrderCreatedFromResourceType",
+    ["requested_by_customer", "duplicate", "fraudulent", "order_canceled", "item_returned", "item_damaged", "item_not_received", "item_not_as_described", "custom"] => "RefundReason",
+    ["canceled", "failed", "pending", "processing", "succeeded"] => "RefundStatus",
+    ["payment", "refund"] => "BalanceTransactionType",
+    ["initialized", "scheduled", "processing", "executing", "succeeded", "invalid", "canceled"] => "PayoutStatus",
+    ["phone", "email"] => "ChimeRecipientType",
+    ["gmail_view_action", "schema_org_order", "schema_org_invoice"] => "ChimeEmailSchemaKind",
+    ["numeric", "alpha", "alphanumeric"] => "OTPAlphabetType",
+    ["canceled", "expired", "pending", "pending_delivery", "pending_verification", "verified"] => "OTPStatus",
+    ["delivered", "failed", "submitted"] => "OTPTransmissionStatus",
+    ["fail", "pass"] => "OTPVerificationVerdict"
+  }.freeze
+
+  Node = Struct.new(:name, :schema, :origin, keyword_init: true)
+  Operation = Struct.new(:path, :operation_id, :request_type, :response_type, :binary, keyword_init: true)
+
+  def initialize(spec)
+    @spec = spec
+    @component_schemas = spec.fetch("components").fetch("schemas")
+    @nodes = {}
+    @schema_names = {}
+    @used_names = {}
+    @enum_names = {}
+    @enums = {}
+    @operations = []
+
+    @component_schemas.each_key { |name| reserve_name(name) }
+    @component_schemas.each do |name, schema|
+      register_named_schema(name, schema, "components.schemas.#{name}")
+    end
+  end
+
+  def generate
+    collect_operations
+    collect_nested_types
+
+    {
+      "lib/commerce/generated/enums.rb" => render_enums,
+      "lib/commerce/generated/models.rb" => render_models,
+      "lib/commerce/generated/operations.rb" => render_operations
+    }
+  end
+
+  private
+
+  def collect_operations
+    @spec.fetch("paths").each do |path, path_item|
+      method = HTTP_METHODS.find { |candidate| path_item.key?(candidate) }
+      next unless method
+
+      operation = path_item.fetch(method)
+      operation_id = operation.fetch("operationId")
+      request_schema = operation.dig("requestBody", "content", "application/json", "schema")
+      request_type = request_schema && type_expression(
+        request_schema,
+        "#{constantize(operation_id)}Request",
+        "paths.#{path}.#{method}.request"
+      )
+
+      response = operation.fetch("responses").find { |status, _| SUCCESS_STATUS.match?(status.to_s) }&.last
+      content = response&.fetch("content", {}) || {}
+      response_schema = content.dig("application/json", "schema")
+      binary = content.dig("application/octet-stream", "schema", "format") == "binary"
+      response_type = response_schema && type_expression(
+        response_schema,
+        "#{constantize(operation_id)}Response",
+        "paths.#{path}.#{method}.response"
+      )
+
+      if response_type && !struct_type?(response_schema)
+        raise "successful JSON response for #{path} must be an object schema, got #{response_type}"
+      end
+
+      @operations << Operation.new(
+        path: path,
+        operation_id: operation_id,
+        request_type: request_type,
+        response_type: response_type,
+        binary: binary
+      )
+    end
+  end
+
+  def collect_nested_types
+    processed = {}
+    loop do
+      pending = @nodes.values.reject { |node| processed[node.name] }
+      break if pending.empty?
+
+      pending.each do |node|
+        processed[node.name] = true
+        if object_schema?(node.schema)
+          properties_for(node.schema).each do |property, schema|
+            type_expression(schema, "#{node.name}#{constantize(property)}", "#{node.origin}.#{property}")
+          end
+        else
+          type_expression(node.schema, node.name, node.origin)
+        end
+      end
+    end
+  end
+
+  def register_named_schema(name, schema, origin)
+    ruby_name = constantize(name)
+    existing = @nodes[ruby_name]
+    if existing && existing.schema != schema
+      raise "schema name collision for #{ruby_name}: #{existing.origin} and #{origin}"
+    end
+
+    @nodes[ruby_name] ||= Node.new(name: ruby_name, schema: schema, origin: origin)
+    @schema_names[schema.object_id] = ruby_name
+    ruby_name
+  end
+
+  def register_inline_schema(candidate, schema, origin)
+    existing = @schema_names[schema.object_id]
+    return existing if existing
+
+    name = unique_name(candidate)
+    @nodes[name] = Node.new(name: name, schema: schema, origin: origin)
+    @schema_names[schema.object_id] = name
+    name
+  end
+
+  def reserve_name(name)
+    @used_names[constantize(name)] = true
+  end
+
+  def unique_name(candidate)
+    base = constantize(candidate)
+    name = base
+    index = 2
+    name = "#{base}Inline" if @used_names[name] || @nodes.key?(name)
+    while @used_names[name] || @nodes.key?(name)
+      name = "#{base}#{index}"
+      index += 1
+    end
+    @used_names[name] = true
+    name
+  end
+
+  def type_expression(schema, candidate, origin, ignore_nullable: false)
+    return "Object" unless schema.is_a?(Hash)
+
+    if schema["$ref"]
+      return "Commerce::Models::#{constantize(schema.fetch("$ref").split("/").last)}"
+    end
+
+    if schema["nullable"] && !ignore_nullable
+      inner = type_expression(schema, candidate, origin, ignore_nullable: true)
+      return "T.nilable(#{inner})"
+    end
+
+    if schema["enum"] && schema["type"] == "string"
+      return "Commerce::Enums::#{enum_name(schema.fetch("enum"), candidate)}"
+    end
+
+    if object_schema?(schema)
+      if properties_for(schema).empty? && schema["additionalProperties"]
+        value_schema = schema["additionalProperties"]
+        value_type = value_schema.is_a?(Hash) && !value_schema.empty? ?
+          type_expression(value_schema, "#{candidate}Value", "#{origin}.additionalProperties") : "Object"
+        return "T::Hash[String, #{value_type}]"
+      end
+
+      name = @schema_names[schema.object_id] || register_inline_schema(candidate, schema, origin)
+      return "Commerce::Models::#{name}"
+    end
+
+    variants = schema["oneOf"] || schema["anyOf"]
+    if variants
+      types = variants.each_with_index.map do |variant, index|
+        type_expression(variant, "#{candidate}Variant#{index + 1}", "#{origin}.variant#{index + 1}")
+      end.uniq
+      return types.first if types.one?
+
+      return "T.any(#{types.join(", ")})"
+    end
+
+    case schema["type"]
+    when "array"
+      "T::Array[#{type_expression(schema.fetch("items", {}), "#{candidate}Item", "#{origin}.items")}]"
+    when "boolean"
+      "T::Boolean"
+    when "integer"
+      "Integer"
+    when "number"
+      "T.any(Integer, Float)"
+    when "string"
+      "String"
+    when nil
+      all_of = schema["allOf"]
+      return type_expression(all_of.first, candidate, origin) if all_of&.one?
+
+      "Object"
+    else
+      "Object"
+    end
+  end
+
+  def object_schema?(schema)
+    return false unless schema.is_a?(Hash)
+    return false if schema["$ref"]
+    return true if schema["type"] == "object" || schema.key?("properties")
+
+    schema["allOf"]&.any? { |part| object_schema?(dereference(part)) } || false
+  end
+
+  def struct_type?(schema)
+    return struct_type?(dereference(schema)) if schema.is_a?(Hash) && schema["$ref"]
+
+    object_schema?(schema) && !(properties_for(schema).empty? && schema["additionalProperties"])
+  end
+
+  def dereference(schema)
+    return schema unless schema.is_a?(Hash) && schema["$ref"]
+
+    @component_schemas.fetch(schema.fetch("$ref").split("/").last)
+  end
+
+  def properties_for(schema, seen = {})
+    schema = dereference(schema)
+    return {} unless schema.is_a?(Hash)
+    return {} if seen[schema.object_id]
+
+    seen = seen.merge(schema.object_id => true)
+    properties = {}
+    schema.fetch("allOf", []).each do |part|
+      properties.merge!(properties_for(part, seen)) if part.is_a?(Hash)
+    end
+    properties.merge!(schema.fetch("properties", {}))
+    properties
+  end
+
+  def required_for(schema, seen = {})
+    schema = dereference(schema)
+    return [] unless schema.is_a?(Hash)
+    return [] if seen[schema.object_id]
+
+    seen = seen.merge(schema.object_id => true)
+    required = schema.fetch("required", []).dup
+    schema.fetch("allOf", []).each do |part|
+      required.concat(required_for(part, seen)) if part.is_a?(Hash)
+    end
+    required.uniq
+  end
+
+  def enum_name(values, candidate)
+    signature = enum_signature(values)
+    preferred = preferred_enum_name(values, candidate)
+    key = [signature, preferred || constantize(candidate)]
+    return @enum_names.fetch(key) if @enum_names.key?(key)
+
+    name = unique_enum_name(preferred || candidate)
+    @enum_names[key] = name
+    @enums[name] = values
+    name
+  end
+
+  def preferred_enum_name(values, candidate)
+    if values == ["sms", "email"]
+      return candidate.include?("MessageTemplate") ? "MessageTemplateChannel" : "ChimeTransport"
+    end
+    if values == ["mobile_money"]
+      return "WalletType" if candidate.include?("Wallet")
+
+      return nil
+    end
+
+    PREFERRED_ENUM_NAMES[values]
+  end
+
+  def unique_enum_name(candidate)
+    base = constantize(candidate)
+    name = base
+    index = 2
+    while @enums.key?(name)
+      name = "#{base}#{index}"
+      index += 1
+    end
+    name
+  end
+
+  def enum_signature(values)
+    values.map { |value| "#{value.class}:#{value}" }.join("\u0000")
+  end
+
+  def constantize(value)
+    text = value.to_s
+    return text if text.match?(/\A[A-Z][A-Za-z0-9]*\z/)
+
+    text = text
+      .gsub(/([a-z\d])([A-Z])/, '\\1_\\2')
+      .gsub(/[^A-Za-z0-9]+/, "_")
+      .split("_")
+      .reject(&:empty?)
+      .map { |part| part.match?(/\A[A-Z\d]+\z/) ? part : part.capitalize }
+      .join
+    text = "Value#{text}" if text.match?(/\A\d/)
+    text.empty? ? "Value" : text
+  end
+
+  def enum_constant(value)
+    name = value.to_s.gsub(/[^A-Za-z0-9]+/, "_").upcase
+    name = "VALUE_#{name}" if name.match?(/\A\d/)
+    name.empty? ? "VALUE" : name
+  end
+
+  def dependency_names(node)
+    expressions = []
+    if object_schema?(node.schema)
+      properties_for(node.schema).each do |property, schema|
+        expressions << type_expression(schema, "#{node.name}#{constantize(property)}", "#{node.origin}.#{property}")
+      end
+    else
+      expressions << type_expression(node.schema, node.name, node.origin)
+    end
+
+    expressions.flat_map { |expression| expression.scan(/Commerce::Models::([A-Za-z0-9_]+)/).flatten }
+      .reject { |name| name == node.name }
+      .uniq
+  end
+
+  def ordered_nodes
+    output = []
+    visiting = {}
+    visited = {}
+    visit = lambda do |node|
+      return if visited[node.name]
+      raise "cyclic OpenAPI schema dependency at #{node.name}" if visiting[node.name]
+
+      visiting[node.name] = true
+      dependency_names(node).each do |dependency|
+        visit.call(@nodes.fetch(dependency)) if @nodes.key?(dependency)
+      end
+      visiting.delete(node.name)
+      visited[node.name] = true
+      output << node
+    end
+    @nodes.values.sort_by(&:name).each { |node| visit.call(node) }
+    output
+  end
+
+  def render_enums
+    classes = @enums.sort_by { |name, _| name }.map do |name, values|
+      constants = values.map do |value|
+        "        #{enum_constant(value)} = new(#{value.inspect})"
+      end.join("\n")
+      <<~RUBY.rstrip
+        class #{name} < T::Enum
+          enums do
+      #{constants}
+          end
+        end
+      RUBY
+    end
+
+    catalog = @enums.keys.sort.map { |name| "      #{name}: #{name}" }.join(",\n")
+    <<~RUBY
+      # frozen_string_literal: true
+      # typed: strict
+      # Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit.
+
+      require "sorbet-runtime"
+
+      module Commerce
+        module Enums
+      #{classes.join("\n\n")}
+
+          CATALOG = T.let({
+      #{catalog}
+          }.freeze, T::Hash[Symbol, T::Class[T::Enum]])
+        end
+      end
+    RUBY
+  end
+
+  def render_models
+    definitions = ordered_nodes.map do |node|
+      if object_schema?(node.schema)
+        required = required_for(node.schema)
+        props = properties_for(node.schema).map do |property, schema|
+          type = type_expression(schema, "#{node.name}#{constantize(property)}", "#{node.origin}.#{property}")
+          unless required.include?(property) || type.start_with?("T.nilable(")
+            type = "T.nilable(#{type})"
+          end
+          ruby_property = serialized_property_name(property)
+          options = []
+          options << "default: nil" unless required.include?(property)
+          options << "name: #{property.inspect}" if ruby_property != property
+          suffix = options.empty? ? "" : ", #{options.join(', ')}"
+          "      const :#{ruby_property}, #{type}#{suffix}"
+        end
+        body = props.empty? ? "      # This response intentionally has no fields." : props.join("\n")
+        <<~RUBY.rstrip
+          class #{node.name} < T::Struct
+      #{body}
+          end
+        RUBY
+      else
+        expression = type_expression(node.schema, node.name, node.origin)
+        "#{node.name} = T.type_alias { #{expression} }"
+      end
+    end
+
+    <<~RUBY
+      # frozen_string_literal: true
+      # typed: strict
+      # Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit.
+
+      require "sorbet-runtime"
+      require_relative "enums"
+
+      module Commerce
+        module Models
+      #{definitions.join("\n\n")}
+        end
+      end
+    RUBY
+  end
+
+  def serialized_property_name(property)
+    case property
+    when "display" then "display_data"
+    when "format" then "format_value"
+    else property
+    end
+  end
+
+  def render_operations
+    response_entries = @operations.filter_map do |operation|
+      next unless operation.response_type
+
+      "      #{operation.path.inspect} => #{operation.response_type}"
+    end.join(",\n")
+    request_entries = @operations.filter_map do |operation|
+      next unless operation.request_type
+
+      "      #{operation.path.inspect} => #{operation.request_type.inspect}"
+    end.join(",\n")
+    operation_ids = @operations.map do |operation|
+      "      #{operation.path.inspect} => #{operation.operation_id.inspect}"
+    end.join(",\n")
+    binary_paths = @operations.select(&:binary).map { |operation| operation.path.inspect }.join(", ")
+
+    <<~RUBY
+      # frozen_string_literal: true
+      # typed: strict
+      # Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit.
+
+      require "sorbet-runtime"
+      require_relative "models"
+
+      module Commerce
+        module Operations
+          RESPONSE_MODELS = T.let({
+      #{response_entries}
+          }.freeze, T::Hash[String, T::Class[T::Struct]])
+
+          REQUEST_TYPE_NAMES = T.let({
+      #{request_entries}
+          }.freeze, T::Hash[String, String])
+
+          OPERATION_IDS = T.let({
+      #{operation_ids}
+          }.freeze, T::Hash[String, String])
+
+          BINARY_PATHS = T.let([#{binary_paths}].freeze, T::Array[String])
+        end
+      end
+    RUBY
+  end
+end
+
+sdk_root = Pathname.new(__dir__).join("..").expand_path
+spec_path = Pathname.new(ENV.fetch("COMMERCE_OPENAPI_SPEC", sdk_root.join("..", "..", "openapi", "commerce.yml").to_s))
+abort "OpenAPI spec not found at #{spec_path}" unless spec_path.file?
+
+spec = YAML.load_file(spec_path)
+generated = OpenAPITypeGenerator.new(spec).generate
+stale = []
+
+generated.each do |relative_path, content|
+  target = sdk_root.join(relative_path)
+  if ARGV == ["--check"]
+    stale << relative_path unless target.file? && target.read == content
+  else
+    target.dirname.mkpath
+    target.write(content)
+    puts "wrote #{relative_path}"
+  end
+end
+
+if ARGV == ["--check"]
+  unless stale.empty?
+    warn "generated OpenAPI types are stale: #{stale.join(', ')}; run bin/generate-openapi-types"
+    exit 1
+  end
+  puts "generated OpenAPI types are up to date"
+elsif !ARGV.empty?
+  abort "usage: bin/generate-openapi-types [--check]"
+end

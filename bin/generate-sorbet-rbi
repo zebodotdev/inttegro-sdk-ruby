@@ -1,0 +1,213 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "pathname"
+
+sdk_root = Pathname.new(__dir__).join("..").expand_path
+$LOAD_PATH.unshift(sdk_root.join("lib").to_s)
+
+require "commerce/generated/operations"
+require "commerce/http_client"
+Dir[sdk_root.join("lib", "commerce", "resources", "*.rb")].sort.each { |path| require path.to_s }
+
+RESOURCE_ALIASES = {
+  Otp: [:initialize_session],
+  PaymentMethods: [:deactivate],
+  Payouts: [:enable]
+}.freeze
+
+RESOURCE_PRIVATE_RETURN_TYPES = {
+  FileLinks: { headers: "Commerce::Types::Headers" },
+  Keys: { identifier_payload: "Commerce::Types::Payload" },
+  MessageTemplates: { idempotency_headers: "Commerce::Types::Headers" },
+  Orders: { stable_order_request_meta: "Commerce::Types::Payload" },
+  PaymentMethods: { stable_payment_method_request_meta: "Commerce::Types::Payload" },
+  UploadRequests: { headers: "Commerce::Types::Headers" }
+}.freeze
+
+LEGACY_RETURN_TYPES = {
+  "/orders/new" => "Commerce::Models::OrderResponse",
+  "/otp/cancel" => "Commerce::Models::CancelOTPResponse",
+  "/payment_methods/verify" => "Commerce::Models::PaymentMethodVerificationResponse",
+  "/payment_methods/confirm_verification" => "Commerce::Models::PaymentMethodResponse",
+  "/payment_methods/delete" => "Commerce::Models::PaymentMethodDeleteResponse",
+  "/payouts/enable_fx" => "Commerce::Models::PayoutSettingsResponse",
+  "/payouts/disable_fx" => "Commerce::Models::PayoutSettingsResponse",
+  "/products/set_default_unit_price" => "Commerce::Models::ProductResponse"
+}.freeze
+
+LEGACY_REQUEST_TYPES = {
+  "/orders/new" => Commerce::Operations::REQUEST_TYPE_NAMES.fetch("/orders/create"),
+  "/products/set_default_unit_price" => "Commerce::Models::SetDefaultUnitPriceRequest"
+}.freeze
+
+EXTERNAL_RETURN_TYPES = {
+  [Commerce::Resources::FileLinks, :open] => "Commerce::FileDownload",
+  [Commerce::Resources::UploadRequests, :fulfill] => "Commerce::Models::FulfillUploadRequestResponse"
+}.freeze
+
+def snake_case(name)
+  name.to_s.gsub(/([a-z\d])([A-Z])/, '\\1_\\2').downcase
+end
+
+def method_paths(sdk_root, resource_name)
+  source = sdk_root.join("lib", "commerce", "resources", "#{snake_case(resource_name)}.rb").read
+  current_method = nil
+  source.each_line.each_with_object({}) do |line, paths|
+    match = line.match(/^\s+def\s+([a-zA-Z0-9_!?]+)/)
+    current_method = match[1].to_sym if match
+    next unless current_method
+
+    path = line[%r{"(/[a-z0-9_/-]+)"}, 1]
+    paths[current_method] ||= path if path
+  end
+end
+
+def return_type(resource, method_name, path)
+  external = EXTERNAL_RETURN_TYPES[[resource, method_name]]
+  return external if external
+  return "Commerce::FileDownload" if Commerce::Operations::BINARY_PATHS.include?(path)
+
+  model = Commerce::Operations::RESPONSE_MODELS[path]
+  return model.name if model
+
+  legacy = LEGACY_RETURN_TYPES[path]
+  return legacy if legacy
+
+  raise "#{resource.name}##{method_name} has no exact response type for #{path || 'a dynamic path'}"
+end
+
+def request_type(path)
+  Commerce::Operations::REQUEST_TYPE_NAMES[path] || LEGACY_REQUEST_TYPES[path]
+end
+
+def parameter_type(name, kind, path: nil)
+  optional = %i[opt key].include?(kind)
+  base = case name
+  when :unset_as_payout_destination
+    "T::Boolean"
+  when :payload
+    model = request_type(path)
+    model ? "T.any(#{model}, Commerce::Types::Payload)" : "Commerce::Types::RequestBody"
+  when :request_meta, :options, :custom_data
+    "Commerce::Types::Payload"
+  when :destinations
+    "T::Hash[String, String]"
+  when :file, :purpose, :url, :upload_url, :disposition,
+       :order_id, :payment_method_id, :transaction_id, :account_id,
+       :chime_id, :customer_id, :file_id, :payout_id, :product_id, :price_id, :schedule_id,
+       :broadcast_id, :template_id, :secret_key_id, :key_id, :refund_id, :id,
+       :title, :idempotency_key, :save_to, :action
+    "String"
+  else
+    "Commerce::Types::WireValue"
+  end
+
+  optional ? "T.nilable(#{base})" : base
+end
+
+def private_parameter_type(name, kind)
+  return "T.nilable(String)" if %i[id idempotency_key key_id secret_key_id].include?(name)
+
+  parameter_type(name, kind)
+end
+
+def render_parameter(name, kind)
+  case kind
+  when :req then name.to_s
+  when :opt then "#{name} = nil"
+  when :rest then "*#{name}"
+  when :keyreq then "#{name}:"
+  when :key then "#{name}: nil"
+  when :keyrest then "**#{name}"
+  when :block then "&#{name}"
+  else raise "unsupported parameter kind: #{kind}"
+  end
+end
+
+def render_resource(sdk_root, name, resource)
+  aliases = RESOURCE_ALIASES.fetch(name, [])
+  paths = method_paths(sdk_root, name)
+  lines = []
+  lines << "    class #{name}"
+  lines << "      sig { params(http: Commerce::HTTPClient).void }"
+  lines << "      def initialize(http); end"
+
+  resource.public_instance_methods(false).sort.each do |method_name|
+    next if aliases.include?(method_name)
+
+    path = paths[method_name]
+    parameters = resource.instance_method(method_name).parameters
+    sig_params = parameters.map do |kind, parameter_name|
+      "#{parameter_name}: #{parameter_type(parameter_name, kind, path: path)}"
+    end
+    rendered_params = parameters.map { |kind, parameter_name| render_parameter(parameter_name, kind) }
+    result = return_type(resource, method_name, path)
+
+    lines << ""
+    signature = sig_params.empty? ? "returns(#{result})" : "params(#{sig_params.join(', ')}).returns(#{result})"
+    lines << "      sig { #{signature} }"
+    lines << "      def #{method_name}(#{rendered_params.join(', ')}); end"
+  end
+
+  private_methods = resource.private_instance_methods(false).sort - [:initialize]
+  unless private_methods.empty?
+    private_return_types = RESOURCE_PRIVATE_RETURN_TYPES.fetch(name, {})
+    lines << ""
+    lines << "      private"
+
+    private_methods.each do |method_name|
+      parameters = resource.instance_method(method_name).parameters
+      sig_params = parameters.map do |kind, parameter_name|
+        "#{parameter_name}: #{private_parameter_type(parameter_name, kind)}"
+      end
+      rendered_params = parameters.map { |kind, parameter_name| render_parameter(parameter_name, kind) }
+      result = private_return_types.fetch(method_name) do
+        raise "#{resource.name}##{method_name} needs an explicit private return type"
+      end
+
+      lines << ""
+      signature = sig_params.empty? ? "returns(#{result})" : "params(#{sig_params.join(', ')}).returns(#{result})"
+      lines << "      sig { #{signature} }"
+      lines << "      def #{method_name}(#{rendered_params.join(', ')}); end"
+    end
+  end
+
+  lines << "    end"
+  lines.join("\n")
+end
+
+resource_rbis = Commerce::Resources.constants(false).sort.filter_map do |name|
+  value = Commerce::Resources.const_get(name)
+  next unless value.is_a?(Class)
+
+  render_resource(sdk_root, name, value)
+end
+
+content = <<~RBI
+  # typed: strict
+  # Generated by bin/generate-sorbet-rbi. Do not edit it by hand.
+
+  module Commerce
+    module Resources
+  #{resource_rbis.join("\n\n")}
+    end
+  end
+RBI
+
+target = sdk_root.join("rbi", "commerce", "generated.rbi")
+
+if ARGV == ["--check"]
+  unless target.file? && target.read == content
+    warn "#{target.relative_path_from(sdk_root)} is stale; run bin/generate-sorbet-rbi"
+    exit 1
+  end
+
+  puts "#{target.relative_path_from(sdk_root)} is up to date"
+elsif ARGV.empty?
+  target.dirname.mkpath
+  target.write(content)
+  puts "wrote #{target.relative_path_from(sdk_root)}"
+else
+  abort "usage: bin/generate-sorbet-rbi [--check]"
+end

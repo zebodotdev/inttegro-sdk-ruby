@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: strict
 
 module Commerce
   module Resources
@@ -11,7 +12,7 @@ module Commerce
     # @see https://studio.inttegro.com/payment-methods for detailed guides
     class PaymentMethods
       def initialize(http)
-        @http = http
+        @http = T.let(http, Commerce::HTTPClient)
       end
 
       # Save a new payment method for a customer without charging it.
@@ -28,7 +29,7 @@ module Commerce
       # @option payload [Hash] :payment_method_data Payment method details (required)
       # @option payload [Boolean] :verify_immediately Send verification OTP immediately (default: false)
       #
-      # @return [Commerce::ResponseObject] Response containing the tokenized payment method
+      # @return [Commerce::Models::TokenizePaymentMethodResponse] Tokenized payment method
       #
       # @example Tokenize a mobile money payment method
       #   result = client.payment_methods.tokenize(
@@ -43,12 +44,15 @@ module Commerce
       #     verify_immediately: true
       #   )
       #
-      #   payment_method = result.data['payment_method']
-      #   puts "Tokenized payment method: #{payment_method['id']}"
+      #   puts "Tokenized payment method: #{result.payment_method&.id}"
       #
       # @see https://studio.inttegro.com/charge-repeat-customers for usage guide
       def tokenize(payload)
-        @http.post("/payment_methods/tokenize", payload)
+        @http.post_model(
+          "/payment_methods/tokenize",
+          Commerce::Models::TokenizePaymentMethodResponse,
+          payload
+        )
       end
 
       # Send an OTP to confirm customer ownership of a payment method.
@@ -60,20 +64,20 @@ module Commerce
       # @param payment_method_id [String] ID of the payment method to verify (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Commerce::ResponseObject] Response containing verification details
+      # @return [Commerce::Models::PaymentMethodVerificationResponse] Verification details
       #
       # @example Verify a payment method
       #   result = client.payment_methods.verify(
       #     payment_method_id: 'pm_xyz789'
       #   )
       #
-      #   verification = result.data['verification']
-      #   puts "OTP sent to: #{verification['delivery']['recipient']}"
+      #   puts "Verification request: #{result.verification&.request_id}"
       #
       # @see https://studio.inttegro.com/charge-repeat-customers for verification flow
       def verify(payment_method_id:, request_meta: nil)
-        @http.post(
+        @http.post_model(
           "/payment_methods/verify",
+          Commerce::Models::PaymentMethodVerificationResponse,
           {
             payment_method_id: payment_method_id,
             request_meta: request_meta || stable_payment_method_request_meta("verify", payment_method_id)
@@ -90,7 +94,7 @@ module Commerce
       # @option payload [String] :payment_method_id ID of the payment method being verified (required)
       # @option payload [String] :token OTP code provided by customer (required, typically 6 digits)
       #
-      # @return [Commerce::ResponseObject] Response containing verification status
+      # @return [Commerce::Models::PaymentMethodResponse] Verified payment method
       #
       # @example Confirm verification with OTP
       #   result = client.payment_methods.confirm_verification(
@@ -98,14 +102,17 @@ module Commerce
       #     token: '123456'
       #   )
       #
-      #   verification = result.data['verification']
-      #   if verification['status'] == 'verified'
+      #   if result.payment_method&.verified_at
       #     puts 'Payment method verified successfully!'
       #   end
       #
       # @see https://studio.inttegro.com/charge-repeat-customers for verification flow
       def confirm_verification(payload)
-        @http.post("/payment_methods/confirm_verification", payload)
+        @http.post_model(
+          "/payment_methods/confirm_verification",
+          Commerce::Models::LookupPaymentMethodResponse,
+          payload
+        )
       end
 
       # Retrieve details of a saved payment method by its ID.
@@ -115,46 +122,72 @@ module Commerce
       #
       # @param payment_method_id [String] ID of the payment method to retrieve (required)
       #
-      # @return [Commerce::ResponseObject] Response containing the payment method details
+      # @return [Commerce::Models::LookupPaymentMethodResponse] Payment method details
       #
       # @example Lookup a payment method
       #   result = client.payment_methods.lookup(
       #     payment_method_id: 'pm_xyz789'
       #   )
       #
-      #   pm = result.data['payment_method']
-      #   puts "Payment method type: #{pm['type']}"
-      #   puts "Verified: #{pm['verified']}"
+      #   puts "Payment method type: #{result.payment_method&.type&.serialize}"
       #
       # @see https://studio.inttegro.com/payment-methods for API reference
       def lookup(payment_method_id:)
-        @http.post("/payment_methods/lookup", { payment_method_id: payment_method_id })
+        @http.post_model(
+          "/payment_methods/lookup",
+          Commerce::Models::LookupPaymentMethodResponse,
+          { payment_method_id: payment_method_id }
+        )
       end
 
       def page(payload = {})
-        @http.post("/payment_methods/page", payload || {})
+        @http.post_model(
+          "/payment_methods/page",
+          Commerce::Models::PaymentMethodPageResponse,
+          payload || {}
+        )
       end
 
       def update(payload)
-        @http.post("/payment_methods/update", payload)
+        @http.post_model(
+          "/payment_methods/update",
+          Commerce::Models::UpdatePaymentMethodResponse,
+          payload
+        )
       end
 
       def activate(payment_method_id:)
-        @http.post("/payment_methods/activate", { payment_method_id: payment_method_id })
+        @http.post_model(
+          "/payment_methods/activate",
+          Commerce::Models::ActivatePaymentMethodResponse,
+          { payment_method_id: payment_method_id }
+        )
       end
 
       def disactivate(payment_method_id:)
-        @http.post("/payment_methods/disactivate", { payment_method_id: payment_method_id })
+        @http.post_model(
+          "/payment_methods/disactivate",
+          Commerce::Models::DisactivatePaymentMethodResponse,
+          { payment_method_id: payment_method_id }
+        )
       end
 
       alias deactivate disactivate
 
       def archive(payment_method_id:)
-        @http.post("/payment_methods/archive", { payment_method_id: payment_method_id })
+        @http.post_model(
+          "/payment_methods/archive",
+          Commerce::Models::ArchivePaymentMethodResponse,
+          { payment_method_id: payment_method_id }
+        )
       end
 
       def unarchive(payment_method_id:)
-        @http.post("/payment_methods/unarchive", { payment_method_id: payment_method_id })
+        @http.post_model(
+          "/payment_methods/unarchive",
+          Commerce::Models::UnarchivePaymentMethodResponse,
+          { payment_method_id: payment_method_id }
+        )
       end
 
       # Delete a saved payment method, removing it from the customer's account.
@@ -165,7 +198,7 @@ module Commerce
       # @param payment_method_id [String] ID of the payment method to delete (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Commerce::ResponseObject] Response confirming deletion
+      # @return [Commerce::Models::PaymentMethodDeleteResponse] Deletion confirmation
       #
       # @example Delete a payment method
       #   result = client.payment_methods.delete(
@@ -176,8 +209,9 @@ module Commerce
       #
       # @see https://studio.inttegro.com/payment-methods for API reference
       def delete(payment_method_id:, request_meta: nil)
-        @http.post(
+        @http.post_model(
           "/payment_methods/delete",
+          Commerce::Models::PaymentMethodDeleteResponse,
           {
             payment_method_id: payment_method_id,
             request_meta: request_meta || stable_payment_method_request_meta("delete", payment_method_id)
@@ -190,17 +224,20 @@ module Commerce
       # Returns settings that control payment method behavior, including whether verification
       # is required before charging and supported payment method types.
       #
-      # @return [Commerce::ResponseObject] Response containing payment method settings
+      # @return [Commerce::Models::GetPaymentMethodSettingsResponse] Payment method settings
       #
       # @example Get payment method settings
       #   result = client.payment_methods.settings
       #
-      #   settings = result.data['settings']
-      #   puts "Verification required: #{settings['requires_verification']}"
+      #   puts "Mobile money enabled: #{result.settings&.mobile_money&.enabled}"
       #
       # @see https://studio.inttegro.com/payment-methods for API reference
       def settings
-        @http.post("/payment_methods/settings", {})
+        @http.post_model(
+          "/payment_methods/settings",
+          Commerce::Models::GetPaymentMethodSettingsResponse,
+          {}
+        )
       end
 
       private

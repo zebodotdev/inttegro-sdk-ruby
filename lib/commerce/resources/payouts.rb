@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: strict
 
 module Commerce
   module Resources
@@ -11,7 +12,7 @@ module Commerce
     # @see https://studio.inttegro.com/payouts for detailed guides
     class Payouts
       def initialize(http)
-        @http = http
+        @http = T.let(http, Commerce::HTTPClient)
       end
 
       # Configure which financial account should be used for payouts in each currency.
@@ -22,7 +23,7 @@ module Commerce
       #
       # @param destinations [Hash] Map of currency codes to financial account IDs (required)
       #
-      # @return [Commerce::ResponseObject] Response containing updated payout settings
+      # @return [Commerce::Models::SetPayoutDestinationsResponse] Updated payout settings
       #
       # @example Set payout destinations for multiple currencies
       #   result = client.payouts.set_destinations(
@@ -32,12 +33,15 @@ module Commerce
       #     }
       #   )
       #
-      #   settings = result.data['settings']
-      #   puts "Destinations configured: #{settings['destinations']}"
+      #   puts "Destinations configured: #{result.settings&.destinations}"
       #
       # @see https://studio.inttegro.com/enable-automatic-payouts for configuration guide
       def set_destinations(destinations:)
-        @http.post("/payouts/set_destinations", { destinations: destinations })
+        @http.post_model(
+          "/payouts/set_destinations",
+          Commerce::Models::SetPayoutDestinationsResponse,
+          { destinations: destinations }
+        )
       end
 
       # Retrieve the current payout settings for your application.
@@ -45,18 +49,16 @@ module Commerce
       # Returns payout settings including configured payout destinations, schedule information,
       # and whether foreign exchange is enabled.
       #
-      # @return [Commerce::ResponseObject] Response containing payout settings
+      # @return [Commerce::Models::GetPayoutSettingsResponse] Current payout settings
       #
       # @example Get payout settings
       #   result = client.payouts.settings
       #
-      #   settings = result.data['settings']
-      #   puts "Payout schedule: #{settings['schedule']['name']}"
-      #   puts "Destinations: #{settings['destinations']}"
+      #   puts "Payout schedule: #{result.settings&.schedule&.name}"
       #
       # @see https://studio.inttegro.com/product-payouts for payouts overview
       def settings
-        @http.post("/payouts/settings", {})
+        @http.post_model("/payouts/settings", Commerce::Models::GetPayoutSettingsResponse, {})
       end
 
       # Disable automatic payouts by switching to manual payout mode.
@@ -66,21 +68,28 @@ module Commerce
       # still be at least 7 days old before they can be paid out, but the payout will only occur when you
       # explicitly request it.
       #
-      # @return [Commerce::ResponseObject] Response containing updated settings with manual schedule
+      # @return [Commerce::Models::DisableAutomaticPayoutsResponse] Updated payout settings
       #
       # @example Disable automatic payouts
       #   result = client.payouts.disable_automatic
       #
-      #   settings = result.data['settings']
-      #   puts "Schedule type: #{settings['schedule']['type']}"  # => "manual"
+      #   puts "Schedule type: #{result.settings&.schedule&.type}"
       #
       # @see https://studio.inttegro.com/disable-automatic-payouts for manual payout guide
       def disable_automatic
-        @http.post("/payouts/disable", {})
+        @http.post_model(
+          "/payouts/disable",
+          Commerce::Models::DisableAutomaticPayoutsResponse,
+          {}
+        )
       end
 
       def enable_automatic
-        @http.post("/payouts/enable", {})
+        @http.post_model(
+          "/payouts/enable",
+          Commerce::Models::EnableAutomaticPayoutsResponse,
+          {}
+        )
       end
 
       alias enable enable_automatic
@@ -97,17 +106,16 @@ module Commerce
       # Important: FX conversion incurs additional fees beyond standard payout fees, and exchange rates are
       # determined at payout execution time. FX-enabled payouts require approval and special configuration.
       #
-      # @return [Commerce::ResponseObject] Response containing updated payout settings
+      # @return [Commerce::Models::PayoutSettingsResponse] Updated payout settings
       #
       # @example Enable foreign exchange for payouts
       #   result = client.payouts.enable_fx
       #
-      #   settings = result.data['settings']
-      #   puts "FX enabled: #{settings['fx_enabled']}"
+      #   puts "FX enabled: #{result.settings&.fx_enabled}"
       #
       # @see https://studio.inttegro.com/enable-fx-payouts for FX payout guide
       def enable_fx
-        @http.post("/payouts/enable_fx", {})
+        @http.post_model("/payouts/enable_fx", Commerce::Models::PayoutSettingsResponse, {})
       end
 
       # Disable foreign exchange conversion for payouts.
@@ -115,17 +123,16 @@ module Commerce
       # Disables FX conversion, restricting payouts to accounts that match the transaction currency.
       # After disabling FX, GHS balance can only be paid out to GHS accounts, USD balance only to USD accounts, etc.
       #
-      # @return [Commerce::ResponseObject] Response containing updated payout settings
+      # @return [Commerce::Models::PayoutSettingsResponse] Updated payout settings
       #
       # @example Disable foreign exchange for payouts
       #   result = client.payouts.disable_fx
       #
-      #   settings = result.data['settings']
-      #   puts "FX enabled: #{settings['fx_enabled']}"  # => false
+      #   puts "FX enabled: #{result.settings&.fx_enabled}"
       #
       # @see https://studio.inttegro.com/disable-fx-payouts for FX payout guide
       def disable_fx
-        @http.post("/payouts/disable_fx", {})
+        @http.post_model("/payouts/disable_fx", Commerce::Models::PayoutSettingsResponse, {})
       end
 
       # Retrieve a paginated list of payouts.
@@ -140,7 +147,7 @@ module Commerce
       # @option payload [String] :created_after Filter payouts created after this timestamp (ISO 8601)
       # @option payload [String] :created_before Filter payouts created before this timestamp (ISO 8601)
       #
-      # @return [Commerce::ResponseObject] Paginated list of payouts with pagination details
+      # @return [Commerce::Models::PagePayoutsResponse] Paginated list of payouts
       #
       # @example Get first page of payouts
       #   result = client.payouts.page(
@@ -148,13 +155,7 @@ module Commerce
       #     page: 1
       #   )
       #
-      #   puts "Retrieved #{result.data['payouts'].length} payouts"
-      #   puts "Has more: #{result.data['has_more']}"
-      #
-      #   # Get next page if available
-      #   if result.data['has_more']
-      #     next_page = client.payouts.page(per_page: 25, page: 2)
-      #   end
+      #   puts "Retrieved #{result.page&.payouts&.length || 0} payouts"
       #
       # @example Filter by status
       #   paid_payouts = client.payouts.page(
@@ -165,15 +166,19 @@ module Commerce
       # @see https://studio.inttegro.com/pagination for pagination guide
       # @see https://studio.inttegro.com/product-payouts for payouts overview
       def page(payload = {})
-        @http.post("/payouts/page", payload || {})
+        @http.post_model("/payouts/page", Commerce::Models::PagePayoutsResponse, payload || {})
       end
 
       def schedule(payload)
-        @http.post("/payouts/schedule", payload)
+        @http.post_model("/payouts/schedule", Commerce::Models::SchedulePayoutResponse, payload)
       end
 
       def lookup(payout_id:)
-        @http.post("/payouts/lookup", { payout_id: payout_id })
+        @http.post_model(
+          "/payouts/lookup",
+          Commerce::Models::LookupPayoutResponse,
+          { payout_id: payout_id }
+        )
       end
 
       # Cancel a scheduled payout before execution.
@@ -182,9 +187,13 @@ module Commerce
       #
       # @param payout_id [String] Scheduled payout ID
       #
-      # @return [Commerce::ResponseObject] Response containing canceled payout
+      # @return [Commerce::Models::CancelPayoutResponse] Canceled payout
       def cancel(payout_id:)
-        @http.post("/payouts/cancel", { payout_id: payout_id })
+        @http.post_model(
+          "/payouts/cancel",
+          Commerce::Models::CancelPayoutResponse,
+          { payout_id: payout_id }
+        )
       end
     end
   end

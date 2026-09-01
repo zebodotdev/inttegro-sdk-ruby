@@ -13,6 +13,7 @@ class CommerceClientTest < Minitest::Test
 
   UUID_V7_REGEX = /\A[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z/i
   EXTERNALLY_SUPPLIED_CAPABILITY_PATHS = ["/file_links/open", "/upload_requests/upload"].freeze
+  DEFAULT_RESPONSE_BODY = Object.new.freeze
 
   def test_sdk_implementation_paths_cover_openapi_spec
     missing = openapi_spec_paths - EXTERNALLY_SUPPLIED_CAPABILITY_PATHS - implemented_sdk_paths
@@ -23,11 +24,56 @@ class CommerceClientTest < Minitest::Test
     )
   end
 
+  def test_documented_json_endpoints_use_the_exact_openapi_response_model
+    sources = resource_sources
+    Commerce::Operations::RESPONSE_MODELS.each do |path, model|
+      next if path == "/upload_requests/upload"
+
+      call = /post_(?:multipart_)?model\(\s*#{Regexp.escape(path.inspect)},\s*#{Regexp.escape(model.name)}/
+      assert_match call, sources, "#{path} is not wired to #{model.name}"
+    end
+
+    generic_paths = sources.scan(/post_object\(\s*["'](\/[a-z0-9_\/-]+)["']/).flatten
+    assert_empty generic_paths & openapi_spec_paths,
+      "documented endpoints must not return Commerce::ResponseObject"
+  end
+
+  def test_openapi_models_are_typed_structs
+    assert_operator Commerce::Models::Order, :<, T::Struct
+    assert_operator Commerce::Models::PurchaseIntent, :<, T::Struct
+    assert_operator Commerce::Models::Refund, :<, T::Struct
+    assert_operator Commerce::Models::Customer, :<, T::Struct
+  end
+
+  def test_typed_request_models_and_enums_serialize_to_wire_values
+    requests = []
+    adapter = make_adapter(requests: requests)
+    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    request = Commerce::Models::CreateProductRequest.new(
+      type: Commerce::Enums::ProductType::DIGITAL,
+      name: "Download"
+    )
+
+    client.products.create(request)
+
+    body = JSON.parse(requests.first.fetch(:request).body)
+    assert_equal "digital", body.fetch("type")
+    assert_equal "Download", body.fetch("name")
+  end
+
   def test_orders_create_posts_json_and_parses_response
     requests = []
     adapter = make_adapter(
       requests: requests,
-      body: { order: { id: "or_123" }, redirect_url: "https://checkout" }
+      body: {
+        order: {
+          id: "or_123",
+          customer: { id: "cu_123", guest: false, name: "Test User" },
+          initiated_at: "2026-09-01T12:00:00Z",
+          status: "preparing"
+        },
+        redirect_url: "https://checkout"
+      }
     )
 
     client = Commerce::Client.new(
@@ -158,11 +204,11 @@ class CommerceClientTest < Minitest::Test
     client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: payment_adapter)
 
     payment = client.balance_transactions.lookup(transaction_id: "bt_payment").transaction
-    assert_equal "payment", payment.type
+    assert_equal Commerce::Enums::BalanceTransactionType::PAYMENT, payment.type
     assert_equal "py_123", payment.source_id
     assert payment.valid_source?
     assert payment.valid?
-    assert_instance_of Commerce::Models::Money, payment.amount
+    assert_instance_of Commerce::Models::BalanceTransactionAmount, payment.amount
 
     refund = Commerce::Models.deserialize(
       {
@@ -179,7 +225,13 @@ class CommerceClientTest < Minitest::Test
     assert refund.valid_source?
 
     contradictory = Commerce::Models::BalanceTransaction.new(
-      type: "refund", payment_id: "py_123", refund_id: "rf_123"
+      id: "bt_invalid",
+      type: Commerce::Enums::BalanceTransactionType::REFUND,
+      payment_id: "py_123",
+      refund_id: "rf_123",
+      order_id: "or_123",
+      amount: Commerce::Models::BalanceTransactionAmount.new(currency: "GHS", value: 500),
+      created_at: "2026-08-31T12:01:00Z"
     )
     refute contradictory.valid_source?
   end
@@ -188,8 +240,15 @@ class CommerceClientTest < Minitest::Test
     order = Commerce::Models.deserialize(
       {
         "id" => "or_123",
+        "customer" => { "id" => "cu_123", "guest" => false, "name" => "Test User" },
+        "initiated_at" => "2026-08-31T12:00:00Z",
+        "status" => "preparing",
         "payment" => {
           "id" => "py_123",
+          "status" => "initiated",
+          "statement_descriptor" => "TEST ORDER",
+          "amount" => { "currency" => "GHS", "value" => 2500 },
+          "initiated_at" => "2026-08-31T12:00:00Z",
           "balance_transaction" => {
             "id" => "bt_123",
             "type" => "payment",
@@ -204,7 +263,7 @@ class CommerceClientTest < Minitest::Test
     )
 
     assert_instance_of Commerce::Models::BalanceTransaction, order.payment.balance_transaction
-    assert_equal "payment", order.payment.balance_transaction.type
+    assert_equal Commerce::Enums::BalanceTransactionType::PAYMENT, order.payment.balance_transaction.type
   end
 
   def test_order_document_delivery_endpoints_match_spec
@@ -242,6 +301,18 @@ class CommerceClientTest < Minitest::Test
 
     assert_equal 401, error.status
     assert_match(/invalid key/, error.message)
+  end
+
+  def test_custom_adapter_responses_are_validated_at_the_transport_boundary
+    client = Commerce::Client.new(
+      token: "test",
+      base_url: "https://api.inttegro.com",
+      adapter: ->(_uri, _request) { Object.new }
+    )
+
+    error = assert_raises(TypeError) { client.apps.lookup }
+
+    assert_match(/must respond to #code/, error.message)
   end
 
   def test_read_style_posts_do_not_generate_idempotency_metadata
@@ -402,15 +473,64 @@ class CommerceClientTest < Minitest::Test
     resource_glob = File.expand_path("../lib/commerce/resources/**/*.rb", __dir__)
     Dir[resource_glob].flat_map do |file|
       File.read(file).scan(
-        %r{@http\.(?:get|post|post_with_headers|post_multipart|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
+        %r{@http\.(?:get|post|post_model|post_object|post_with_headers|post_multipart|post_multipart_model|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
       ).flatten
     end.uniq.sort
   end
 
-  def make_adapter(status: "200", body: {}, headers: { "Content-Type" => "application/json" }, requests: [])
+  def resource_sources
+    resource_glob = File.expand_path("../lib/commerce/resources/**/*.rb", __dir__)
+    Dir[resource_glob].sort.map { |file| File.read(file) }.join("\n")
+  end
+
+  def make_adapter(status: "200", body: DEFAULT_RESPONSE_BODY, headers: { "Content-Type" => "application/json" }, requests: [])
     lambda do |uri, request|
       requests << { uri: uri, request: request } if requests
-      StubResponse.new(status, body.to_json, headers, "OK")
+      response_body = body.equal?(DEFAULT_RESPONSE_BODY) ? minimal_response_body(uri.path) : body
+      StubResponse.new(status, response_body.to_json, headers, "OK")
     end
+  end
+
+  def minimal_response_body(path)
+    model = Commerce::Operations::RESPONSE_MODELS[path]
+    model ||= Commerce::Models::OrderResponse if path == "/orders/new"
+    model ||= Commerce::Models::CancelOTPResponse if path == "/otp/cancel"
+    return {} unless model
+
+    minimal_struct_body(model)
+  end
+
+  def minimal_struct_body(model)
+    model.props.each_with_object({}) do |(name, property), output|
+      next if property[:fully_optional]
+
+      output[property.fetch(:serialized_form)] = minimal_type_value(property.fetch(:type_object))
+    end
+  end
+
+  def minimal_type_value(type)
+    raw_type = type.respond_to?(:raw_type) ? type.raw_type : nil
+    return minimal_class_value(raw_type) if raw_type
+    return [] if type.is_a?(T::Types::TypedArray)
+    return {} if type.is_a?(T::Types::TypedHash)
+
+    if type.respond_to?(:types)
+      candidate = type.types.find { |member| !member.respond_to?(:raw_type) || member.raw_type != NilClass }
+      return minimal_type_value(candidate) if candidate
+    end
+
+    nil
+  end
+
+  def minimal_class_value(type)
+    return minimal_struct_body(type) if type <= T::Struct
+    return type.values.first.serialize if type <= T::Enum
+    return "value" if type == String
+    return 1 if type == Integer
+    return 1.0 if type == Float
+    return true if type == TrueClass
+    return false if type == FalseClass
+
+    nil
   end
 end

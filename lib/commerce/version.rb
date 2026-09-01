@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: strict
 
 module Commerce
   VERSION = "0.1.0"

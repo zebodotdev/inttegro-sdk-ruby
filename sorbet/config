@@ -1,0 +1,8 @@
+--dir
+lib
+--dir
+rbi
+--dir
+sorbet/fixtures
+--ignore=coverage/
+--ignore=pkg/
