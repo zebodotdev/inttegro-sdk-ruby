@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - "ruby-sdk-v*"
-      - "zebo-commerce-v*"
+      - "inttegro-ruby-v*"
 
 jobs:
   release:
@@ -20,9 +20,9 @@ jobs:
           bundler-cache: true
 
       - name: Build gem
-        run: gem build commerce.gemspec
+        run: gem build inttegro.gemspec
 
       - name: Publish to RubyGems
         env:
           GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
-        run: gem push zebo-commerce-*.gem
+        run: gem push inttegro-*.gem

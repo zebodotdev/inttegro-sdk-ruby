@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in zebo-http.gemspec
+# Specify your gem's dependencies in inttegro.gemspec
 gemspec
 
 gem "rake", "~> 13.0"

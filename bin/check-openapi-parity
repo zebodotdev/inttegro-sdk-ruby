@@ -7,13 +7,13 @@ require "yaml"
 sdk_root = Pathname.new(__dir__).join("..").expand_path
 $LOAD_PATH.unshift(sdk_root.join("lib").to_s)
 
-require "commerce/generated/operations"
+require "inttegro/generated/operations"
 
-spec_path = Pathname.new(ENV.fetch("COMMERCE_OPENAPI_SPEC", sdk_root.join("..", "..", "openapi", "commerce.yml").to_s))
+spec_path = Pathname.new(ENV.fetch("INTTEGRO_OPENAPI_SPEC", sdk_root.join("..", "..", "openapi", "commerce.yml").to_s))
 abort "OpenAPI spec not found at #{spec_path}" unless spec_path.file?
 
 spec_paths = YAML.load_file(spec_path).fetch("paths").keys.sort
-sources = Dir[sdk_root.join("lib", "commerce", "resources", "*.rb")].sort.map { |path| File.read(path) }.join("\n")
+sources = Dir[sdk_root.join("lib", "inttegro", "resources", "*.rb")].sort.map { |path| File.read(path) }.join("\n")
 implemented_paths = sources.scan(
   %r{@http\.(?:get|post|post_model|post_object|post_with_headers|post_multipart|post_multipart_model|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
 ).flatten.uniq.sort
@@ -24,7 +24,7 @@ errors = []
   errors << "missing resource method for #{path}"
 end
 
-Commerce::Operations::RESPONSE_MODELS.each do |path, model|
+Inttegro::Operations::RESPONSE_MODELS.each do |path, model|
   next if path == "/upload_requests/upload"
 
   call = /post_(?:multipart_)?model\(\s*#{Regexp.escape(path.inspect)},\s*#{Regexp.escape(model.name)}/
@@ -33,7 +33,7 @@ end
 
 generic_documented_paths = sources.scan(/post_object\(\s*["'](\/[a-z0-9_\/-]+)["']/).flatten & spec_paths
 generic_documented_paths.each do |path|
-  errors << "#{path} uses the generic Commerce::ResponseObject fallback"
+  errors << "#{path} uses the generic Inttegro::ResponseObject fallback"
 end
 
 unless errors.empty?

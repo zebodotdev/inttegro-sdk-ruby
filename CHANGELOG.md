@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+## [1.0.0] - 2026-09-01
+
+- Breaking: rename the gem, root module, require paths, and generated RBI namespace to `inttegro` and `Inttegro`.
 - Add `typed: strict` Sorbet coverage, runtime signatures, and packaged RBI
   declarations for every client resource, endpoint method, model, and enum.
 - Remove Sorbet escape hatches from the SDK type surface, validate custom HTTP
@@ -11,7 +14,4 @@
   drift checks that fail when OpenAPI, generated models, or resource RBIs differ.
 - Remove the financial-account archive and verification SDK methods because the
   current API does not implement them and exposes no successful response shape.
-
-## [0.1.0] - 2024-07-01
-
-- Initial release
+- Align package metadata, examples, and the transport user agent with the public Inttegro service name.

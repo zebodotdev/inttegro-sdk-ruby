@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zebo-commerce (0.1.0)
+    inttegro (1.0.0)
       sorbet-runtime (~> 0.6)
 
 GEM
@@ -63,7 +63,7 @@ DEPENDENCIES
   rubocop (~> 1.21)
   simplecov (~> 0.22)
   sorbet (~> 0.6)
-  zebo-commerce!
+  inttegro!
 
 BUNDLED WITH
    2.6.6

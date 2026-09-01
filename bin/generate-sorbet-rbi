@@ -6,9 +6,9 @@ require "pathname"
 sdk_root = Pathname.new(__dir__).join("..").expand_path
 $LOAD_PATH.unshift(sdk_root.join("lib").to_s)
 
-require "commerce/generated/operations"
-require "commerce/http_client"
-Dir[sdk_root.join("lib", "commerce", "resources", "*.rb")].sort.each { |path| require path.to_s }
+require "inttegro/generated/operations"
+require "inttegro/http_client"
+Dir[sdk_root.join("lib", "inttegro", "resources", "*.rb")].sort.each { |path| require path.to_s }
 
 RESOURCE_ALIASES = {
   Otp: [:initialize_session],
@@ -17,33 +17,33 @@ RESOURCE_ALIASES = {
 }.freeze
 
 RESOURCE_PRIVATE_RETURN_TYPES = {
-  FileLinks: { headers: "Commerce::Types::Headers" },
-  Keys: { identifier_payload: "Commerce::Types::Payload" },
-  MessageTemplates: { idempotency_headers: "Commerce::Types::Headers" },
-  Orders: { stable_order_request_meta: "Commerce::Types::Payload" },
-  PaymentMethods: { stable_payment_method_request_meta: "Commerce::Types::Payload" },
-  UploadRequests: { headers: "Commerce::Types::Headers" }
+  FileLinks: { headers: "Inttegro::Types::Headers" },
+  Keys: { identifier_payload: "Inttegro::Types::Payload" },
+  MessageTemplates: { idempotency_headers: "Inttegro::Types::Headers" },
+  Orders: { stable_order_request_meta: "Inttegro::Types::Payload" },
+  PaymentMethods: { stable_payment_method_request_meta: "Inttegro::Types::Payload" },
+  UploadRequests: { headers: "Inttegro::Types::Headers" }
 }.freeze
 
 LEGACY_RETURN_TYPES = {
-  "/orders/new" => "Commerce::Models::OrderResponse",
-  "/otp/cancel" => "Commerce::Models::CancelOTPResponse",
-  "/payment_methods/verify" => "Commerce::Models::PaymentMethodVerificationResponse",
-  "/payment_methods/confirm_verification" => "Commerce::Models::PaymentMethodResponse",
-  "/payment_methods/delete" => "Commerce::Models::PaymentMethodDeleteResponse",
-  "/payouts/enable_fx" => "Commerce::Models::PayoutSettingsResponse",
-  "/payouts/disable_fx" => "Commerce::Models::PayoutSettingsResponse",
-  "/products/set_default_unit_price" => "Commerce::Models::ProductResponse"
+  "/orders/new" => "Inttegro::Models::OrderResponse",
+  "/otp/cancel" => "Inttegro::Models::CancelOTPResponse",
+  "/payment_methods/verify" => "Inttegro::Models::PaymentMethodVerificationResponse",
+  "/payment_methods/confirm_verification" => "Inttegro::Models::PaymentMethodResponse",
+  "/payment_methods/delete" => "Inttegro::Models::PaymentMethodDeleteResponse",
+  "/payouts/enable_fx" => "Inttegro::Models::PayoutSettingsResponse",
+  "/payouts/disable_fx" => "Inttegro::Models::PayoutSettingsResponse",
+  "/products/set_default_unit_price" => "Inttegro::Models::ProductResponse"
 }.freeze
 
 LEGACY_REQUEST_TYPES = {
-  "/orders/new" => Commerce::Operations::REQUEST_TYPE_NAMES.fetch("/orders/create"),
-  "/products/set_default_unit_price" => "Commerce::Models::SetDefaultUnitPriceRequest"
+  "/orders/new" => Inttegro::Operations::REQUEST_TYPE_NAMES.fetch("/orders/create"),
+  "/products/set_default_unit_price" => "Inttegro::Models::SetDefaultUnitPriceRequest"
 }.freeze
 
 EXTERNAL_RETURN_TYPES = {
-  [Commerce::Resources::FileLinks, :open] => "Commerce::FileDownload",
-  [Commerce::Resources::UploadRequests, :fulfill] => "Commerce::Models::FulfillUploadRequestResponse"
+  [Inttegro::Resources::FileLinks, :open] => "Inttegro::FileDownload",
+  [Inttegro::Resources::UploadRequests, :fulfill] => "Inttegro::Models::FulfillUploadRequestResponse"
 }.freeze
 
 def snake_case(name)
@@ -51,7 +51,7 @@ def snake_case(name)
 end
 
 def method_paths(sdk_root, resource_name)
-  source = sdk_root.join("lib", "commerce", "resources", "#{snake_case(resource_name)}.rb").read
+  source = sdk_root.join("lib", "inttegro", "resources", "#{snake_case(resource_name)}.rb").read
   current_method = nil
   source.each_line.each_with_object({}) do |line, paths|
     match = line.match(/^\s+def\s+([a-zA-Z0-9_!?]+)/)
@@ -66,9 +66,9 @@ end
 def return_type(resource, method_name, path)
   external = EXTERNAL_RETURN_TYPES[[resource, method_name]]
   return external if external
-  return "Commerce::FileDownload" if Commerce::Operations::BINARY_PATHS.include?(path)
+  return "Inttegro::FileDownload" if Inttegro::Operations::BINARY_PATHS.include?(path)
 
-  model = Commerce::Operations::RESPONSE_MODELS[path]
+  model = Inttegro::Operations::RESPONSE_MODELS[path]
   return model.name if model
 
   legacy = LEGACY_RETURN_TYPES[path]
@@ -78,7 +78,7 @@ def return_type(resource, method_name, path)
 end
 
 def request_type(path)
-  Commerce::Operations::REQUEST_TYPE_NAMES[path] || LEGACY_REQUEST_TYPES[path]
+  Inttegro::Operations::REQUEST_TYPE_NAMES[path] || LEGACY_REQUEST_TYPES[path]
 end
 
 def parameter_type(name, kind, path: nil)
@@ -88,9 +88,9 @@ def parameter_type(name, kind, path: nil)
     "T::Boolean"
   when :payload
     model = request_type(path)
-    model ? "T.any(#{model}, Commerce::Types::Payload)" : "Commerce::Types::RequestBody"
+    model ? "T.any(#{model}, Inttegro::Types::Payload)" : "Inttegro::Types::RequestBody"
   when :request_meta, :options, :custom_data
-    "Commerce::Types::Payload"
+    "Inttegro::Types::Payload"
   when :destinations
     "T::Hash[String, String]"
   when :file, :purpose, :url, :upload_url, :disposition,
@@ -100,7 +100,7 @@ def parameter_type(name, kind, path: nil)
        :title, :idempotency_key, :save_to, :action
     "String"
   else
-    "Commerce::Types::WireValue"
+    "Inttegro::Types::WireValue"
   end
 
   optional ? "T.nilable(#{base})" : base
@@ -130,7 +130,7 @@ def render_resource(sdk_root, name, resource)
   paths = method_paths(sdk_root, name)
   lines = []
   lines << "    class #{name}"
-  lines << "      sig { params(http: Commerce::HTTPClient).void }"
+  lines << "      sig { params(http: Inttegro::HTTPClient).void }"
   lines << "      def initialize(http); end"
 
   resource.public_instance_methods(false).sort.each do |method_name|
@@ -177,8 +177,8 @@ def render_resource(sdk_root, name, resource)
   lines.join("\n")
 end
 
-resource_rbis = Commerce::Resources.constants(false).sort.filter_map do |name|
-  value = Commerce::Resources.const_get(name)
+resource_rbis = Inttegro::Resources.constants(false).sort.filter_map do |name|
+  value = Inttegro::Resources.const_get(name)
   next unless value.is_a?(Class)
 
   render_resource(sdk_root, name, value)
@@ -188,14 +188,14 @@ content = <<~RBI
   # typed: strict
   # Generated by bin/generate-sorbet-rbi. Do not edit it by hand.
 
-  module Commerce
+  module Inttegro
     module Resources
   #{resource_rbis.join("\n\n")}
     end
   end
 RBI
 
-target = sdk_root.join("rbi", "commerce", "generated.rbi")
+target = sdk_root.join("rbi", "inttegro", "generated.rbi")
 
 if ARGV == ["--check"]
   unless target.file? && target.read == content

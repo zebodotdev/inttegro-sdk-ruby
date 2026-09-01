@@ -2,10 +2,10 @@
 
 require "test_helper"
 
-class CommerceEnumsTest < Minitest::Test
+class InttegroEnumsTest < Minitest::Test
   def test_public_constants_are_wire_values
-    assert_equal "digital", Commerce::Enums::ProductType::DIGITAL.serialize
-    assert_equal "requested_by_customer", Commerce::Enums::RefundReason::REQUESTED_BY_CUSTOMER.serialize
-    assert_includes Commerce::Enums::UploadRequestStatus.values.map(&:serialize), "pending"
+    assert_equal "digital", Inttegro::Enums::ProductType::DIGITAL.serialize
+    assert_equal "requested_by_customer", Inttegro::Enums::RefundReason::REQUESTED_BY_CUSTOMER.serialize
+    assert_includes Inttegro::Enums::UploadRequestStatus.values.map(&:serialize), "pending"
   end
 end

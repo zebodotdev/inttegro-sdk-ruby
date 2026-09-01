@@ -6,6 +6,6 @@ if ENV["COVERAGE"] == "1"
 end
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
-require "commerce"
+require "inttegro"
 
 require "minitest/autorun"

@@ -4,7 +4,7 @@ require "test_helper"
 require "json"
 require "yaml"
 
-class CommerceClientTest < Minitest::Test
+class InttegroClientTest < Minitest::Test
   StubResponse = Struct.new(:code, :body, :headers, :message) do
     def [](key)
       (headers || {})[key]
@@ -26,7 +26,7 @@ class CommerceClientTest < Minitest::Test
 
   def test_documented_json_endpoints_use_the_exact_openapi_response_model
     sources = resource_sources
-    Commerce::Operations::RESPONSE_MODELS.each do |path, model|
+    Inttegro::Operations::RESPONSE_MODELS.each do |path, model|
       next if path == "/upload_requests/upload"
 
       call = /post_(?:multipart_)?model\(\s*#{Regexp.escape(path.inspect)},\s*#{Regexp.escape(model.name)}/
@@ -35,22 +35,22 @@ class CommerceClientTest < Minitest::Test
 
     generic_paths = sources.scan(/post_object\(\s*["'](\/[a-z0-9_\/-]+)["']/).flatten
     assert_empty generic_paths & openapi_spec_paths,
-      "documented endpoints must not return Commerce::ResponseObject"
+      "documented endpoints must not return Inttegro::ResponseObject"
   end
 
   def test_openapi_models_are_typed_structs
-    assert_operator Commerce::Models::Order, :<, T::Struct
-    assert_operator Commerce::Models::PurchaseIntent, :<, T::Struct
-    assert_operator Commerce::Models::Refund, :<, T::Struct
-    assert_operator Commerce::Models::Customer, :<, T::Struct
+    assert_operator Inttegro::Models::Order, :<, T::Struct
+    assert_operator Inttegro::Models::PurchaseIntent, :<, T::Struct
+    assert_operator Inttegro::Models::Refund, :<, T::Struct
+    assert_operator Inttegro::Models::Customer, :<, T::Struct
   end
 
   def test_typed_request_models_and_enums_serialize_to_wire_values
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
-    request = Commerce::Models::CreateProductRequest.new(
-      type: Commerce::Enums::ProductType::DIGITAL,
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    request = Inttegro::Models::CreateProductRequest.new(
+      type: Inttegro::Enums::ProductType::DIGITAL,
       name: "Download"
     )
 
@@ -76,7 +76,7 @@ class CommerceClientTest < Minitest::Test
       }
     )
 
-    client = Commerce::Client.new(
+    client = Inttegro::Client.new(
       token: "test-key",
       base_url: "https://api.inttegro.com",
       read_timeout: 2,
@@ -118,7 +118,7 @@ class CommerceClientTest < Minitest::Test
   def test_recent_openapi_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.orders.new(customer_id: "cu_123", line_items: [{ type: "product" }])
     client.orders.update(order_id: "or_123", number: "ORDER-123-REV2")
@@ -201,16 +201,16 @@ class CommerceClientTest < Minitest::Test
         }
       }
     )
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: payment_adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: payment_adapter)
 
     payment = client.balance_transactions.lookup(transaction_id: "bt_payment").transaction
-    assert_equal Commerce::Enums::BalanceTransactionType::PAYMENT, payment.type
+    assert_equal Inttegro::Enums::BalanceTransactionType::PAYMENT, payment.type
     assert_equal "py_123", payment.source_id
     assert payment.valid_source?
     assert payment.valid?
-    assert_instance_of Commerce::Models::BalanceTransactionAmount, payment.amount
+    assert_instance_of Inttegro::Models::BalanceTransactionAmount, payment.amount
 
-    refund = Commerce::Models.deserialize(
+    refund = Inttegro::Models.deserialize(
       {
         id: "bt_refund",
         type: "refund",
@@ -219,25 +219,25 @@ class CommerceClientTest < Minitest::Test
         amount: { currency: "GHS", value: 500 },
         created_at: "2026-08-31T12:01:00Z"
       },
-      Commerce::Models::BalanceTransaction
+      Inttegro::Models::BalanceTransaction
     )
     assert_equal "rf_123", refund.source_id
     assert refund.valid_source?
 
-    contradictory = Commerce::Models::BalanceTransaction.new(
+    contradictory = Inttegro::Models::BalanceTransaction.new(
       id: "bt_invalid",
-      type: Commerce::Enums::BalanceTransactionType::REFUND,
+      type: Inttegro::Enums::BalanceTransactionType::REFUND,
       payment_id: "py_123",
       refund_id: "rf_123",
       order_id: "or_123",
-      amount: Commerce::Models::BalanceTransactionAmount.new(currency: "GHS", value: 500),
+      amount: Inttegro::Models::BalanceTransactionAmount.new(currency: "GHS", value: 500),
       created_at: "2026-08-31T12:01:00Z"
     )
     refute contradictory.valid_source?
   end
 
   def test_order_payment_deserializes_embedded_balance_transaction
-    order = Commerce::Models.deserialize(
+    order = Inttegro::Models.deserialize(
       {
         "id" => "or_123",
         "customer" => { "id" => "cu_123", "guest" => false, "name" => "Test User" },
@@ -259,17 +259,17 @@ class CommerceClientTest < Minitest::Test
           }
         }
       },
-      Commerce::Models::Order
+      Inttegro::Models::Order
     )
 
-    assert_instance_of Commerce::Models::BalanceTransaction, order.payment.balance_transaction
-    assert_equal Commerce::Enums::BalanceTransactionType::PAYMENT, order.payment.balance_transaction.type
+    assert_instance_of Inttegro::Models::BalanceTransaction, order.payment.balance_transaction
+    assert_equal Inttegro::Enums::BalanceTransactionType::PAYMENT, order.payment.balance_transaction.type
   end
 
   def test_order_document_delivery_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.orders.send_invoice(order_id: "or_123")
     client.orders.send_receipt(order_id: "or_123")
@@ -293,9 +293,9 @@ class CommerceClientTest < Minitest::Test
       headers: { "Content-Type" => "application/json" }
     )
 
-    client = Commerce::Client.new(token: "bad-key", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "bad-key", base_url: "https://api.inttegro.com", adapter: adapter)
 
-    error = assert_raises(Commerce::AuthenticationError) do
+    error = assert_raises(Inttegro::AuthenticationError) do
       client.orders.lookup(order_id: "or_123")
     end
 
@@ -304,7 +304,7 @@ class CommerceClientTest < Minitest::Test
   end
 
   def test_custom_adapter_responses_are_validated_at_the_transport_boundary
-    client = Commerce::Client.new(
+    client = Inttegro::Client.new(
       token: "test",
       base_url: "https://api.inttegro.com",
       adapter: ->(_uri, _request) { Object.new }
@@ -318,7 +318,7 @@ class CommerceClientTest < Minitest::Test
   def test_read_style_posts_do_not_generate_idempotency_metadata
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.orders.lookup(order_id: "or_123", idempotency_key: "legacy")
 
@@ -330,7 +330,7 @@ class CommerceClientTest < Minitest::Test
   def test_message_templates_create_uses_request_meta_idempotency_by_default
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.message_templates.create({
       name: "welcome_sms",
@@ -348,7 +348,7 @@ class CommerceClientTest < Minitest::Test
   def test_apps_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.apps.create(name: "My App")
     client.apps.lookup
@@ -365,7 +365,7 @@ class CommerceClientTest < Minitest::Test
   def test_otp_initiate_uses_initiate_endpoint
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.otp.initiate(
       recipient: "+233",
@@ -381,7 +381,7 @@ class CommerceClientTest < Minitest::Test
   def test_chime_schedule_and_broadcast_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.chimes.schedule(recipients: ["+233"], full_message: "hello", send_after: "2026-01-18T10:00:00Z")
     client.chimes.broadcast(recipients: ["+233"], message_template: "hello", service_name: "test")
@@ -394,7 +394,7 @@ class CommerceClientTest < Minitest::Test
   def test_schedule_and_broadcast_lookup_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.schedules.lookup(schedule_id: "sch_123")
     client.schedules.cancel(schedule_id: "sch_123")
@@ -411,7 +411,7 @@ class CommerceClientTest < Minitest::Test
   def test_payout_cancel_endpoint_matches_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.payouts.cancel(payout_id: "po_123")
 
@@ -421,7 +421,7 @@ class CommerceClientTest < Minitest::Test
   def test_customers_and_products_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
-    client = Commerce::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
     client.customers.create(name: "Jane Doe")
     client.customers.lookup(customer_id: "cu_123")
@@ -459,7 +459,7 @@ class CommerceClientTest < Minitest::Test
   private
 
   def openapi_spec_paths
-    spec_path = ENV.fetch("COMMERCE_OPENAPI_SPEC", "")
+    spec_path = ENV.fetch("INTTEGRO_OPENAPI_SPEC", "")
     if spec_path.strip.empty?
       sdk_root = File.expand_path("..", __dir__)
       spec_path = File.expand_path("../../openapi/commerce.yml", sdk_root)
@@ -470,7 +470,7 @@ class CommerceClientTest < Minitest::Test
   end
 
   def implemented_sdk_paths
-    resource_glob = File.expand_path("../lib/commerce/resources/**/*.rb", __dir__)
+    resource_glob = File.expand_path("../lib/inttegro/resources/**/*.rb", __dir__)
     Dir[resource_glob].flat_map do |file|
       File.read(file).scan(
         %r{@http\.(?:get|post|post_model|post_object|post_with_headers|post_multipart|post_multipart_model|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
@@ -479,7 +479,7 @@ class CommerceClientTest < Minitest::Test
   end
 
   def resource_sources
-    resource_glob = File.expand_path("../lib/commerce/resources/**/*.rb", __dir__)
+    resource_glob = File.expand_path("../lib/inttegro/resources/**/*.rb", __dir__)
     Dir[resource_glob].sort.map { |file| File.read(file) }.join("\n")
   end
 
@@ -492,9 +492,9 @@ class CommerceClientTest < Minitest::Test
   end
 
   def minimal_response_body(path)
-    model = Commerce::Operations::RESPONSE_MODELS[path]
-    model ||= Commerce::Models::OrderResponse if path == "/orders/new"
-    model ||= Commerce::Models::CancelOTPResponse if path == "/otp/cancel"
+    model = Inttegro::Operations::RESPONSE_MODELS[path]
+    model ||= Inttegro::Models::OrderResponse if path == "/orders/new"
+    model ||= Inttegro::Models::CancelOTPResponse if path == "/otp/cancel"
     return {} unless model
 
     minimal_struct_body(model)

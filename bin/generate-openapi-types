@@ -88,9 +88,9 @@ class OpenAPITypeGenerator
     collect_nested_types
 
     {
-      "lib/commerce/generated/enums.rb" => render_enums,
-      "lib/commerce/generated/models.rb" => render_models,
-      "lib/commerce/generated/operations.rb" => render_operations
+      "lib/inttegro/generated/enums.rb" => render_enums,
+      "lib/inttegro/generated/models.rb" => render_models,
+      "lib/inttegro/generated/operations.rb" => render_operations
     }
   end
 
@@ -196,7 +196,7 @@ class OpenAPITypeGenerator
     return "Object" unless schema.is_a?(Hash)
 
     if schema["$ref"]
-      return "Commerce::Models::#{constantize(schema.fetch("$ref").split("/").last)}"
+      return "Inttegro::Models::#{constantize(schema.fetch("$ref").split("/").last)}"
     end
 
     if schema["nullable"] && !ignore_nullable
@@ -205,7 +205,7 @@ class OpenAPITypeGenerator
     end
 
     if schema["enum"] && schema["type"] == "string"
-      return "Commerce::Enums::#{enum_name(schema.fetch("enum"), candidate)}"
+      return "Inttegro::Enums::#{enum_name(schema.fetch("enum"), candidate)}"
     end
 
     if object_schema?(schema)
@@ -217,7 +217,7 @@ class OpenAPITypeGenerator
       end
 
       name = @schema_names[schema.object_id] || register_inline_schema(candidate, schema, origin)
-      return "Commerce::Models::#{name}"
+      return "Inttegro::Models::#{name}"
     end
 
     variants = schema["oneOf"] || schema["anyOf"]
@@ -369,7 +369,7 @@ class OpenAPITypeGenerator
       expressions << type_expression(node.schema, node.name, node.origin)
     end
 
-    expressions.flat_map { |expression| expression.scan(/Commerce::Models::([A-Za-z0-9_]+)/).flatten }
+    expressions.flat_map { |expression| expression.scan(/Inttegro::Models::([A-Za-z0-9_]+)/).flatten }
       .reject { |name| name == node.name }
       .uniq
   end
@@ -416,7 +416,7 @@ class OpenAPITypeGenerator
 
       require "sorbet-runtime"
 
-      module Commerce
+      module Inttegro
         module Enums
       #{classes.join("\n\n")}
 
@@ -464,7 +464,7 @@ class OpenAPITypeGenerator
       require "sorbet-runtime"
       require_relative "enums"
 
-      module Commerce
+      module Inttegro
         module Models
       #{definitions.join("\n\n")}
         end
@@ -504,7 +504,7 @@ class OpenAPITypeGenerator
       require "sorbet-runtime"
       require_relative "models"
 
-      module Commerce
+      module Inttegro
         module Operations
           RESPONSE_MODELS = T.let({
       #{response_entries}
@@ -526,7 +526,7 @@ class OpenAPITypeGenerator
 end
 
 sdk_root = Pathname.new(__dir__).join("..").expand_path
-spec_path = Pathname.new(ENV.fetch("COMMERCE_OPENAPI_SPEC", sdk_root.join("..", "..", "openapi", "commerce.yml").to_s))
+spec_path = Pathname.new(ENV.fetch("INTTEGRO_OPENAPI_SPEC", sdk_root.join("..", "..", "openapi", "commerce.yml").to_s))
 abort "OpenAPI spec not found at #{spec_path}" unless spec_path.file?
 
 spec = YAML.load_file(spec_path)
