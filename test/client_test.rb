@@ -125,6 +125,8 @@ class InttegroClientTest < Minitest::Test
     client.orders.update(order_id: "or_123", number: "ORDER-123-REV2")
     client.chimes.page(page_number: 1, page_size: 20)
     client.balance_transactions.lookup(transaction_id: "bt_123")
+    client.financial_accounts.archive(account_id: "fa_123")
+    client.financial_accounts.verify(account_id: "fa_123")
     client.financial_accounts.reconnect(account_id: "fa_123")
     client.file_references.reconcile(resource: { type: "product", id: "prod_123" }, file_ids: ["file_123"])
     client.keys.generate(label: "Production")
@@ -160,6 +162,8 @@ class InttegroClientTest < Minitest::Test
     assert_includes paths, "/orders/update"
     assert_includes paths, "/chimes/page"
     assert_includes paths, "/balance_transactions/lookup"
+    assert_includes paths, "/financial_accounts/archive"
+    assert_includes paths, "/financial_accounts/verify"
     assert_includes paths, "/financial_accounts/reconnect"
     assert_includes paths, "/file_references/reconcile"
     assert_includes paths, "/keys/generate"
