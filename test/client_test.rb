@@ -62,6 +62,20 @@ class InttegroClientTest < Minitest::Test
     assert_equal "Download", body.fetch("name")
   end
 
+  def test_base_url_trailing_slashes_are_removed
+    requests = []
+    adapter = make_adapter(requests: requests)
+    client = Inttegro::Client.new(
+      token: "test",
+      base_url: "https://api.inttegro.com////",
+      adapter: adapter
+    )
+
+    client.orders.page
+
+    assert_equal "https://api.inttegro.com/orders/page", requests.first.fetch(:uri).to_s
+  end
+
   def test_orders_create_posts_json_and_parses_response
     requests = []
     adapter = make_adapter(

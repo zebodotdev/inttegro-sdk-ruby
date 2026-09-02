@@ -23,5 +23,8 @@ T.assert_type!(client.payouts.enable, Inttegro::Models::EnableAutomaticPayoutsRe
 T.assert_type!(client.otp.initialize_session({}), Inttegro::Models::InitiateOTPResponse)
 T.assert_type!(client.files.contents(file_id: "file_example"), Inttegro::FileDownload)
 
-money = T.let(Inttegro::Models::Money.new(currency: "ghs", value: 1_000), Inttegro::Models::Money)
+T.assert_type!(
+  Inttegro::Models::Money.new(currency: "ghs", value: 1_000),
+  Inttegro::Models::Money
+)
 T.assert_type!(Inttegro::Enums::ProductType::DIGITAL, Inttegro::Enums::ProductType)

@@ -41,7 +41,10 @@ module Inttegro
       @api_key = T.let(api_key || "", String)
       raise ArgumentError, "api_key is required" if @api_key.strip.empty?
 
-      @base_url = T.let(base_url&.sub(%r{/*$}, "") || DEFAULT_BASE_URL, String)
+      normalized_base_url = T.let(base_url || DEFAULT_BASE_URL, String)
+      end_index = T.let(normalized_base_url.length, Integer)
+      end_index -= 1 while end_index.positive? && normalized_base_url.getbyte(end_index - 1) == 47
+      @base_url = T.let(T.must(normalized_base_url[0, end_index]), String)
       @read_timeout = T.let(read_timeout, T.nilable(Numeric))
       @open_timeout = T.let(open_timeout, T.nilable(Numeric))
       @adapter = T.let(adapter, T.nilable(Types::Adapter))
