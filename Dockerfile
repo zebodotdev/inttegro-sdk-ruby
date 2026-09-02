@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 
-FROM ruby:3.3-alpine AS base
+FROM ruby:3.3-alpine@sha256:2f763b37070564bb00b736f1d4dba6e8f8d203b5f93b94463879fd8d79966f28 AS base
 WORKDIR /app
 RUN apk add --no-cache build-base git
 COPY Gemfile Gemfile.lock inttegro.gemspec Rakefile ./
