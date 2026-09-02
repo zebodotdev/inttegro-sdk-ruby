@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [2.0.0] - 2026-09-02
+
 - Breaking: moved generated request, response, and domain types from `Inttegro::Models` to `Inttegro`.
 - Breaking: moved generated enum types from `Inttegro::Enums` to `Inttegro`.
 - Renamed the generated API error schema to `Inttegro::ErrorPayload` to avoid colliding with the SDK exception.
