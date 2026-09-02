@@ -9,17 +9,17 @@ module Inttegro
       end
 
       def create(payload)
-        @http.post_model("/purchase_intents/create", Inttegro::Models::PurchaseIntentResponse, payload)
+        @http.post_model("/purchase_intents/create", Inttegro::PurchaseIntentResponse, payload)
       end
 
       def update(payload)
-        @http.post_model("/purchase_intents/update", Inttegro::Models::PurchaseIntentResponse, payload)
+        @http.post_model("/purchase_intents/update", Inttegro::PurchaseIntentResponse, payload)
       end
 
       def cancel(id:)
         @http.post_model(
           "/purchase_intents/cancel",
-          Inttegro::Models::PurchaseIntentResponse,
+          Inttegro::PurchaseIntentResponse,
           { id: id }
         )
       end
@@ -27,7 +27,7 @@ module Inttegro
       def lookup(id:)
         @http.post_model(
           "/purchase_intents/lookup",
-          Inttegro::Models::PurchaseIntentResponse,
+          Inttegro::PurchaseIntentResponse,
           { id: id }
         )
       end
@@ -35,7 +35,7 @@ module Inttegro
       def page(payload = {})
         @http.post_model(
           "/purchase_intents/page",
-          Inttegro::Models::PagePurchaseIntentsResponse,
+          Inttegro::PagePurchaseIntentsResponse,
           payload || {}
         )
       end

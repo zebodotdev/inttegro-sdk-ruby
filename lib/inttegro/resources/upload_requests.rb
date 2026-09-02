@@ -11,7 +11,7 @@ module Inttegro
       def create(payload, idempotency_key: nil)
         @http.post_model(
           "/upload_requests/create",
-          Inttegro::Models::UploadRequestResponse,
+          Inttegro::UploadRequestResponse,
           payload,
           headers: headers(idempotency_key)
         )
@@ -20,19 +20,19 @@ module Inttegro
       def lookup(id:)
         @http.post_model(
           "/upload_requests/lookup",
-          Inttegro::Models::UploadRequestWithAttemptResponse,
+          Inttegro::UploadRequestWithAttemptResponse,
           { id: id }
         )
       end
 
       def page(payload = {})
-        @http.post_model("/upload_requests/page", Inttegro::Models::UploadRequestPageResponse, payload || {})
+        @http.post_model("/upload_requests/page", Inttegro::UploadRequestPageResponse, payload || {})
       end
 
       def cancel(payload, idempotency_key: nil)
         @http.post_model(
           "/upload_requests/cancel",
-          Inttegro::Models::UploadRequestResponse,
+          Inttegro::UploadRequestResponse,
           payload,
           headers: headers(idempotency_key)
         )
@@ -41,7 +41,7 @@ module Inttegro
       def review(payload, idempotency_key: nil)
         @http.post_model(
           "/upload_requests/review",
-          Inttegro::Models::UploadRequestWithAttemptResponse,
+          Inttegro::UploadRequestWithAttemptResponse,
           payload,
           headers: headers(idempotency_key)
         )
@@ -50,7 +50,7 @@ module Inttegro
       def fulfill(upload_url:, file:)
         @http.post_multipart_model(
           upload_url,
-          Inttegro::Models::FulfillUploadRequestResponse,
+          Inttegro::FulfillUploadRequestResponse,
           files: { file: file },
           authenticated: false
         )

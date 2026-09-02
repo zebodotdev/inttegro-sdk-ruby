@@ -5,6 +5,16 @@ require "pathname"
 require "yaml"
 
 class OpenAPITypeGenerator
+  IGNORED_LEGACY_COMPONENT_SCHEMAS = ["OrderCreateResponse"].freeze
+  MODEL_NAME_OVERRIDES = {
+    "Error" => "ErrorPayload",
+    "OrderResponse" => "OrderEnvelope",
+    "FinalizeOrderResponse" => "FinalizeOrderEnvelope",
+    "CompleteOrderResponse" => "CompleteOrderEnvelope",
+    "OrderDocumentDeliveryResponse" => "OrderDocumentDeliveryResult",
+    "PageOrdersResponse" => "PageOrdersEnvelope",
+    "PageOrdersEnvelopePage" => "OrderPage"
+  }.freeze
   HTTP_METHODS = %w[get post put patch delete].freeze
   SUCCESS_STATUS = /\A2\d\d\z/
   PREFERRED_ENUM_NAMES = {
@@ -17,7 +27,7 @@ class OpenAPITypeGenerator
     ["succeeded", "failed"] => "SecretKeyAuthResult",
     ["uploading", "processing", "available", "failed", "deleted"] => "FileStatus",
     ["attachment", "inline"] => "FileDisposition",
-    ["stream", "redirect"] => "FileDelivery",
+    ["stream", "redirect"] => "FileContentsDeliveryMode",
     ["pending", "passed", "failed", "skipped"] => "FileScanStatus",
     ["direct", "upload_request", "service"] => "FileSourceType",
     ["identity", "br"] => "FileStorageEncoding",
@@ -77,8 +87,12 @@ class OpenAPITypeGenerator
     @enums = {}
     @operations = []
 
-    @component_schemas.each_key { |name| reserve_name(name) }
+    @component_schemas.each_key do |name|
+      reserve_name(name) unless IGNORED_LEGACY_COMPONENT_SCHEMAS.include?(name)
+    end
     @component_schemas.each do |name, schema|
+      next if IGNORED_LEGACY_COMPONENT_SCHEMAS.include?(name)
+
       register_named_schema(name, schema, "components.schemas.#{name}")
     end
   end
@@ -196,7 +210,7 @@ class OpenAPITypeGenerator
     return "Object" unless schema.is_a?(Hash)
 
     if schema["$ref"]
-      return "Inttegro::Models::#{constantize(schema.fetch("$ref").split("/").last)}"
+      return "Inttegro::#{constantize(schema.fetch("$ref").split("/").last)}"
     end
 
     if schema["nullable"] && !ignore_nullable
@@ -205,7 +219,7 @@ class OpenAPITypeGenerator
     end
 
     if schema["enum"] && schema["type"] == "string"
-      return "Inttegro::Enums::#{enum_name(schema.fetch("enum"), candidate)}"
+      return "Inttegro::#{enum_name(schema.fetch("enum"), candidate)}"
     end
 
     if object_schema?(schema)
@@ -217,7 +231,7 @@ class OpenAPITypeGenerator
       end
 
       name = @schema_names[schema.object_id] || register_inline_schema(candidate, schema, origin)
-      return "Inttegro::Models::#{name}"
+      return "Inttegro::#{name}"
     end
 
     variants = schema["oneOf"] || schema["anyOf"]
@@ -340,6 +354,7 @@ class OpenAPITypeGenerator
 
   def constantize(value)
     text = value.to_s
+    return MODEL_NAME_OVERRIDES.fetch(text) if MODEL_NAME_OVERRIDES.key?(text)
     return text if text.match?(/\A[A-Z][A-Za-z0-9]*\z/)
 
     text = text
@@ -369,7 +384,7 @@ class OpenAPITypeGenerator
       expressions << type_expression(node.schema, node.name, node.origin)
     end
 
-    expressions.flat_map { |expression| expression.scan(/Inttegro::Models::([A-Za-z0-9_]+)/).flatten }
+    expressions.flat_map { |expression| expression.scan(/Inttegro::([A-Za-z0-9_]+)/).flatten }
       .reject { |name| name == node.name }
       .uniq
   end
@@ -396,19 +411,18 @@ class OpenAPITypeGenerator
 
   def render_enums
     classes = @enums.sort_by { |name, _| name }.map do |name, values|
-      constants = values.map do |value|
-        "        #{enum_constant(value)} = new(#{value.inspect})"
-      end.join("\n")
-      <<~RUBY.rstrip
-        class #{name} < T::Enum
-          enums do
-      #{constants}
-          end
-        end
-      RUBY
+      [
+        "class #{name} < T::Enum",
+        "  enums do",
+        *values.map { |value| "    #{enum_constant(value)} = new(#{value.inspect})" },
+        "  end",
+        "end"
+      ].join("\n")
     end
+    indented_classes = classes.map do |definition|
+      definition.lines.map { |line| line.strip.empty? ? line : "  #{line}" }.join
+    end.join("\n\n")
 
-    catalog = @enums.keys.sort.map { |name| "      #{name}: #{name}" }.join(",\n")
     <<~RUBY
       # frozen_string_literal: true
       # typed: strict
@@ -417,19 +431,13 @@ class OpenAPITypeGenerator
       require "sorbet-runtime"
 
       module Inttegro
-        module Enums
-      #{classes.join("\n\n")}
-
-          CATALOG = T.let({
-      #{catalog}
-          }.freeze, T::Hash[Symbol, T::Class[T::Enum]])
-        end
+      #{indented_classes}
       end
     RUBY
   end
 
   def render_models
-    definitions = ordered_nodes.map do |node|
+    definitions = ordered_nodes.filter_map do |node|
       if object_schema?(node.schema)
         required = required_for(node.schema)
         props = properties_for(node.schema).map do |property, schema|
@@ -452,9 +460,17 @@ class OpenAPITypeGenerator
         RUBY
       else
         expression = type_expression(node.schema, node.name, node.origin)
+        next if expression == "Inttegro::#{node.name}"
+
         "#{node.name} = T.type_alias { #{expression} }"
       end
     end
+    indented_definitions = definitions.map do |definition|
+      lines = definition.lines
+      content_lines = lines.reject { |line| line.strip.empty? }
+      margin = content_lines.map { |line| line[/\A */].length }.min || 0
+      lines.map { |line| line.strip.empty? ? line : "  #{line[margin..]}" }.join
+    end.join("\n\n")
 
     <<~RUBY
       # frozen_string_literal: true
@@ -465,9 +481,7 @@ class OpenAPITypeGenerator
       require_relative "enums"
 
       module Inttegro
-        module Models
-      #{definitions.join("\n\n")}
-        end
+      #{indented_definitions}
       end
     RUBY
   end

@@ -38,10 +38,10 @@ module Inttegro
       # @option payload [String] :statement_descriptor_prefix Static prefix, 2-10 characters, used to build prefix*order_id; mutually exclusive with statement_descriptor
       # @option payload [Boolean] :finalize Whether to explicitly finalize order (default: false)
       #
-      # @return [Inttegro::Models::OrderResponse] Response containing the created order
+      # @return [Inttegro::Order] Created order
       #
       # @example Create order with new customer and execute payment
-      #   result = client.orders.create(
+      #   order = client.orders.create(
       #     request_meta: {
       #       idempotency_key: 'order_2025_001'
       #     },
@@ -77,7 +77,7 @@ module Inttegro
       #     }
       #   )
       #
-      #   puts "Created order: #{result.order.id}"
+      #   puts "Created order: #{order.id}"
       #
       # @example Create order with existing customer
       #   result = client.orders.create(
@@ -100,11 +100,11 @@ module Inttegro
       # @see https://studio.inttegro.com/accept-a-payment for payment flow guide
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def create(payload)
-        @http.post_model("/orders/create", Inttegro::Models::OrderResponse, payload)
+        @http.post_model("/orders/create", Inttegro::OrderEnvelope, payload).order
       end
 
       def new(payload)
-        @http.post_model("/orders/new", Inttegro::Models::OrderResponse, payload)
+        @http.post_model("/orders/new", Inttegro::OrderEnvelope, payload).order
       end
 
       # Retrieve an existing order by its ID.
@@ -115,23 +115,23 @@ module Inttegro
       # @param order_id [String] Unique identifier of the order to retrieve (required)
       # @param options [Hash] Additional options (currently unused)
       #
-      # @return [Inttegro::Models::OrderResponse] Response containing the complete order object
+      # @return [Inttegro::Order] Complete order object
       #
       # @example Lookup an order
-      #   result = client.orders.lookup(
+      #   order = client.orders.lookup(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
       #   )
       #
-      #   puts "Order status: #{result.order.status.serialize}"
+      #   puts "Order status: #{order.status.serialize}"
       #
       # @see https://studio.inttegro.com/orders for API reference
       def lookup(order_id:, **options)
         body = { order_id: order_id }.merge(options)
-        @http.post_model("/orders/lookup", Inttegro::Models::OrderResponse, body)
+        @http.post_model("/orders/lookup", Inttegro::OrderEnvelope, body).order
       end
 
       def update(payload)
-        @http.post_model("/orders/update", Inttegro::Models::OrderResponse, payload)
+        @http.post_model("/orders/update", Inttegro::OrderEnvelope, payload).order
       end
 
       # Initiate payment for an existing order.
@@ -141,7 +141,7 @@ module Inttegro
       # 2. New payment method: Include payment_method_data with inline payment details
       # 3. Offline payment: Set paid_out_of_band to true for cash, bank transfer, or check payments
       #
-      # When payment requires customer confirmation (e.g., OTP), the response includes a next_action field.
+      # When payment requires customer confirmation (e.g., OTP), the returned order includes a next_action field.
       #
       # @param payload [Hash] Payment parameters
       # @option payload [String] :order_id Unique identifier of the order to pay (required)
@@ -149,10 +149,10 @@ module Inttegro
       # @option payload [String] :payment_method_id ID of a saved payment method to use
       # @option payload [Boolean] :paid_out_of_band Set to true if payment received outside Inttegro (default: false)
       #
-      # @return [Inttegro::Models::OrderResponse] Response containing order and payment state
+      # @return [Inttegro::Order] Updated order and payment state
       #
       # @example Pay with inline mobile money
-      #   result = client.orders.pay(
+      #   order = client.orders.pay(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb',
       #     payment_method_data: {
       #       type: 'mobile_money',
@@ -163,8 +163,7 @@ module Inttegro
       #     }
       #   )
       #
-      #   order = result.order
-      #   if order.payment&.next_action&.type == Inttegro::Enums::PaymentNextActionType::CONFIRM_PAYMENT
+      #   if order.payment&.next_action&.type == Inttegro::PaymentNextActionType::CONFIRM_PAYMENT
       #     # Customer needs to provide OTP sent to their phone
       #     puts 'Please enter the OTP sent to your phone'
       #   end
@@ -184,7 +183,7 @@ module Inttegro
       # @see https://studio.inttegro.com/accept-a-payment for payment flow guide
       # @see https://studio.inttegro.com/charge-repeat-customers for saved payment methods
       def pay(payload)
-        @http.post_model("/orders/pay", Inttegro::Models::OrderResponse, payload)
+        @http.post_model("/orders/pay", Inttegro::OrderEnvelope, payload).order
       end
 
       # Confirm a pending payment using a verification token (e.g., OTP sent to customer's phone).
@@ -196,22 +195,21 @@ module Inttegro
       # @option payload [String] :order_id Unique identifier of the order being paid (required)
       # @option payload [String] :token Verification token provided by customer (required, typically 6 digits)
       #
-      # @return [Inttegro::Models::OrderResponse] Updated order with payment status
+      # @return [Inttegro::Order] Updated order with payment status
       #
       # @example Confirm payment with OTP
-      #   result = client.orders.confirm_payment(
+      #   order = client.orders.confirm_payment(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb',
       #     token: '123456'
       #   )
       #
-      #   order = result.order
-      #   if order.payment&.status == Inttegro::Enums::OrderPaymentStatus::PAID
+      #   if order.payment&.status == Inttegro::OrderPaymentStatus::PAID
       #     puts 'Payment confirmed successfully!'
       #   end
       #
       # @see https://studio.inttegro.com/accept-a-payment for complete payment flow
       def confirm_payment(payload)
-        @http.post_model("/orders/confirm_payment", Inttegro::Models::OrderResponse, payload)
+        @http.post_model("/orders/confirm_payment", Inttegro::OrderEnvelope, payload).order
       end
 
       # Request a new confirmation token to be sent to the customer (e.g., resend OTP).
@@ -222,7 +220,7 @@ module Inttegro
       # @param order_id [String] Unique identifier of the order requiring confirmation (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Inttegro::Models::OrderResponse] Updated order
+      # @return [Inttegro::Order] Updated order
       #
       # @example Resend OTP to customer
       #   result = client.orders.request_confirmation(
@@ -235,12 +233,12 @@ module Inttegro
       def request_confirmation(order_id:, request_meta: nil)
         @http.post_model(
           "/orders/request_confirmation",
-          Inttegro::Models::OrderResponse,
+          Inttegro::OrderEnvelope,
           {
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("request_confirmation", order_id)
           }
-        )
+        ).order
       end
 
       # Finalize an order to make it immutable and ready for payment or fulfillment.
@@ -251,36 +249,37 @@ module Inttegro
       # @param order_id [String] Unique identifier of the order to finalize (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Inttegro::Models::FinalizeOrderResponse] Finalized order object
+      # @return [Inttegro::Order] Finalized order object
       #
       # @example Finalize an order
-      #   result = client.orders.finalize(
+      #   order = client.orders.finalize(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
       #   )
       #
-      #   puts "Order finalized at: #{result.order&.sealed_at}"
+      #   puts "Order finalized at: #{order.sealed_at}"
       #
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def finalize(order_id:, request_meta: nil)
-        @http.post_model(
+        response = @http.post_model(
           "/orders/finalize",
-          Inttegro::Models::FinalizeOrderResponse,
+          Inttegro::FinalizeOrderEnvelope,
           {
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("finalize", order_id)
           }
         )
+        T.must(response.order)
       end
 
       # Send the hosted invoice link for an existing order.
       #
       # @param order_id [String] Unique identifier of the order whose invoice should be sent (required)
       #
-      # @return [Inttegro::Models::OrderDocumentDeliveryResponse] Order and delivery details
+      # @return [Inttegro::OrderDocumentDeliveryResult] Order and delivery details
       def send_invoice(order_id:)
         @http.post_model(
           "/orders/send_invoice",
-          Inttegro::Models::OrderDocumentDeliveryResponse,
+          Inttegro::OrderDocumentDeliveryResult,
           { order_id: order_id }
         )
       end
@@ -289,11 +288,11 @@ module Inttegro
       #
       # @param order_id [String] Unique identifier of the paid order whose receipt should be sent (required)
       #
-      # @return [Inttegro::Models::OrderDocumentDeliveryResponse] Order and delivery details
+      # @return [Inttegro::OrderDocumentDeliveryResult] Order and delivery details
       def send_receipt(order_id:)
         @http.post_model(
           "/orders/send_receipt",
-          Inttegro::Models::OrderDocumentDeliveryResponse,
+          Inttegro::OrderDocumentDeliveryResult,
           { order_id: order_id }
         )
       end
@@ -308,14 +307,14 @@ module Inttegro
       # @option payload [String] :order_id Unique identifier of the order to complete (required)
       # @option payload [Boolean] :paid_out_of_band Set to true if payment received outside Inttegro (default: false)
       #
-      # @return [Inttegro::Models::CompleteOrderResponse] Completed order object
+      # @return [Inttegro::Order] Completed order object
       #
       # @example Complete order after fulfillment
-      #   result = client.orders.complete(
+      #   order = client.orders.complete(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
       #   )
       #
-      #   puts "Order completed at: #{result.order&.completed_at}"
+      #   puts "Order completed at: #{order.completed_at}"
       #
       # @example Complete order with offline payment
       #   result = client.orders.complete(
@@ -325,7 +324,8 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def complete(payload)
-        @http.post_model("/orders/complete", Inttegro::Models::CompleteOrderResponse, payload)
+        response = @http.post_model("/orders/complete", Inttegro::CompleteOrderEnvelope, payload)
+        T.must(response.order)
       end
 
       # Cancel an order, stopping payment execution and preventing further processing.
@@ -336,38 +336,38 @@ module Inttegro
       # @param order_id [String] Unique identifier of the order to cancel (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Inttegro::Models::OrderResponse] Cancelled order object
+      # @return [Inttegro::Order] Cancelled order object
       #
       # @example Cancel an order
-      #   result = client.orders.cancel(
+      #   order = client.orders.cancel(
       #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
       #   )
       #
-      #   puts "Order #{result.order.id} has been cancelled"
+      #   puts "Order #{order.id} has been cancelled"
       #
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def cancel(order_id:, request_meta: nil)
         @http.post_model(
           "/orders/cancel",
-          Inttegro::Models::OrderResponse,
+          Inttegro::OrderEnvelope,
           {
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("cancel", order_id)
           }
-        )
+        ).order
       end
 
       # Create a refund through the /orders/refund compatibility alias.
       #
-      # This accepts the same line-item payload and returns the same refund response
-      # as client.refunds.create. New integrations should use that canonical method.
+      # This accepts the same line-item payload as client.refunds.create and returns
+      # the created Refund directly. New integrations should use that canonical method.
       #
       # @param payload [Hash] Create-refund payload containing order_id, reason, and line_items
       #
-      # @return [Inttegro::Models::RefundResponse] Created refund
+      # @return [Inttegro::Refund] Created refund
       #
       # @example Refund an order
-      #   result = client.orders.refund(
+      #   refund = client.orders.refund(
       #     order_id: 'or_0123456789abcdefghijklmnopqrstuvwxyzABCD',
       #     reason: 'requested_by_customer',
       #     line_items: [{
@@ -376,45 +376,43 @@ module Inttegro
       #     }]
       #   )
       #
-      #   puts "Refund created: #{result.refund&.id}"
+      #   puts "Refund created: #{refund.id}"
       #
       # @see https://studio.inttegro.com/refunds
       def refund(payload)
-        @http.post_model("/orders/refund", Inttegro::Models::RefundResponse, payload)
+        @http.post_model("/orders/refund", Inttegro::RefundResponse, payload).refund
       end
 
       # Retrieve a paginated list of orders.
       #
-      # Returns orders in reverse chronological order (most recent first). Use the has_more field
-      # and page parameter to navigate through results. Supports filtering by status and time range.
+      # Returns orders in reverse chronological order (most recent first).
       #
       # @param payload [Hash] Pagination and filter parameters (optional)
-      # @option payload [Integer] :page Page number to retrieve (minimum 1, default: 1)
-      # @option payload [Integer] :per_page Number of results per page (minimum 1, maximum 100, default: 10)
-      # @option payload [String] :status Filter by order status (e.g., 'paid', 'requires_payment', 'completed')
-      # @option payload [String] :created_after Filter orders created after this timestamp (ISO 8601)
-      # @option payload [String] :created_before Filter orders created before this timestamp (ISO 8601)
+      # @option payload [Integer] :page_number Zero-based page index to retrieve (0-10)
+      # @option payload [Integer] :page_size Number of orders per page (1-256)
+      # @option payload [String] :customer_id Optional customer whose orders should be returned
       #
-      # @return [Inttegro::Models::PageOrdersResponse] Paginated list of orders
+      # @return [Inttegro::OrderPage] Paginated list of orders
       #
       # @example Get first page of orders
-      #   result = client.orders.page(
-      #     per_page: 25,
-      #     page: 1
+      #   page = client.orders.page(
+      #     page_size: 25,
+      #     page_number: 0
       #   )
       #
-      #   puts "Retrieved #{result.page&.orders&.length || 0} orders"
+      #   puts "Retrieved #{page.orders&.length || 0} orders"
       #
-      # @example Filter by status
-      #   paid_orders = client.orders.page(
-      #     status: 'paid',
-      #     per_page: 50
+      # @example Restrict the page to one customer
+      #   customer_orders = client.orders.page(
+      #     customer_id: 'cu_123',
+      #     page_size: 50
       #   )
       #
       # @see https://studio.inttegro.com/pagination for pagination guide
       # @see https://studio.inttegro.com/orders for API reference
       def page(payload = {})
-        @http.post_model("/orders/page", Inttegro::Models::PageOrdersResponse, payload || {})
+        response = @http.post_model("/orders/page", Inttegro::PageOrdersEnvelope, payload || {})
+        T.must(response.page)
       end
 
       private

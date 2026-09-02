@@ -9,7 +9,7 @@ module Inttegro
       end
 
       def countries
-        @http.post_model("/spec/countries", Inttegro::Models::ListCountrySpecsResponse, {})
+        @http.post_model("/spec/countries", Inttegro::ListCountrySpecsResponse, {})
       end
     end
   end

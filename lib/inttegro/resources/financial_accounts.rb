@@ -11,7 +11,7 @@ module Inttegro
       def create(payload)
         @http.post_model(
           "/financial_accounts/create",
-          Inttegro::Models::CreateFinancialAccountResponse,
+          Inttegro::CreateFinancialAccountResponse,
           payload
         )
       end
@@ -19,7 +19,7 @@ module Inttegro
       def lookup(account_id:)
         @http.post_model(
           "/financial_accounts/lookup",
-          Inttegro::Models::LookupFinancialAccountResponse,
+          Inttegro::LookupFinancialAccountResponse,
           { account_id: account_id }
         )
       end
@@ -27,7 +27,7 @@ module Inttegro
       def connect(payload)
         @http.post_model(
           "/financial_accounts/connect",
-          Inttegro::Models::ConnectFinancialAccountResponse,
+          Inttegro::ConnectFinancialAccountResponse,
           payload
         )
       end
@@ -35,7 +35,7 @@ module Inttegro
       def page(payload = {})
         @http.post_model(
           "/financial_accounts/page",
-          Inttegro::Models::PageFinancialAccountsResponseInline,
+          Inttegro::PageFinancialAccountsResponseInline,
           payload || {}
         )
       end
@@ -43,7 +43,7 @@ module Inttegro
       def update(payload)
         @http.post_model(
           "/financial_accounts/update",
-          Inttegro::Models::UpdateFinancialAccountResponse,
+          Inttegro::UpdateFinancialAccountResponse,
           payload
         )
       end
@@ -51,7 +51,7 @@ module Inttegro
       def enable_push(account_id:)
         @http.post_model(
           "/financial_accounts/enable_push",
-          Inttegro::Models::EnableFinancialAccountPushResponse,
+          Inttegro::EnableFinancialAccountPushResponse,
           { account_id: account_id }
         )
       end
@@ -61,7 +61,7 @@ module Inttegro
         payload[:unset_as_payout_destination] = unset_as_payout_destination unless unset_as_payout_destination.nil?
         @http.post_model(
           "/financial_accounts/disable_push",
-          Inttegro::Models::DisableFinancialAccountPushResponse,
+          Inttegro::DisableFinancialAccountPushResponse,
           payload
         )
       end
@@ -69,7 +69,7 @@ module Inttegro
       def enable_pull(account_id:)
         @http.post_model(
           "/financial_accounts/enable_pull",
-          Inttegro::Models::EnableFinancialAccountPullResponse,
+          Inttegro::EnableFinancialAccountPullResponse,
           { account_id: account_id }
         )
       end
@@ -77,7 +77,7 @@ module Inttegro
       def disable_pull(account_id:)
         @http.post_model(
           "/financial_accounts/disable_pull",
-          Inttegro::Models::DisableFinancialAccountPullResponse,
+          Inttegro::DisableFinancialAccountPullResponse,
           { account_id: account_id }
         )
       end
@@ -87,7 +87,7 @@ module Inttegro
         payload[:unset_as_payout_destination] = unset_as_payout_destination unless unset_as_payout_destination.nil?
         @http.post_model(
           "/financial_accounts/disconnect",
-          Inttegro::Models::DisconnectFinancialAccountResponse,
+          Inttegro::DisconnectFinancialAccountResponse,
           payload
         )
       end
@@ -95,7 +95,7 @@ module Inttegro
       def reconnect(account_id:)
         @http.post_model(
           "/financial_accounts/reconnect",
-          Inttegro::Models::ReconnectFinancialAccountResponse,
+          Inttegro::ReconnectFinancialAccountResponse,
           { account_id: account_id }
         )
       end

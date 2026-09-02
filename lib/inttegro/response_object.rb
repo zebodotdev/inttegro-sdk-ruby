@@ -30,7 +30,7 @@ module Inttegro
 
     sig { params(klass: T::Class[T::Struct]).returns(T::Struct) }
     def deserialize(klass)
-      Inttegro::Models.deserialize(to_h, klass)
+      Inttegro.deserialize(to_h, klass)
     end
 
     sig { params(name: Symbol, include_private: T::Boolean).returns(T::Boolean) }

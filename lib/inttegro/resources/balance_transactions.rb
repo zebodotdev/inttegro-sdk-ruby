@@ -11,7 +11,7 @@ module Inttegro
       def lookup(transaction_id:)
         @http.post_model(
           "/balance_transactions/lookup",
-          Inttegro::Models::BalanceTransactionResponse,
+          Inttegro::BalanceTransactionResponse,
           { transaction_id: transaction_id }
         )
       end
@@ -19,7 +19,7 @@ module Inttegro
       def page(payload = {})
         @http.post_model(
           "/balance_transactions/page",
-          Inttegro::Models::BalanceTransactionPageResponse,
+          Inttegro::BalanceTransactionPageResponse,
           payload || {}
         )
       end

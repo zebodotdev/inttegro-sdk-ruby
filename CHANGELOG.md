@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+- Breaking: moved generated request, response, and domain types from `Inttegro::Models` to `Inttegro`.
+- Breaking: moved generated enum types from `Inttegro::Enums` to `Inttegro`.
+- Renamed the generated API error schema to `Inttegro::ErrorPayload` to avoid colliding with the SDK exception.
+
 ## [1.0.0] - 2026-09-01
 
 - Breaking: rename the gem, root module, require paths, and generated RBI namespace to `inttegro` and `Inttegro`.

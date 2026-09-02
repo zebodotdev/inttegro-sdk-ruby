@@ -498,7 +498,7 @@ module Inttegro
       case data
       when Hash
         payload = normalize_payload(data)
-        model_class ? Inttegro::Models.deserialize(payload, model_class) : ResponseObject.new(payload)
+        model_class ? Inttegro.deserialize(payload, model_class) : ResponseObject.new(payload)
       when Array
         data.each_with_object(T.let([], T::Array[Object])) do |item, values|
           values << wrap_response(item, model_class)
@@ -519,8 +519,8 @@ module Inttegro
 
     sig { params(path: String).returns(T.nilable(T::Class[T::Struct])) }
     def response_model_for(path)
-      return Inttegro::Models::CancelOTPResponse if path == "/otp/cancel"
-      return Inttegro::Models::OrderResponse if path == "/orders/new"
+      return Inttegro::CancelOTPResponse if path == "/otp/cancel"
+      return Inttegro::OrderEnvelope if path == "/orders/new"
 
       Inttegro::Operations::RESPONSE_MODELS[path]
     end

@@ -11,7 +11,7 @@ module Inttegro
       def lookup(schedule_id:)
         @http.post_model(
           "/schedules/lookup",
-          Inttegro::Models::ScheduleLookupResponse,
+          Inttegro::ScheduleLookupResponse,
           { schedule_id: schedule_id }
         )
       end
@@ -19,7 +19,7 @@ module Inttegro
       def cancel(schedule_id:)
         @http.post_model(
           "/schedules/cancel",
-          Inttegro::Models::ScheduleCancelResponse,
+          Inttegro::ScheduleCancelResponse,
           { schedule_id: schedule_id }
         )
       end

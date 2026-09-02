@@ -9,13 +9,13 @@ module Inttegro
       end
 
       def create(payload)
-        @http.post_model("/refunds/create", Inttegro::Models::RefundResponse, payload)
+        @http.post_model("/refunds/create", Inttegro::RefundResponse, payload)
       end
 
       def cancel(refund_id:)
         @http.post_model(
           "/refunds/cancel",
-          Inttegro::Models::RefundResponse,
+          Inttegro::RefundResponse,
           { refund_id: refund_id }
         )
       end
@@ -23,13 +23,13 @@ module Inttegro
       def lookup(refund_id:)
         @http.post_model(
           "/refunds/lookup",
-          Inttegro::Models::RefundResponse,
+          Inttegro::RefundResponse,
           { refund_id: refund_id }
         )
       end
 
       def page(payload)
-        @http.post_model("/refunds/page", Inttegro::Models::RefundPageResponse, payload)
+        @http.post_model("/refunds/page", Inttegro::RefundPageResponse, payload)
       end
     end
   end

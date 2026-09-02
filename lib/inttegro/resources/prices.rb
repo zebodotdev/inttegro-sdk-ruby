@@ -9,31 +9,31 @@ module Inttegro
       end
 
       def create(payload)
-        @http.post_model("/prices/create", Inttegro::Models::PriceResponse, payload)
+        @http.post_model("/prices/create", Inttegro::PriceResponse, payload)
       end
 
       def lookup(price_id:)
-        @http.post_model("/prices/lookup", Inttegro::Models::PriceResponse, { price_id: price_id })
+        @http.post_model("/prices/lookup", Inttegro::PriceResponse, { price_id: price_id })
       end
 
       def page(payload = {})
-        @http.post_model("/prices/page", Inttegro::Models::PricePageResponse, payload || {})
+        @http.post_model("/prices/page", Inttegro::PricePageResponse, payload || {})
       end
 
       def update(payload)
-        @http.post_model("/prices/update", Inttegro::Models::PriceResponse, payload)
+        @http.post_model("/prices/update", Inttegro::PriceResponse, payload)
       end
 
       def activate(price_id:)
-        @http.post_model("/prices/activate", Inttegro::Models::PriceResponse, { price_id: price_id })
+        @http.post_model("/prices/activate", Inttegro::PriceResponse, { price_id: price_id })
       end
 
       def deactivate(price_id:)
-        @http.post_model("/prices/deactivate", Inttegro::Models::PriceResponse, { price_id: price_id })
+        @http.post_model("/prices/deactivate", Inttegro::PriceResponse, { price_id: price_id })
       end
 
       def archive(price_id:)
-        @http.post_model("/prices/archive", Inttegro::Models::PriceResponse, { price_id: price_id })
+        @http.post_model("/prices/archive", Inttegro::PriceResponse, { price_id: price_id })
       end
     end
   end

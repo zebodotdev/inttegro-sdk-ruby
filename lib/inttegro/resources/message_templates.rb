@@ -11,7 +11,7 @@ module Inttegro
       def create(payload, idempotency_key: nil)
         @http.post_model(
           "/message_templates/create",
-          Inttegro::Models::MessageTemplateEnvelope,
+          Inttegro::MessageTemplateEnvelope,
           payload,
           headers: idempotency_headers(idempotency_key)
         )
@@ -20,7 +20,7 @@ module Inttegro
       def update(payload, idempotency_key: nil)
         @http.post_model(
           "/message_templates/update",
-          Inttegro::Models::MessageTemplateEnvelope,
+          Inttegro::MessageTemplateEnvelope,
           payload,
           headers: idempotency_headers(idempotency_key)
         )
@@ -29,7 +29,7 @@ module Inttegro
       def publish(template_id:, idempotency_key: nil)
         @http.post_model(
           "/message_templates/publish",
-          Inttegro::Models::MessageTemplateEnvelope,
+          Inttegro::MessageTemplateEnvelope,
           { id: template_id },
           headers: idempotency_headers(idempotency_key)
         )
@@ -38,7 +38,7 @@ module Inttegro
       def archive(template_id:, idempotency_key: nil)
         @http.post_model(
           "/message_templates/archive",
-          Inttegro::Models::MessageTemplateEnvelope,
+          Inttegro::MessageTemplateEnvelope,
           { id: template_id },
           headers: idempotency_headers(idempotency_key)
         )
@@ -47,7 +47,7 @@ module Inttegro
       def lookup(template_id:)
         @http.post_model(
           "/message_templates/lookup",
-          Inttegro::Models::MessageTemplateEnvelope,
+          Inttegro::MessageTemplateEnvelope,
           { id: template_id }
         )
       end
@@ -55,7 +55,7 @@ module Inttegro
       def page(payload = {})
         @http.post_model(
           "/message_templates/page",
-          Inttegro::Models::MessageTemplatesPageEnvelope,
+          Inttegro::MessageTemplatesPageEnvelope,
           payload || {}
         )
       end
@@ -63,7 +63,7 @@ module Inttegro
       def render_preview(payload)
         @http.post_model(
           "/message_templates/render_preview",
-          Inttegro::Models::RenderMessageTemplatePreviewResponse,
+          Inttegro::RenderMessageTemplatePreviewResponse,
           payload
         )
       end

@@ -9,21 +9,21 @@ module Inttegro
       end
 
       def initiate(payload)
-        @http.post_model("/otp/initiate", Inttegro::Models::InitiateOTPResponse, payload)
+        @http.post_model("/otp/initiate", Inttegro::InitiateOTPResponse, payload)
       end
 
       alias_method :initialize_session, :initiate
 
       def verify(payload)
-        @http.post_model("/otp/verify", Inttegro::Models::VerifyOTPResponse, payload)
+        @http.post_model("/otp/verify", Inttegro::VerifyOTPResponse, payload)
       end
 
       def lookup(payload)
-        @http.post_model("/otp/lookup", Inttegro::Models::LookupOTPResponse, payload)
+        @http.post_model("/otp/lookup", Inttegro::LookupOTPResponse, payload)
       end
 
       def cancel(payload)
-        @http.post_model("/otp/cancel", Inttegro::Models::CancelOtpResponse, payload)
+        @http.post_model("/otp/cancel", Inttegro::CancelOtpResponse, payload)
       end
     end
   end

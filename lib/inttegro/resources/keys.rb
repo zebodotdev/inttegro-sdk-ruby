@@ -9,29 +9,29 @@ module Inttegro
       end
 
       def generate(payload = {})
-        @http.post_model("/keys/generate", Inttegro::Models::GenerateSecretKeyResponse, payload || {})
+        @http.post_model("/keys/generate", Inttegro::GenerateSecretKeyResponse, payload || {})
       end
 
       def page(payload = {})
-        @http.post_model("/keys/page", Inttegro::Models::PageSecretKeysResponse, payload || {})
+        @http.post_model("/keys/page", Inttegro::PageSecretKeysResponse, payload || {})
       end
 
       def lookup(secret_key_id: nil, key_id: nil, id: nil)
         @http.post_model(
           "/keys/lookup",
-          Inttegro::Models::LookupSecretKeyResponse,
+          Inttegro::LookupSecretKeyResponse,
           identifier_payload(secret_key_id, key_id, id)
         )
       end
 
       def update(payload)
-        @http.post_model("/keys/update", Inttegro::Models::UpdateSecretKeyResponse, payload)
+        @http.post_model("/keys/update", Inttegro::UpdateSecretKeyResponse, payload)
       end
 
       def destroy(secret_key_id: nil, key_id: nil, id: nil)
         @http.post_model(
           "/keys/destroy",
-          Inttegro::Models::DestroySecretKeyResponse,
+          Inttegro::DestroySecretKeyResponse,
           identifier_payload(secret_key_id, key_id, id)
         )
       end
@@ -39,7 +39,7 @@ module Inttegro
       def usage(secret_key_id: nil, key_id: nil, id: nil, **options)
         @http.post_model(
           "/keys/usage",
-          Inttegro::Models::SecretKeyUsageResponse,
+          Inttegro::SecretKeyUsageResponse,
           identifier_payload(secret_key_id, key_id, id).merge(options)
         )
       end

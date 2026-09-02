@@ -11,7 +11,7 @@ module Inttegro
       def lookup(broadcast_id:)
         @http.post_model(
           "/broadcasts/lookup",
-          Inttegro::Models::LookupBroadcastResponse,
+          Inttegro::LookupBroadcastResponse,
           { broadcast_id: broadcast_id }
         )
       end
@@ -19,7 +19,7 @@ module Inttegro
       def cancel(broadcast_id:)
         @http.post_model(
           "/broadcasts/cancel",
-          Inttegro::Models::BroadcastCancelResponse,
+          Inttegro::BroadcastCancelResponse,
           { broadcast_id: broadcast_id }
         )
       end

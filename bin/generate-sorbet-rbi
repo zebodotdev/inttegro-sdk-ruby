@@ -26,24 +26,39 @@ RESOURCE_PRIVATE_RETURN_TYPES = {
 }.freeze
 
 LEGACY_RETURN_TYPES = {
-  "/orders/new" => "Inttegro::Models::OrderResponse",
-  "/otp/cancel" => "Inttegro::Models::CancelOTPResponse",
-  "/payment_methods/verify" => "Inttegro::Models::PaymentMethodVerificationResponse",
-  "/payment_methods/confirm_verification" => "Inttegro::Models::PaymentMethodResponse",
-  "/payment_methods/delete" => "Inttegro::Models::PaymentMethodDeleteResponse",
-  "/payouts/enable_fx" => "Inttegro::Models::PayoutSettingsResponse",
-  "/payouts/disable_fx" => "Inttegro::Models::PayoutSettingsResponse",
-  "/products/set_default_unit_price" => "Inttegro::Models::ProductResponse"
+  "/orders/new" => "Inttegro::Order",
+  "/otp/cancel" => "Inttegro::CancelOTPResponse",
+  "/payment_methods/verify" => "Inttegro::PaymentMethodVerificationResponse",
+  "/payment_methods/confirm_verification" => "Inttegro::PaymentMethodResponse",
+  "/payment_methods/delete" => "Inttegro::PaymentMethodDeleteResponse",
+  "/payouts/enable_fx" => "Inttegro::PayoutSettingsResponse",
+  "/payouts/disable_fx" => "Inttegro::PayoutSettingsResponse",
+  "/products/set_default_unit_price" => "Inttegro::ProductResponse"
+}.freeze
+
+PUBLIC_RETURN_TYPES = {
+  [Inttegro::Resources::Orders, :cancel] => "Inttegro::Order",
+  [Inttegro::Resources::Orders, :complete] => "Inttegro::Order",
+  [Inttegro::Resources::Orders, :confirm_payment] => "Inttegro::Order",
+  [Inttegro::Resources::Orders, :create] => "Inttegro::Order",
+  [Inttegro::Resources::Orders, :finalize] => "Inttegro::Order",
+  [Inttegro::Resources::Orders, :lookup] => "Inttegro::Order",
+  [Inttegro::Resources::Orders, :new] => "Inttegro::Order",
+  [Inttegro::Resources::Orders, :page] => "Inttegro::OrderPage",
+  [Inttegro::Resources::Orders, :pay] => "Inttegro::Order",
+  [Inttegro::Resources::Orders, :refund] => "Inttegro::Refund",
+  [Inttegro::Resources::Orders, :request_confirmation] => "Inttegro::Order",
+  [Inttegro::Resources::Orders, :update] => "Inttegro::Order"
 }.freeze
 
 LEGACY_REQUEST_TYPES = {
   "/orders/new" => Inttegro::Operations::REQUEST_TYPE_NAMES.fetch("/orders/create"),
-  "/products/set_default_unit_price" => "Inttegro::Models::SetDefaultUnitPriceRequest"
+  "/products/set_default_unit_price" => "Inttegro::SetDefaultUnitPriceRequest"
 }.freeze
 
 EXTERNAL_RETURN_TYPES = {
   [Inttegro::Resources::FileLinks, :open] => "Inttegro::FileDownload",
-  [Inttegro::Resources::UploadRequests, :fulfill] => "Inttegro::Models::FulfillUploadRequestResponse"
+  [Inttegro::Resources::UploadRequests, :fulfill] => "Inttegro::FulfillUploadRequestResponse"
 }.freeze
 
 def snake_case(name)
@@ -66,6 +81,8 @@ end
 def return_type(resource, method_name, path)
   external = EXTERNAL_RETURN_TYPES[[resource, method_name]]
   return external if external
+  public_type = PUBLIC_RETURN_TYPES[[resource, method_name]]
+  return public_type if public_type
   return "Inttegro::FileDownload" if Inttegro::Operations::BINARY_PATHS.include?(path)
 
   model = Inttegro::Operations::RESPONSE_MODELS[path]

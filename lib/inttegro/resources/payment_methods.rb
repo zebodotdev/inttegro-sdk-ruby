@@ -29,7 +29,7 @@ module Inttegro
       # @option payload [Hash] :payment_method_data Payment method details (required)
       # @option payload [Boolean] :verify_immediately Send verification OTP immediately (default: false)
       #
-      # @return [Inttegro::Models::TokenizePaymentMethodResponse] Tokenized payment method
+      # @return [Inttegro::TokenizePaymentMethodResponse] Tokenized payment method
       #
       # @example Tokenize a mobile money payment method
       #   result = client.payment_methods.tokenize(
@@ -50,7 +50,7 @@ module Inttegro
       def tokenize(payload)
         @http.post_model(
           "/payment_methods/tokenize",
-          Inttegro::Models::TokenizePaymentMethodResponse,
+          Inttegro::TokenizePaymentMethodResponse,
           payload
         )
       end
@@ -64,7 +64,7 @@ module Inttegro
       # @param payment_method_id [String] ID of the payment method to verify (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Inttegro::Models::PaymentMethodVerificationResponse] Verification details
+      # @return [Inttegro::PaymentMethodVerificationResponse] Verification details
       #
       # @example Verify a payment method
       #   result = client.payment_methods.verify(
@@ -77,7 +77,7 @@ module Inttegro
       def verify(payment_method_id:, request_meta: nil)
         @http.post_model(
           "/payment_methods/verify",
-          Inttegro::Models::PaymentMethodVerificationResponse,
+          Inttegro::PaymentMethodVerificationResponse,
           {
             payment_method_id: payment_method_id,
             request_meta: request_meta || stable_payment_method_request_meta("verify", payment_method_id)
@@ -94,7 +94,7 @@ module Inttegro
       # @option payload [String] :payment_method_id ID of the payment method being verified (required)
       # @option payload [String] :token OTP code provided by customer (required, typically 6 digits)
       #
-      # @return [Inttegro::Models::PaymentMethodResponse] Verified payment method
+      # @return [Inttegro::PaymentMethodResponse] Verified payment method
       #
       # @example Confirm verification with OTP
       #   result = client.payment_methods.confirm_verification(
@@ -110,7 +110,7 @@ module Inttegro
       def confirm_verification(payload)
         @http.post_model(
           "/payment_methods/confirm_verification",
-          Inttegro::Models::LookupPaymentMethodResponse,
+          Inttegro::LookupPaymentMethodResponse,
           payload
         )
       end
@@ -122,7 +122,7 @@ module Inttegro
       #
       # @param payment_method_id [String] ID of the payment method to retrieve (required)
       #
-      # @return [Inttegro::Models::LookupPaymentMethodResponse] Payment method details
+      # @return [Inttegro::LookupPaymentMethodResponse] Payment method details
       #
       # @example Lookup a payment method
       #   result = client.payment_methods.lookup(
@@ -135,7 +135,7 @@ module Inttegro
       def lookup(payment_method_id:)
         @http.post_model(
           "/payment_methods/lookup",
-          Inttegro::Models::LookupPaymentMethodResponse,
+          Inttegro::LookupPaymentMethodResponse,
           { payment_method_id: payment_method_id }
         )
       end
@@ -143,7 +143,7 @@ module Inttegro
       def page(payload = {})
         @http.post_model(
           "/payment_methods/page",
-          Inttegro::Models::PaymentMethodPageResponse,
+          Inttegro::PaymentMethodPageResponse,
           payload || {}
         )
       end
@@ -151,7 +151,7 @@ module Inttegro
       def update(payload)
         @http.post_model(
           "/payment_methods/update",
-          Inttegro::Models::UpdatePaymentMethodResponse,
+          Inttegro::UpdatePaymentMethodResponse,
           payload
         )
       end
@@ -159,7 +159,7 @@ module Inttegro
       def activate(payment_method_id:)
         @http.post_model(
           "/payment_methods/activate",
-          Inttegro::Models::ActivatePaymentMethodResponse,
+          Inttegro::ActivatePaymentMethodResponse,
           { payment_method_id: payment_method_id }
         )
       end
@@ -167,7 +167,7 @@ module Inttegro
       def disactivate(payment_method_id:)
         @http.post_model(
           "/payment_methods/disactivate",
-          Inttegro::Models::DisactivatePaymentMethodResponse,
+          Inttegro::DisactivatePaymentMethodResponse,
           { payment_method_id: payment_method_id }
         )
       end
@@ -177,7 +177,7 @@ module Inttegro
       def archive(payment_method_id:)
         @http.post_model(
           "/payment_methods/archive",
-          Inttegro::Models::ArchivePaymentMethodResponse,
+          Inttegro::ArchivePaymentMethodResponse,
           { payment_method_id: payment_method_id }
         )
       end
@@ -185,7 +185,7 @@ module Inttegro
       def unarchive(payment_method_id:)
         @http.post_model(
           "/payment_methods/unarchive",
-          Inttegro::Models::UnarchivePaymentMethodResponse,
+          Inttegro::UnarchivePaymentMethodResponse,
           { payment_method_id: payment_method_id }
         )
       end
@@ -198,7 +198,7 @@ module Inttegro
       # @param payment_method_id [String] ID of the payment method to delete (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Inttegro::Models::PaymentMethodDeleteResponse] Deletion confirmation
+      # @return [Inttegro::PaymentMethodDeleteResponse] Deletion confirmation
       #
       # @example Delete a payment method
       #   result = client.payment_methods.delete(
@@ -211,7 +211,7 @@ module Inttegro
       def delete(payment_method_id:, request_meta: nil)
         @http.post_model(
           "/payment_methods/delete",
-          Inttegro::Models::PaymentMethodDeleteResponse,
+          Inttegro::PaymentMethodDeleteResponse,
           {
             payment_method_id: payment_method_id,
             request_meta: request_meta || stable_payment_method_request_meta("delete", payment_method_id)
@@ -224,7 +224,7 @@ module Inttegro
       # Returns settings that control payment method behavior, including whether verification
       # is required before charging and supported payment method types.
       #
-      # @return [Inttegro::Models::GetPaymentMethodSettingsResponse] Payment method settings
+      # @return [Inttegro::GetPaymentMethodSettingsResponse] Payment method settings
       #
       # @example Get payment method settings
       #   result = client.payment_methods.settings
@@ -235,7 +235,7 @@ module Inttegro
       def settings
         @http.post_model(
           "/payment_methods/settings",
-          Inttegro::Models::GetPaymentMethodSettingsResponse,
+          Inttegro::GetPaymentMethodSettingsResponse,
           {}
         )
       end

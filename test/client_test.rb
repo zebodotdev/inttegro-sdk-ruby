@@ -40,18 +40,18 @@ class InttegroClientTest < Minitest::Test
   end
 
   def test_openapi_models_are_typed_structs
-    assert_operator Inttegro::Models::Order, :<, T::Struct
-    assert_operator Inttegro::Models::PurchaseIntent, :<, T::Struct
-    assert_operator Inttegro::Models::Refund, :<, T::Struct
-    assert_operator Inttegro::Models::Customer, :<, T::Struct
+    assert_operator Inttegro::Order, :<, T::Struct
+    assert_operator Inttegro::PurchaseIntent, :<, T::Struct
+    assert_operator Inttegro::Refund, :<, T::Struct
+    assert_operator Inttegro::Customer, :<, T::Struct
   end
 
   def test_typed_request_models_and_enums_serialize_to_wire_values
     requests = []
     adapter = make_adapter(requests: requests)
     client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
-    request = Inttegro::Models::CreateProductRequest.new(
-      type: Inttegro::Enums::ProductType::DIGITAL,
+    request = Inttegro::CreateProductRequest.new(
+      type: Inttegro::ProductType::DIGITAL,
       name: "Download"
     )
 
@@ -126,7 +126,8 @@ class InttegroClientTest < Minitest::Test
     assert_match UUID_V7_REGEX, parsed_body.dig("request_meta", "idempotency_key")
     refute parsed_body.key?("idempotency_key")
 
-    assert_equal "or_123", response.order.id
+    assert_instance_of Inttegro::Order, response
+    assert_equal "or_123", response.id
     refute_respond_to response, :redirect_url
   end
 
@@ -147,7 +148,7 @@ class InttegroClientTest < Minitest::Test
     response = client.orders.refund(payload)
     body = JSON.parse(requests.first.fetch(:request).body)
 
-    assert_instance_of Inttegro::Models::RefundResponse, response
+    assert_instance_of Inttegro::Refund, response
     assert_equal "/orders/refund", requests.first.fetch(:uri).path
     assert_equal JSON.parse(payload.to_json), body
   end
@@ -241,13 +242,13 @@ class InttegroClientTest < Minitest::Test
     client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: payment_adapter)
 
     payment = client.balance_transactions.lookup(transaction_id: "bt_payment").transaction
-    assert_equal Inttegro::Enums::BalanceTransactionType::PAYMENT, payment.type
+    assert_equal Inttegro::BalanceTransactionType::PAYMENT, payment.type
     assert_equal "py_123", payment.source_id
     assert payment.valid_source?
     assert payment.valid?
-    assert_instance_of Inttegro::Models::BalanceTransactionAmount, payment.amount
+    assert_instance_of Inttegro::BalanceTransactionAmount, payment.amount
 
-    refund = Inttegro::Models.deserialize(
+    refund = Inttegro.deserialize(
       {
         id: "bt_refund",
         type: "refund",
@@ -256,25 +257,25 @@ class InttegroClientTest < Minitest::Test
         amount: { currency: "GHS", value: 500 },
         created_at: "2026-08-31T12:01:00Z"
       },
-      Inttegro::Models::BalanceTransaction
+      Inttegro::BalanceTransaction
     )
     assert_equal "rf_123", refund.source_id
     assert refund.valid_source?
 
-    contradictory = Inttegro::Models::BalanceTransaction.new(
+    contradictory = Inttegro::BalanceTransaction.new(
       id: "bt_invalid",
-      type: Inttegro::Enums::BalanceTransactionType::REFUND,
+      type: Inttegro::BalanceTransactionType::REFUND,
       payment_id: "py_123",
       refund_id: "rf_123",
       order_id: "or_123",
-      amount: Inttegro::Models::BalanceTransactionAmount.new(currency: "GHS", value: 500),
+      amount: Inttegro::BalanceTransactionAmount.new(currency: "GHS", value: 500),
       created_at: "2026-08-31T12:01:00Z"
     )
     refute contradictory.valid_source?
   end
 
   def test_order_payment_deserializes_embedded_balance_transaction
-    order = Inttegro::Models.deserialize(
+    order = Inttegro.deserialize(
       {
         "id" => "or_123",
         "customer" => { "id" => "cu_123", "guest" => false, "name" => "Test User" },
@@ -296,11 +297,11 @@ class InttegroClientTest < Minitest::Test
           }
         }
       },
-      Inttegro::Models::Order
+      Inttegro::Order
     )
 
-    assert_instance_of Inttegro::Models::BalanceTransaction, order.payment.balance_transaction
-    assert_equal Inttegro::Enums::BalanceTransactionType::PAYMENT, order.payment.balance_transaction.type
+    assert_instance_of Inttegro::BalanceTransaction, order.payment.balance_transaction
+    assert_equal Inttegro::BalanceTransactionType::PAYMENT, order.payment.balance_transaction.type
   end
 
   def test_order_document_delivery_endpoints_match_spec
@@ -529,9 +530,11 @@ class InttegroClientTest < Minitest::Test
   end
 
   def minimal_response_body(path)
+    return { page: { number: 0, size: 0, orders: [] } } if path == "/orders/page"
+
     model = Inttegro::Operations::RESPONSE_MODELS[path]
-    model ||= Inttegro::Models::OrderResponse if path == "/orders/new"
-    model ||= Inttegro::Models::CancelOTPResponse if path == "/otp/cancel"
+    model ||= Inttegro::OrderEnvelope if path == "/orders/new"
+    model ||= Inttegro::CancelOTPResponse if path == "/otp/cancel"
     return {} unless model
 
     minimal_struct_body(model)

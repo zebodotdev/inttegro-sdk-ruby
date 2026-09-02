@@ -7,13 +7,13 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreateApplicationRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::CreateApplicationResponse) }
+      sig { params(payload: T.any(Inttegro::CreateApplicationRequest, Inttegro::Types::Payload)).returns(Inttegro::CreateApplicationResponse) }
       def create(payload); end
 
-      sig { returns(Inttegro::Models::LookupApplicationResponse) }
+      sig { returns(Inttegro::LookupApplicationResponse) }
       def lookup(); end
 
-      sig { params(payload: T.any(Inttegro::Models::UpdateApplicationRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::UpdateApplicationResponse) }
+      sig { params(payload: T.any(Inttegro::UpdateApplicationRequest, Inttegro::Types::Payload)).returns(Inttegro::UpdateApplicationResponse) }
       def update(payload); end
     end
 
@@ -21,10 +21,10 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(transaction_id: String).returns(Inttegro::Models::BalanceTransactionResponse) }
+      sig { params(transaction_id: String).returns(Inttegro::BalanceTransactionResponse) }
       def lookup(transaction_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageBalanceTransactionsRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::BalanceTransactionPageResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageBalanceTransactionsRequest, Inttegro::Types::Payload))).returns(Inttegro::BalanceTransactionPageResponse) }
       def page(payload = nil); end
     end
 
@@ -32,7 +32,7 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { returns(Inttegro::Models::BalanceSnapshotResponse) }
+      sig { returns(Inttegro::BalanceSnapshotResponse) }
       def get(); end
     end
 
@@ -40,10 +40,10 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(broadcast_id: String).returns(Inttegro::Models::BroadcastCancelResponse) }
+      sig { params(broadcast_id: String).returns(Inttegro::BroadcastCancelResponse) }
       def cancel(broadcast_id:); end
 
-      sig { params(broadcast_id: String).returns(Inttegro::Models::LookupBroadcastResponse) }
+      sig { params(broadcast_id: String).returns(Inttegro::LookupBroadcastResponse) }
       def lookup(broadcast_id:); end
     end
 
@@ -51,19 +51,19 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: T.any(Inttegro::Models::BroadcastRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::BroadcastResponse) }
+      sig { params(payload: T.any(Inttegro::BroadcastRequest, Inttegro::Types::Payload)).returns(Inttegro::BroadcastResponse) }
       def broadcast(payload); end
 
-      sig { params(chime_id: String).returns(Inttegro::Models::ChimeResponse) }
+      sig { params(chime_id: String).returns(Inttegro::ChimeResponse) }
       def lookup(chime_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageChimesRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PageChimesResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageChimesRequest, Inttegro::Types::Payload))).returns(Inttegro::PageChimesResponse) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::ScheduleChimeRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::ScheduleResponse) }
+      sig { params(payload: T.any(Inttegro::ScheduleChimeRequest, Inttegro::Types::Payload)).returns(Inttegro::ScheduleResponse) }
       def schedule(payload); end
 
-      sig { params(payload: T.any(Inttegro::Models::SendChimeRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::ChimeResponse) }
+      sig { params(payload: T.any(Inttegro::SendChimeRequest, Inttegro::Types::Payload)).returns(Inttegro::ChimeResponse) }
       def send(payload); end
     end
 
@@ -71,16 +71,16 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreateCustomerRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::CustomerResponse) }
+      sig { params(payload: T.any(Inttegro::CreateCustomerRequest, Inttegro::Types::Payload)).returns(Inttegro::CustomerResponse) }
       def create(payload); end
 
-      sig { params(customer_id: String).returns(Inttegro::Models::CustomerResponse) }
+      sig { params(customer_id: String).returns(Inttegro::CustomerResponse) }
       def lookup(customer_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageCustomersRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PageCustomersResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageCustomersRequest, Inttegro::Types::Payload))).returns(Inttegro::PageCustomersResponse) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::UpdateCustomerRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::CustomerResponse) }
+      sig { params(payload: T.any(Inttegro::UpdateCustomerRequest, Inttegro::Types::Payload)).returns(Inttegro::CustomerResponse) }
       def update(payload); end
     end
 
@@ -88,19 +88,19 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreateFileLinkRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::Models::CreateFileLinkResponse) }
+      sig { params(payload: T.any(Inttegro::CreateFileLinkRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::CreateFileLinkResponse) }
       def create(payload, idempotency_key: nil); end
 
-      sig { params(id: String).returns(Inttegro::Models::FileLinkResponse) }
+      sig { params(id: String).returns(Inttegro::FileLinkResponse) }
       def lookup(id:); end
 
       sig { params(url: String, save_to: T.nilable(String)).returns(Inttegro::FileDownload) }
       def open(url, save_to: nil); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageFileLinksRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::FileLinkPageResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageFileLinksRequest, Inttegro::Types::Payload))).returns(Inttegro::FileLinkPageResponse) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::RevokeFileLinkRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::Models::FileLinkResponse) }
+      sig { params(payload: T.any(Inttegro::RevokeFileLinkRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::FileLinkResponse) }
       def revoke(payload, idempotency_key: nil); end
 
       private
@@ -113,7 +113,7 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: T.any(Inttegro::Models::FileReferenceReconcileRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::FileReferenceReconcileResponse) }
+      sig { params(payload: T.any(Inttegro::FileReferenceReconcileRequest, Inttegro::Types::Payload)).returns(Inttegro::FileReferenceReconcileResponse) }
       def reconcile(payload); end
     end
 
@@ -124,16 +124,16 @@ module Inttegro
       sig { params(file_id: String, disposition: T.nilable(String)).returns(Inttegro::FileDownload) }
       def contents(file_id:, disposition: nil); end
 
-      sig { params(file: String, purpose: String, title: T.nilable(String), custom_data: T.nilable(Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::Models::FileResponse) }
+      sig { params(file: String, purpose: String, title: T.nilable(String), custom_data: T.nilable(Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::FileResponse) }
       def create(file:, purpose:, title: nil, custom_data: nil, idempotency_key: nil); end
 
-      sig { params(file_id: String).returns(Inttegro::Models::FileResponse) }
+      sig { params(file_id: String).returns(Inttegro::FileResponse) }
       def delete(file_id:); end
 
-      sig { params(file_id: String).returns(Inttegro::Models::FileResponse) }
+      sig { params(file_id: String).returns(Inttegro::FileResponse) }
       def lookup(file_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageFilesRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::FilePageResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageFilesRequest, Inttegro::Types::Payload))).returns(Inttegro::FilePageResponse) }
       def page(payload = nil); end
     end
 
@@ -141,37 +141,37 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: T.any(Inttegro::Models::FinancialAccountCreateRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::ConnectFinancialAccountResponse) }
+      sig { params(payload: T.any(Inttegro::FinancialAccountCreateRequest, Inttegro::Types::Payload)).returns(Inttegro::ConnectFinancialAccountResponse) }
       def connect(payload); end
 
-      sig { params(payload: T.any(Inttegro::Models::FinancialAccountCreateRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::CreateFinancialAccountResponse) }
+      sig { params(payload: T.any(Inttegro::FinancialAccountCreateRequest, Inttegro::Types::Payload)).returns(Inttegro::CreateFinancialAccountResponse) }
       def create(payload); end
 
-      sig { params(account_id: String).returns(Inttegro::Models::DisableFinancialAccountPullResponse) }
+      sig { params(account_id: String).returns(Inttegro::DisableFinancialAccountPullResponse) }
       def disable_pull(account_id:); end
 
-      sig { params(account_id: String, unset_as_payout_destination: T.nilable(T::Boolean)).returns(Inttegro::Models::DisableFinancialAccountPushResponse) }
+      sig { params(account_id: String, unset_as_payout_destination: T.nilable(T::Boolean)).returns(Inttegro::DisableFinancialAccountPushResponse) }
       def disable_push(account_id:, unset_as_payout_destination: nil); end
 
-      sig { params(account_id: String, unset_as_payout_destination: T.nilable(T::Boolean)).returns(Inttegro::Models::DisconnectFinancialAccountResponse) }
+      sig { params(account_id: String, unset_as_payout_destination: T.nilable(T::Boolean)).returns(Inttegro::DisconnectFinancialAccountResponse) }
       def disconnect(account_id:, unset_as_payout_destination: nil); end
 
-      sig { params(account_id: String).returns(Inttegro::Models::EnableFinancialAccountPullResponse) }
+      sig { params(account_id: String).returns(Inttegro::EnableFinancialAccountPullResponse) }
       def enable_pull(account_id:); end
 
-      sig { params(account_id: String).returns(Inttegro::Models::EnableFinancialAccountPushResponse) }
+      sig { params(account_id: String).returns(Inttegro::EnableFinancialAccountPushResponse) }
       def enable_push(account_id:); end
 
-      sig { params(account_id: String).returns(Inttegro::Models::LookupFinancialAccountResponse) }
+      sig { params(account_id: String).returns(Inttegro::LookupFinancialAccountResponse) }
       def lookup(account_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::FinancialAccountPageRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PageFinancialAccountsResponseInline) }
+      sig { params(payload: T.nilable(T.any(Inttegro::FinancialAccountPageRequest, Inttegro::Types::Payload))).returns(Inttegro::PageFinancialAccountsResponseInline) }
       def page(payload = nil); end
 
-      sig { params(account_id: String).returns(Inttegro::Models::ReconnectFinancialAccountResponse) }
+      sig { params(account_id: String).returns(Inttegro::ReconnectFinancialAccountResponse) }
       def reconnect(account_id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::FinancialAccountUpdateRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::UpdateFinancialAccountResponse) }
+      sig { params(payload: T.any(Inttegro::FinancialAccountUpdateRequest, Inttegro::Types::Payload)).returns(Inttegro::UpdateFinancialAccountResponse) }
       def update(payload); end
     end
 
@@ -179,22 +179,22 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(secret_key_id: T.nilable(String), key_id: T.nilable(String), id: T.nilable(String)).returns(Inttegro::Models::DestroySecretKeyResponse) }
+      sig { params(secret_key_id: T.nilable(String), key_id: T.nilable(String), id: T.nilable(String)).returns(Inttegro::DestroySecretKeyResponse) }
       def destroy(secret_key_id: nil, key_id: nil, id: nil); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::GenerateSecretKeyRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::GenerateSecretKeyResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::GenerateSecretKeyRequest, Inttegro::Types::Payload))).returns(Inttegro::GenerateSecretKeyResponse) }
       def generate(payload = nil); end
 
-      sig { params(secret_key_id: T.nilable(String), key_id: T.nilable(String), id: T.nilable(String)).returns(Inttegro::Models::LookupSecretKeyResponse) }
+      sig { params(secret_key_id: T.nilable(String), key_id: T.nilable(String), id: T.nilable(String)).returns(Inttegro::LookupSecretKeyResponse) }
       def lookup(secret_key_id: nil, key_id: nil, id: nil); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageSecretKeysRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PageSecretKeysResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageSecretKeysRequest, Inttegro::Types::Payload))).returns(Inttegro::PageSecretKeysResponse) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::UpdateSecretKeyRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::UpdateSecretKeyResponse) }
+      sig { params(payload: T.any(Inttegro::UpdateSecretKeyRequest, Inttegro::Types::Payload)).returns(Inttegro::UpdateSecretKeyResponse) }
       def update(payload); end
 
-      sig { params(secret_key_id: T.nilable(String), key_id: T.nilable(String), id: T.nilable(String), options: Inttegro::Types::Payload).returns(Inttegro::Models::SecretKeyUsageResponse) }
+      sig { params(secret_key_id: T.nilable(String), key_id: T.nilable(String), id: T.nilable(String), options: Inttegro::Types::Payload).returns(Inttegro::SecretKeyUsageResponse) }
       def usage(secret_key_id: nil, key_id: nil, id: nil, **options); end
 
       private
@@ -207,25 +207,25 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(template_id: String, idempotency_key: T.nilable(String)).returns(Inttegro::Models::MessageTemplateEnvelope) }
+      sig { params(template_id: String, idempotency_key: T.nilable(String)).returns(Inttegro::MessageTemplateEnvelope) }
       def archive(template_id:, idempotency_key: nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreateMessageTemplateRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::Models::MessageTemplateEnvelope) }
+      sig { params(payload: T.any(Inttegro::CreateMessageTemplateRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::MessageTemplateEnvelope) }
       def create(payload, idempotency_key: nil); end
 
-      sig { params(template_id: String).returns(Inttegro::Models::MessageTemplateEnvelope) }
+      sig { params(template_id: String).returns(Inttegro::MessageTemplateEnvelope) }
       def lookup(template_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageMessageTemplatesRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::MessageTemplatesPageEnvelope) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageMessageTemplatesRequest, Inttegro::Types::Payload))).returns(Inttegro::MessageTemplatesPageEnvelope) }
       def page(payload = nil); end
 
-      sig { params(template_id: String, idempotency_key: T.nilable(String)).returns(Inttegro::Models::MessageTemplateEnvelope) }
+      sig { params(template_id: String, idempotency_key: T.nilable(String)).returns(Inttegro::MessageTemplateEnvelope) }
       def publish(template_id:, idempotency_key: nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::RenderMessageTemplatePreviewRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::RenderMessageTemplatePreviewResponse) }
+      sig { params(payload: T.any(Inttegro::RenderMessageTemplatePreviewRequest, Inttegro::Types::Payload)).returns(Inttegro::RenderMessageTemplatePreviewResponse) }
       def render_preview(payload); end
 
-      sig { params(payload: T.any(Inttegro::Models::UpdateMessageTemplateRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::Models::MessageTemplateEnvelope) }
+      sig { params(payload: T.any(Inttegro::UpdateMessageTemplateRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::MessageTemplateEnvelope) }
       def update(payload, idempotency_key: nil); end
 
       private
@@ -238,46 +238,46 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(order_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Models::OrderResponse) }
+      sig { params(order_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def cancel(order_id:, request_meta: nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::CompleteOrderRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::CompleteOrderResponse) }
+      sig { params(payload: T.any(Inttegro::CompleteOrderRequest, Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def complete(payload); end
 
-      sig { params(payload: T.any(Inttegro::Models::ConfirmPaymentRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::OrderResponse) }
+      sig { params(payload: T.any(Inttegro::ConfirmPaymentRequest, Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def confirm_payment(payload); end
 
-      sig { params(payload: T.any(T.any(Inttegro::Models::CreateOrderNewCustomer, Inttegro::Models::CreateOrderExistingCustomer), Inttegro::Types::Payload)).returns(Inttegro::Models::OrderResponse) }
+      sig { params(payload: T.any(T.any(Inttegro::CreateOrderNewCustomer, Inttegro::CreateOrderExistingCustomer), Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def create(payload); end
 
-      sig { params(order_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Models::FinalizeOrderResponse) }
+      sig { params(order_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def finalize(order_id:, request_meta: nil); end
 
-      sig { params(order_id: String, options: Inttegro::Types::Payload).returns(Inttegro::Models::OrderResponse) }
+      sig { params(order_id: String, options: Inttegro::Types::Payload).returns(Inttegro::Order) }
       def lookup(order_id:, **options); end
 
-      sig { params(payload: T.any(T.any(Inttegro::Models::CreateOrderNewCustomer, Inttegro::Models::CreateOrderExistingCustomer), Inttegro::Types::Payload)).returns(Inttegro::Models::OrderResponse) }
+      sig { params(payload: T.any(T.any(Inttegro::CreateOrderNewCustomer, Inttegro::CreateOrderExistingCustomer), Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def new(payload); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageOrdersRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PageOrdersResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageOrdersRequest, Inttegro::Types::Payload))).returns(Inttegro::OrderPage) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::PayOrderRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::OrderResponse) }
+      sig { params(payload: T.any(Inttegro::PayOrderRequest, Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def pay(payload); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreateRefundRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::RefundResponse) }
+      sig { params(payload: T.any(Inttegro::CreateRefundRequest, Inttegro::Types::Payload)).returns(Inttegro::Refund) }
       def refund(payload); end
 
-      sig { params(order_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Models::OrderResponse) }
+      sig { params(order_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def request_confirmation(order_id:, request_meta: nil); end
 
-      sig { params(order_id: String).returns(Inttegro::Models::OrderDocumentDeliveryResponse) }
+      sig { params(order_id: String).returns(Inttegro::OrderDocumentDeliveryResult) }
       def send_invoice(order_id:); end
 
-      sig { params(order_id: String).returns(Inttegro::Models::OrderDocumentDeliveryResponse) }
+      sig { params(order_id: String).returns(Inttegro::OrderDocumentDeliveryResult) }
       def send_receipt(order_id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::UpdateOrderRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::OrderResponse) }
+      sig { params(payload: T.any(Inttegro::UpdateOrderRequest, Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def update(payload); end
 
       private
@@ -290,16 +290,16 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: Inttegro::Types::RequestBody).returns(Inttegro::Models::CancelOTPResponse) }
+      sig { params(payload: Inttegro::Types::RequestBody).returns(Inttegro::CancelOTPResponse) }
       def cancel(payload); end
 
-      sig { params(payload: T.any(Inttegro::Models::InitiateOTPRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::InitiateOTPResponse) }
+      sig { params(payload: T.any(Inttegro::InitiateOTPRequest, Inttegro::Types::Payload)).returns(Inttegro::InitiateOTPResponse) }
       def initiate(payload); end
 
-      sig { params(payload: T.any(Inttegro::Models::LookupOTPRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::LookupOTPResponse) }
+      sig { params(payload: T.any(Inttegro::LookupOTPRequest, Inttegro::Types::Payload)).returns(Inttegro::LookupOTPResponse) }
       def lookup(payload); end
 
-      sig { params(payload: T.any(Inttegro::Models::VerifyOTPRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::VerifyOTPResponse) }
+      sig { params(payload: T.any(Inttegro::VerifyOTPRequest, Inttegro::Types::Payload)).returns(Inttegro::VerifyOTPResponse) }
       def verify(payload); end
     end
 
@@ -307,40 +307,40 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payment_method_id: String).returns(Inttegro::Models::ActivatePaymentMethodResponse) }
+      sig { params(payment_method_id: String).returns(Inttegro::ActivatePaymentMethodResponse) }
       def activate(payment_method_id:); end
 
-      sig { params(payment_method_id: String).returns(Inttegro::Models::ArchivePaymentMethodResponse) }
+      sig { params(payment_method_id: String).returns(Inttegro::ArchivePaymentMethodResponse) }
       def archive(payment_method_id:); end
 
-      sig { params(payload: Inttegro::Types::RequestBody).returns(Inttegro::Models::PaymentMethodResponse) }
+      sig { params(payload: Inttegro::Types::RequestBody).returns(Inttegro::PaymentMethodResponse) }
       def confirm_verification(payload); end
 
-      sig { params(payment_method_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Models::PaymentMethodDeleteResponse) }
+      sig { params(payment_method_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::PaymentMethodDeleteResponse) }
       def delete(payment_method_id:, request_meta: nil); end
 
-      sig { params(payment_method_id: String).returns(Inttegro::Models::DisactivatePaymentMethodResponse) }
+      sig { params(payment_method_id: String).returns(Inttegro::DisactivatePaymentMethodResponse) }
       def disactivate(payment_method_id:); end
 
-      sig { params(payment_method_id: String).returns(Inttegro::Models::LookupPaymentMethodResponse) }
+      sig { params(payment_method_id: String).returns(Inttegro::LookupPaymentMethodResponse) }
       def lookup(payment_method_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PaymentMethodPageRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PaymentMethodPageResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PaymentMethodPageRequest, Inttegro::Types::Payload))).returns(Inttegro::PaymentMethodPageResponse) }
       def page(payload = nil); end
 
-      sig { returns(Inttegro::Models::GetPaymentMethodSettingsResponse) }
+      sig { returns(Inttegro::GetPaymentMethodSettingsResponse) }
       def settings(); end
 
-      sig { params(payload: T.any(Inttegro::Models::TokenizeMobileMoneyPaymentMethodRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::TokenizePaymentMethodResponse) }
+      sig { params(payload: T.any(Inttegro::TokenizeMobileMoneyPaymentMethodRequest, Inttegro::Types::Payload)).returns(Inttegro::TokenizePaymentMethodResponse) }
       def tokenize(payload); end
 
-      sig { params(payment_method_id: String).returns(Inttegro::Models::UnarchivePaymentMethodResponse) }
+      sig { params(payment_method_id: String).returns(Inttegro::UnarchivePaymentMethodResponse) }
       def unarchive(payment_method_id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::UpdatePaymentMethodRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::UpdatePaymentMethodResponse) }
+      sig { params(payload: T.any(Inttegro::UpdatePaymentMethodRequest, Inttegro::Types::Payload)).returns(Inttegro::UpdatePaymentMethodResponse) }
       def update(payload); end
 
-      sig { params(payment_method_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Models::PaymentMethodVerificationResponse) }
+      sig { params(payment_method_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::PaymentMethodVerificationResponse) }
       def verify(payment_method_id:, request_meta: nil); end
 
       private
@@ -353,34 +353,34 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payout_id: String).returns(Inttegro::Models::CancelPayoutResponse) }
+      sig { params(payout_id: String).returns(Inttegro::CancelPayoutResponse) }
       def cancel(payout_id:); end
 
-      sig { returns(Inttegro::Models::DisableAutomaticPayoutsResponse) }
+      sig { returns(Inttegro::DisableAutomaticPayoutsResponse) }
       def disable_automatic(); end
 
-      sig { returns(Inttegro::Models::PayoutSettingsResponse) }
+      sig { returns(Inttegro::PayoutSettingsResponse) }
       def disable_fx(); end
 
-      sig { returns(Inttegro::Models::EnableAutomaticPayoutsResponse) }
+      sig { returns(Inttegro::EnableAutomaticPayoutsResponse) }
       def enable_automatic(); end
 
-      sig { returns(Inttegro::Models::PayoutSettingsResponse) }
+      sig { returns(Inttegro::PayoutSettingsResponse) }
       def enable_fx(); end
 
-      sig { params(payout_id: String).returns(Inttegro::Models::LookupPayoutResponse) }
+      sig { params(payout_id: String).returns(Inttegro::LookupPayoutResponse) }
       def lookup(payout_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PagePayoutsRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PagePayoutsResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PagePayoutsRequest, Inttegro::Types::Payload))).returns(Inttegro::PagePayoutsResponse) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::SchedulePayoutRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::SchedulePayoutResponse) }
+      sig { params(payload: T.any(Inttegro::SchedulePayoutRequest, Inttegro::Types::Payload)).returns(Inttegro::SchedulePayoutResponse) }
       def schedule(payload); end
 
-      sig { params(destinations: T::Hash[String, String]).returns(Inttegro::Models::SetPayoutDestinationsResponse) }
+      sig { params(destinations: T::Hash[String, String]).returns(Inttegro::SetPayoutDestinationsResponse) }
       def set_destinations(destinations:); end
 
-      sig { returns(Inttegro::Models::GetPayoutSettingsResponse) }
+      sig { returns(Inttegro::GetPayoutSettingsResponse) }
       def settings(); end
     end
 
@@ -388,25 +388,25 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(price_id: String).returns(Inttegro::Models::PriceResponse) }
+      sig { params(price_id: String).returns(Inttegro::PriceResponse) }
       def activate(price_id:); end
 
-      sig { params(price_id: String).returns(Inttegro::Models::PriceResponse) }
+      sig { params(price_id: String).returns(Inttegro::PriceResponse) }
       def archive(price_id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreatePriceRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::PriceResponse) }
+      sig { params(payload: T.any(Inttegro::CreatePriceRequest, Inttegro::Types::Payload)).returns(Inttegro::PriceResponse) }
       def create(payload); end
 
-      sig { params(price_id: String).returns(Inttegro::Models::PriceResponse) }
+      sig { params(price_id: String).returns(Inttegro::PriceResponse) }
       def deactivate(price_id:); end
 
-      sig { params(price_id: String).returns(Inttegro::Models::PriceResponse) }
+      sig { params(price_id: String).returns(Inttegro::PriceResponse) }
       def lookup(price_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PricePageRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PricePageResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PricePageRequest, Inttegro::Types::Payload))).returns(Inttegro::PricePageResponse) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::UpdatePriceRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::PriceResponse) }
+      sig { params(payload: T.any(Inttegro::UpdatePriceRequest, Inttegro::Types::Payload)).returns(Inttegro::PriceResponse) }
       def update(payload); end
     end
 
@@ -414,31 +414,31 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: T.any(Inttegro::Models::AddProductPriceRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::AddProductPriceResponse) }
+      sig { params(payload: T.any(Inttegro::AddProductPriceRequest, Inttegro::Types::Payload)).returns(Inttegro::AddProductPriceResponse) }
       def add_price(payload); end
 
-      sig { params(product_id: String).returns(Inttegro::Models::ProductResponse) }
+      sig { params(product_id: String).returns(Inttegro::ProductResponse) }
       def archive(product_id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreateProductRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::ProductResponse) }
+      sig { params(payload: T.any(Inttegro::CreateProductRequest, Inttegro::Types::Payload)).returns(Inttegro::ProductResponse) }
       def create(payload); end
 
-      sig { params(product_id: String).returns(Inttegro::Models::ProductResponse) }
+      sig { params(product_id: String).returns(Inttegro::ProductResponse) }
       def lookup(product_id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageProductsRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PageProductsResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageProductsRequest, Inttegro::Types::Payload))).returns(Inttegro::PageProductsResponse) }
       def page(payload = nil); end
 
-      sig { params(product_id: String).returns(Inttegro::Models::ProductResponse) }
+      sig { params(product_id: String).returns(Inttegro::ProductResponse) }
       def publish(product_id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::SetDefaultUnitPriceRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::ProductResponse) }
+      sig { params(payload: T.any(Inttegro::SetDefaultUnitPriceRequest, Inttegro::Types::Payload)).returns(Inttegro::ProductResponse) }
       def set_default_unit_price(payload); end
 
-      sig { params(product_id: String).returns(Inttegro::Models::ProductResponse) }
+      sig { params(product_id: String).returns(Inttegro::ProductResponse) }
       def unpublish(product_id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::UpdateProductRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::UpdateProductResponse) }
+      sig { params(payload: T.any(Inttegro::UpdateProductRequest, Inttegro::Types::Payload)).returns(Inttegro::UpdateProductResponse) }
       def update(payload); end
     end
 
@@ -446,19 +446,19 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(id: String).returns(Inttegro::Models::PurchaseIntentResponse) }
+      sig { params(id: String).returns(Inttegro::PurchaseIntentResponse) }
       def cancel(id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreatePurchaseIntentRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::PurchaseIntentResponse) }
+      sig { params(payload: T.any(Inttegro::CreatePurchaseIntentRequest, Inttegro::Types::Payload)).returns(Inttegro::PurchaseIntentResponse) }
       def create(payload); end
 
-      sig { params(id: String).returns(Inttegro::Models::PurchaseIntentResponse) }
+      sig { params(id: String).returns(Inttegro::PurchaseIntentResponse) }
       def lookup(id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PagePurchaseIntentsRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::PagePurchaseIntentsResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PagePurchaseIntentsRequest, Inttegro::Types::Payload))).returns(Inttegro::PagePurchaseIntentsResponse) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::UpdatePurchaseIntentRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::PurchaseIntentResponse) }
+      sig { params(payload: T.any(Inttegro::UpdatePurchaseIntentRequest, Inttegro::Types::Payload)).returns(Inttegro::PurchaseIntentResponse) }
       def update(payload); end
     end
 
@@ -466,16 +466,16 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(refund_id: String).returns(Inttegro::Models::RefundResponse) }
+      sig { params(refund_id: String).returns(Inttegro::RefundResponse) }
       def cancel(refund_id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreateRefundRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::RefundResponse) }
+      sig { params(payload: T.any(Inttegro::CreateRefundRequest, Inttegro::Types::Payload)).returns(Inttegro::RefundResponse) }
       def create(payload); end
 
-      sig { params(refund_id: String).returns(Inttegro::Models::RefundResponse) }
+      sig { params(refund_id: String).returns(Inttegro::RefundResponse) }
       def lookup(refund_id:); end
 
-      sig { params(payload: T.any(Inttegro::Models::PageRefundsRequest, Inttegro::Types::Payload)).returns(Inttegro::Models::RefundPageResponse) }
+      sig { params(payload: T.any(Inttegro::PageRefundsRequest, Inttegro::Types::Payload)).returns(Inttegro::RefundPageResponse) }
       def page(payload); end
     end
 
@@ -483,10 +483,10 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(schedule_id: String).returns(Inttegro::Models::ScheduleCancelResponse) }
+      sig { params(schedule_id: String).returns(Inttegro::ScheduleCancelResponse) }
       def cancel(schedule_id:); end
 
-      sig { params(schedule_id: String).returns(Inttegro::Models::ScheduleLookupResponse) }
+      sig { params(schedule_id: String).returns(Inttegro::ScheduleLookupResponse) }
       def lookup(schedule_id:); end
     end
 
@@ -494,7 +494,7 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { returns(Inttegro::Models::ListCountrySpecsResponse) }
+      sig { returns(Inttegro::ListCountrySpecsResponse) }
       def countries(); end
     end
 
@@ -502,22 +502,22 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: T.any(Inttegro::Models::CancelUploadRequestRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::Models::UploadRequestResponse) }
+      sig { params(payload: T.any(Inttegro::CancelUploadRequestRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::UploadRequestResponse) }
       def cancel(payload, idempotency_key: nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::CreateUploadRequestRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::Models::UploadRequestResponse) }
+      sig { params(payload: T.any(Inttegro::CreateUploadRequestRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::UploadRequestResponse) }
       def create(payload, idempotency_key: nil); end
 
-      sig { params(upload_url: String, file: String).returns(Inttegro::Models::FulfillUploadRequestResponse) }
+      sig { params(upload_url: String, file: String).returns(Inttegro::FulfillUploadRequestResponse) }
       def fulfill(upload_url:, file:); end
 
-      sig { params(id: String).returns(Inttegro::Models::UploadRequestWithAttemptResponse) }
+      sig { params(id: String).returns(Inttegro::UploadRequestWithAttemptResponse) }
       def lookup(id:); end
 
-      sig { params(payload: T.nilable(T.any(Inttegro::Models::PageUploadRequestsRequest, Inttegro::Types::Payload))).returns(Inttegro::Models::UploadRequestPageResponse) }
+      sig { params(payload: T.nilable(T.any(Inttegro::PageUploadRequestsRequest, Inttegro::Types::Payload))).returns(Inttegro::UploadRequestPageResponse) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::Models::ReviewUploadRequestAttemptRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::Models::UploadRequestWithAttemptResponse) }
+      sig { params(payload: T.any(Inttegro::ReviewUploadRequestAttemptRequest, Inttegro::Types::Payload), idempotency_key: T.nilable(String)).returns(Inttegro::UploadRequestWithAttemptResponse) }
       def review(payload, idempotency_key: nil); end
 
       private
