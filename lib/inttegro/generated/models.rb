@@ -602,6 +602,39 @@ ChimeRecipient = T.type_alias { T.any(Inttegro::Models::ChimeInlineRecipient, In
       const :format_value, T.nilable(Inttegro::Models::OrderInvoiceFormat), default: nil, name: "format"
     end
 
+    class RefundMoney < T::Struct
+      const :currency, String
+      const :value, Integer
+    end
+
+RefundReason = T.type_alias { Inttegro::Enums::RefundReason }
+
+    class RefundLineItem < T::Struct
+      const :id, String
+      const :order_line_item_id, String
+      const :original_amount_paid, Inttegro::Models::RefundMoney
+      const :reason, T.nilable(Inttegro::Models::RefundReason), default: nil
+      const :reason_details, T.nilable(String), default: nil
+      const :refund_amount, Inttegro::Models::RefundMoney
+    end
+
+    class Refund < T::Struct
+      const :canceled_at, T.nilable(String), default: nil
+      const :created_at, String
+      const :custom_data, T.nilable(T::Hash[String, String]), default: nil
+      const :failed_at, T.nilable(String), default: nil
+      const :id, String
+      const :line_items, T::Array[Inttegro::Models::RefundLineItem]
+      const :order_id, String
+      const :processing_at, T.nilable(String), default: nil
+      const :reason, Inttegro::Models::RefundReason
+      const :reason_details, T.nilable(String), default: nil
+      const :reference, T.nilable(String), default: nil
+      const :status, Inttegro::Enums::RefundStatus
+      const :succeeded_at, T.nilable(String), default: nil
+      const :total, Inttegro::Models::RefundMoney
+    end
+
     class InvoiceSettings < T::Struct
       const :number, T.nilable(String), default: nil
       const :memo, T.nilable(String), default: nil
@@ -818,6 +851,7 @@ OrderLineItem = T.type_alias { T.any(Inttegro::Models::OrderProductLineItem, Int
       const :invoice, T.nilable(Inttegro::Models::OrderInvoice), default: nil
       const :number, T.nilable(String), default: nil
       const :receipt_number, T.nilable(String), default: nil
+      const :refunds, T.nilable(T::Array[Inttegro::Models::Refund]), default: nil
       const :invoice_settings, T.nilable(Inttegro::Models::InvoiceSettings), default: nil
       const :status, Inttegro::Enums::OrderStatus
       const :sealed_at, T.nilable(String), default: nil
@@ -1511,13 +1545,6 @@ LineItem = T.type_alias { T.any(Inttegro::Models::ProductLineItem, Inttegro::Mod
       const :quantity, Inttegro::Models::CreatePurchaseIntentRequestQuantity
       const :usage, T.nilable(Inttegro::Models::CreatePurchaseIntentRequestUsage), default: nil
       const :expires_at, T.nilable(String), default: nil
-    end
-
-RefundReason = T.type_alias { Inttegro::Enums::RefundReason }
-
-    class RefundMoney < T::Struct
-      const :currency, String
-      const :value, Integer
     end
 
     class CreateRefundLineItem < T::Struct
@@ -3334,32 +3361,6 @@ PricePageItem = T.type_alias { Inttegro::Models::Price }
 
     class ReconnectFinancialAccountResponse < T::Struct
       const :account, T.nilable(Inttegro::Models::FinancialAccountCompactResponse), default: nil
-    end
-
-    class RefundLineItem < T::Struct
-      const :id, String
-      const :order_line_item_id, String
-      const :original_amount_paid, Inttegro::Models::RefundMoney
-      const :reason, T.nilable(Inttegro::Models::RefundReason), default: nil
-      const :reason_details, T.nilable(String), default: nil
-      const :refund_amount, Inttegro::Models::RefundMoney
-    end
-
-    class Refund < T::Struct
-      const :canceled_at, T.nilable(String), default: nil
-      const :created_at, String
-      const :custom_data, T.nilable(T::Hash[String, String]), default: nil
-      const :failed_at, T.nilable(String), default: nil
-      const :id, String
-      const :line_items, T::Array[Inttegro::Models::RefundLineItem]
-      const :order_id, String
-      const :processing_at, T.nilable(String), default: nil
-      const :reason, Inttegro::Models::RefundReason
-      const :reason_details, T.nilable(String), default: nil
-      const :reference, T.nilable(String), default: nil
-      const :status, Inttegro::Enums::RefundStatus
-      const :succeeded_at, T.nilable(String), default: nil
-      const :total, Inttegro::Models::RefundMoney
     end
 
     class RefundPage < T::Struct
