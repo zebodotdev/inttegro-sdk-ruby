@@ -357,23 +357,28 @@ module Inttegro
         )
       end
 
-      # Refund a paid order, returning funds to the customer.
+      # Create a refund through the /orders/refund compatibility alias.
       #
-      # Refunds the payment associated with an order, sending funds back to the customer's original payment
-      # method. The order must have been successfully paid before it can be refunded.
+      # This accepts the same line-item payload and returns the same refund response
+      # as client.refunds.create. New integrations should use that canonical method.
       #
-      # @param order_id [String] Unique identifier of the order to refund (required)
+      # @param payload [Hash] Create-refund payload containing order_id, reason, and line_items
       #
       # @return [Inttegro::Models::RefundResponse] Created refund
       #
       # @example Refund an order
       #   result = client.orders.refund(
-      #     order_id: 'GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb'
+      #     order_id: 'or_0123456789abcdefghijklmnopqrstuvwxyzABCD',
+      #     reason: 'requested_by_customer',
+      #     line_items: [{
+      #       order_line_item_id: 'oli_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN',
+      #       refund_amount: { currency: 'ghs', value: 2500 }
+      #     }]
       #   )
       #
       #   puts "Refund created: #{result.refund&.id}"
       #
-      # @see https://studio.inttegro.com/retry-a-payment for payment retry guide
+      # @see https://studio.inttegro.com/refunds
       def refund(payload)
         @http.post_model("/orders/refund", Inttegro::Models::RefundResponse, payload)
       end

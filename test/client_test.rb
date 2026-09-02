@@ -130,6 +130,28 @@ class InttegroClientTest < Minitest::Test
     refute_respond_to response, :redirect_url
   end
 
+  def test_order_refund_alias_uses_create_refund_contract
+    requests = []
+    adapter = make_adapter(requests: requests)
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+    payload = {
+      order_id: "or_123",
+      reason: "requested_by_customer",
+      request_meta: { idempotency_key: "refund-alias-1" },
+      line_items: [{
+        order_line_item_id: "oli_123",
+        refund_amount: { currency: "ghs", value: 2500 }
+      }]
+    }
+
+    response = client.orders.refund(payload)
+    body = JSON.parse(requests.first.fetch(:request).body)
+
+    assert_instance_of Inttegro::Models::RefundResponse, response
+    assert_equal "/orders/refund", requests.first.fetch(:uri).path
+    assert_equal JSON.parse(payload.to_json), body
+  end
+
   def test_recent_openapi_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
