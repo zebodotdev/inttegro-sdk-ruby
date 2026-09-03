@@ -56,7 +56,7 @@ module Inttegro
 
       sig { params(value: String).returns(Inttegro::Currency) }
       def deserialize(value)
-        T.cast(super(value.strip.downcase), Inttegro::Currency)
+        super(value.strip.downcase)
       end
     end
   end
