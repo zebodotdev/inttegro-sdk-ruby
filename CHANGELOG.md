@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [3.0.1] - 2026-09-03
+
+- Corrected the release-verification example to reference the current package version.
+
 ## [3.0.0] - 2026-09-03
 
 - Breaking: resource methods now unwrap transport payloads and return domain objects and pages directly.
