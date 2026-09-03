@@ -54,7 +54,10 @@ begin
         type: Inttegro::ProductType::DIGITAL,
         name: "Monthly subscription",
         quantity: 1,
-        price: { currency: "ghs", value: 5000 }
+        price: Inttegro::PriceParams.new(
+          currency: Inttegro::Money::Currency::GHS,
+          value: 5000
+        )
       }
     }]
   )
@@ -92,7 +95,7 @@ The GitHub release for each version is the canonical record. It contains the exa
 
 ```bash
 sha256sum --check SHA256SUMS
-gh attestation verify inttegro-4.0.0.gem \
+gh attestation verify inttegro-4.0.1.gem \
   --repo zebodotdev/inttegro-sdk-ruby
 ```
 
