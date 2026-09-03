@@ -388,25 +388,25 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(price_id: String).returns(Inttegro::Price) }
+      sig { params(price_id: String).returns(Inttegro::CatalogPrice) }
       def activate(price_id:); end
 
-      sig { params(price_id: String).returns(Inttegro::Price) }
+      sig { params(price_id: String).returns(Inttegro::CatalogPrice) }
       def archive(price_id:); end
 
-      sig { params(payload: T.any(Inttegro::CreatePriceRequest, Inttegro::Types::Payload)).returns(Inttegro::Price) }
+      sig { params(payload: T.any(Inttegro::CatalogPriceParams, Inttegro::Types::Payload)).returns(Inttegro::CatalogPrice) }
       def create(payload); end
 
-      sig { params(price_id: String).returns(Inttegro::Price) }
+      sig { params(price_id: String).returns(Inttegro::CatalogPrice) }
       def deactivate(price_id:); end
 
-      sig { params(price_id: String).returns(Inttegro::Price) }
+      sig { params(price_id: String).returns(Inttegro::CatalogPrice) }
       def lookup(price_id:); end
 
       sig { params(payload: T.nilable(T.any(Inttegro::PricePageRequest, Inttegro::Types::Payload))).returns(Inttegro::PricePage) }
       def page(payload = nil); end
 
-      sig { params(payload: T.any(Inttegro::UpdatePriceRequest, Inttegro::Types::Payload)).returns(Inttegro::Price) }
+      sig { params(payload: T.any(Inttegro::UpdatePriceRequest, Inttegro::Types::Payload)).returns(Inttegro::CatalogPrice) }
       def update(payload); end
     end
 
@@ -414,7 +414,7 @@ module Inttegro
       sig { params(http: Inttegro::HTTPClient).void }
       def initialize(http); end
 
-      sig { params(payload: T.any(Inttegro::AddProductPriceRequest, Inttegro::Types::Payload)).returns(Inttegro::ProductPriceNominal) }
+      sig { params(payload: T.any(Inttegro::AddProductPriceRequest, Inttegro::Types::Payload)).returns(Inttegro::CatalogPrice) }
       def add_price(payload); end
 
       sig { params(product_id: String).returns(Inttegro::Product) }

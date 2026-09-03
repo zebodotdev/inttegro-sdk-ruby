@@ -9,11 +9,11 @@ module Inttegro
       end
 
       def create(payload)
-        @http.post_resource("/prices/create", Inttegro::Price, :price, payload)
+        @http.post_resource("/prices/create", Inttegro::CatalogPrice, :price, payload)
       end
 
       def lookup(price_id:)
-        @http.post_resource("/prices/lookup", Inttegro::Price, :price, { price_id: price_id })
+        @http.post_resource("/prices/lookup", Inttegro::CatalogPrice, :price, { price_id: price_id })
       end
 
       def page(payload = {})
@@ -21,19 +21,19 @@ module Inttegro
       end
 
       def update(payload)
-        @http.post_resource("/prices/update", Inttegro::Price, :price, payload)
+        @http.post_resource("/prices/update", Inttegro::CatalogPrice, :price, payload)
       end
 
       def activate(price_id:)
-        @http.post_resource("/prices/activate", Inttegro::Price, :price, { price_id: price_id })
+        @http.post_resource("/prices/activate", Inttegro::CatalogPrice, :price, { price_id: price_id })
       end
 
       def deactivate(price_id:)
-        @http.post_resource("/prices/deactivate", Inttegro::Price, :price, { price_id: price_id })
+        @http.post_resource("/prices/deactivate", Inttegro::CatalogPrice, :price, { price_id: price_id })
       end
 
       def archive(price_id:)
-        @http.post_resource("/prices/archive", Inttegro::Price, :price, { price_id: price_id })
+        @http.post_resource("/prices/archive", Inttegro::CatalogPrice, :price, { price_id: price_id })
       end
     end
   end

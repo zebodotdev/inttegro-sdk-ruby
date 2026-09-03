@@ -13,7 +13,7 @@ module Inttegro
       end
 
       def add_price(payload)
-        @http.post_resource("/products/add_price", Inttegro::ProductPriceNominal, :price, payload)
+        @http.post_resource("/products/add_price", Inttegro::CatalogPrice, :price, payload)
       end
 
       def set_default_unit_price(payload)

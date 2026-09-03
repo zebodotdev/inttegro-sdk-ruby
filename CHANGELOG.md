@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## [4.0.0] - 2026-09-03
+
+- Breaking: renamed order-prefixed payment models to semantic payment domain types.
+- Added focused `Inttegro::Money` access for amount types and separated request and response price shapes.
+- Kept generated transport response and envelope constants private while resource methods return domain objects directly.
+
 ## [3.0.1] - 2026-09-03
 
 - Corrected the release-verification example to reference the current package version.

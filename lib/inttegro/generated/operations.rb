@@ -233,7 +233,7 @@ module Inttegro
       "/purchase_intents/cancel" => "Inttegro::CancelPurchaseIntentRequest",
       "/purchase_intents/lookup" => "Inttegro::LookupPurchaseIntentRequest",
       "/purchase_intents/page" => "Inttegro::PagePurchaseIntentsRequest",
-      "/prices/create" => "Inttegro::CreatePriceRequest",
+      "/prices/create" => "Inttegro::CatalogPriceParams",
       "/prices/lookup" => "Inttegro::LookupPriceRequest",
       "/prices/page" => "Inttegro::PricePageRequest",
       "/prices/update" => "Inttegro::UpdatePriceRequest",

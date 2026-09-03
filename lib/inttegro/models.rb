@@ -9,6 +9,15 @@ require_relative "types"
 module Inttegro
   extend T::Sig
 
+  # Amount primitives live under Money so the namespace can grow to include
+  # currency conversion and formatting helpers without treating money as a
+  # single value type.
+  module Money
+    Amount = Inttegro::Amount
+    AmountParams = Inttegro::AmountParams
+    Currency = Inttegro::Currency
+  end
+
   # Backward-compatible acronym spellings for domain objects.
   OtpTransaction = OTPTransaction
   OtpTransmission = OTPTransmission

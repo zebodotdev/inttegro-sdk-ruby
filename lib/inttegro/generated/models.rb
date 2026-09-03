@@ -87,8 +87,8 @@ module Inttegro
     const :payment_method, T.nilable(Inttegro::PaymentMethod), default: nil
   end
 
-  class AddProductPriceRequestAmount < T::Struct
-    const :currency, String
+  class AmountParams < T::Struct
+    const :currency, Inttegro::Currency
     const :value, Integer
   end
 
@@ -96,21 +96,60 @@ module Inttegro
     const :product_id, String
     const :label, T.nilable(String), default: nil
     const :about, T.nilable(String), default: nil
-    const :amount, Inttegro::AddProductPriceRequestAmount
+    const :amount, Inttegro::AmountParams
   end
 
-  class ProductPriceNominalNominal < T::Struct
-    const :currency, String
+  class Amount < T::Struct
+    const :currency, Inttegro::Currency
     const :value, Integer
   end
 
-  class ProductPriceNominal < T::Struct
+  class PurchaseIntentProductAttributesItem < T::Struct
+    const :name, String
+    const :value, String
+  end
+
+  class PurchaseIntentProductDimensions < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class PurchaseIntentProductMedia < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class PurchaseIntentProductShipment < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class PriceEmbeddedProduct < T::Struct
     const :id, String
-    const :product_id, T.nilable(String), default: nil
+    const :about, T.nilable(String), default: nil
+    const :active, T::Boolean
+    const :archived_at, T.nilable(String), default: nil
+    const :attributes, T.nilable(T::Array[Inttegro::PurchaseIntentProductAttributesItem]), default: nil
+    const :category, T.nilable(String), default: nil
+    const :created_at, String
+    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
+    const :description, T.nilable(String), default: nil
+    const :dimensions, T.nilable(Inttegro::PurchaseIntentProductDimensions), default: nil
+    const :media, T.nilable(Inttegro::PurchaseIntentProductMedia), default: nil
+    const :name, String
+    const :published_at, T.nilable(String), default: nil
+    const :reference, T.nilable(String), default: nil
+    const :shipment, T.nilable(Inttegro::PurchaseIntentProductShipment), default: nil
+    const :tax_code, T.nilable(String), default: nil
+    const :type, Inttegro::ProductType
+    const :unit_dim, T.nilable(String), default: nil
+    const :updated_at, T.nilable(String), default: nil
+  end
+
+  class CatalogPrice < T::Struct
+    const :id, String
     const :label, T.nilable(String), default: nil
     const :about, T.nilable(String), default: nil
     const :active, T::Boolean
-    const :nominal, Inttegro::ProductPriceNominalNominal
+    const :nominal, Inttegro::Amount
+    const :product, T.nilable(Inttegro::PriceEmbeddedProduct), default: nil
     const :created_at, String
     const :updated_at, T.nilable(String), default: nil
     const :archived_at, T.nilable(String), default: nil
@@ -127,7 +166,7 @@ module Inttegro
   end
 
   class AddProductPriceResponse < T::Struct
-    const :price, T.nilable(Inttegro::ProductPriceNominal), default: nil
+    const :price, T.nilable(Inttegro::CatalogPrice), default: nil
     const :error, T.nilable(Inttegro::ErrorPayload), default: nil
   end
 
@@ -432,11 +471,6 @@ module Inttegro
     const :payout_id, String
   end
 
-  class Money < T::Struct
-    const :currency, String
-    const :value, Integer
-  end
-
   class PayoutError < T::Struct
     const :cause, String
     const :message, String
@@ -445,7 +479,7 @@ module Inttegro
   end
 
   class Payout < T::Struct
-    const :amount, T.nilable(Inttegro::Money), default: nil
+    const :amount, T.nilable(Inttegro::Amount), default: nil
     const :balance_transactions, T.nilable(T::Array[String]), default: nil
     const :canceled_at, T.nilable(String), default: nil
     const :custom_data, T.nilable(T::Hash[String, String]), default: nil
@@ -458,7 +492,7 @@ module Inttegro
     const :id, String
     const :initiated_at, String
     const :initiated_by, T.nilable(String), default: nil
-    const :max_amount, Inttegro::Money
+    const :max_amount, Inttegro::Amount
     const :reference, T.nilable(String), default: nil
     const :schedule_id, T.nilable(String), default: nil
     const :scheduled_at, T.nilable(String), default: nil
@@ -503,8 +537,20 @@ module Inttegro
     const :canceled_by, T.nilable(Inttegro::FileActorInput), default: nil
   end
 
+  class CatalogPriceParams < T::Struct
+    const :product_id, T.nilable(String), default: nil
+    const :label, T.nilable(String), default: nil
+    const :about, T.nilable(String), default: nil
+    const :amount, Inttegro::AmountParams
+  end
+
+  class PriceParams < T::Struct
+    const :currency, Inttegro::Currency
+    const :value, Integer
+  end
+
   class CatalogProductWithPriceData < T::Struct
-    const :price, Inttegro::Money
+    const :price, Inttegro::PriceParams
     const :product_id, String
     const :quantity, Integer
   end
@@ -651,18 +697,13 @@ module Inttegro
     const :format_value, T.nilable(Inttegro::OrderInvoiceFormat), default: nil, name: "format"
   end
 
-  class RefundMoney < T::Struct
-    const :currency, String
-    const :value, Integer
-  end
-
   class RefundLineItem < T::Struct
     const :id, String
     const :order_line_item_id, String
-    const :original_amount_paid, Inttegro::RefundMoney
+    const :original_amount_paid, Inttegro::Amount
     const :reason, T.nilable(Inttegro::RefundReason), default: nil
     const :reason_details, T.nilable(String), default: nil
-    const :refund_amount, Inttegro::RefundMoney
+    const :refund_amount, Inttegro::Amount
   end
 
   class Refund < T::Struct
@@ -679,7 +720,7 @@ module Inttegro
     const :reference, T.nilable(String), default: nil
     const :status, Inttegro::RefundStatus
     const :succeeded_at, T.nilable(String), default: nil
-    const :total, Inttegro::RefundMoney
+    const :total, Inttegro::Amount
   end
 
   class InvoiceSettings < T::Struct
@@ -687,6 +728,11 @@ module Inttegro
     const :memo, T.nilable(String), default: nil
     const :footer, T.nilable(String), default: nil
     const :custom_data, T.nilable(T::Hash[String, String]), default: nil
+  end
+
+  class Price < T::Struct
+    const :currency, Inttegro::Currency
+    const :value, Integer
   end
 
   class OrderProductLineItemProduct < T::Struct
@@ -700,7 +746,7 @@ module Inttegro
     const :name, String
     const :category, T.nilable(String), default: nil
     const :type, T.nilable(String), default: nil
-    const :price, Inttegro::Money
+    const :price, Inttegro::Price
     const :quantity, Integer
   end
 
@@ -713,7 +759,7 @@ module Inttegro
     const :id, String
     const :description, T.nilable(String), default: nil
     const :tax_code, T.nilable(String), default: nil
-    const :amount, Inttegro::Money
+    const :amount, Inttegro::Amount
     const :label, String
   end
 
@@ -726,7 +772,7 @@ module Inttegro
     const :id, String
     const :tax_code, T.nilable(String), default: nil
     const :label, T.nilable(String), default: nil
-    const :fee, Inttegro::Money
+    const :fee, Inttegro::Amount
   end
 
   class OrderShippingLineItem < T::Struct
@@ -738,10 +784,10 @@ module Inttegro
 
   class OrderLineItemGroup < T::Struct
     const :line_items, T::Array[Inttegro::OrderLineItem]
-    const :total, Inttegro::Money
+    const :total, Inttegro::Amount
   end
 
-  class OrderPaymentMethodBankAccountGhanaBankAccount < T::Struct
+  class PaymentMethodSnapshotBankAccountGhanaBankAccount < T::Struct
     const :account_number, String
     const :branch, T.nilable(String), default: nil
     const :name, T.nilable(String), default: nil
@@ -749,40 +795,40 @@ module Inttegro
     const :swift_code, T.nilable(String), default: nil
   end
 
-  class OrderPaymentMethodBankAccount < T::Struct
+  class PaymentMethodSnapshotBankAccount < T::Struct
     const :type, String
-    const :ghana_bank_account, T.nilable(Inttegro::OrderPaymentMethodBankAccountGhanaBankAccount), default: nil
+    const :ghana_bank_account, T.nilable(Inttegro::PaymentMethodSnapshotBankAccountGhanaBankAccount), default: nil
   end
 
-  class OrderPaymentMethodCard < T::Struct
+  class PaymentMethodSnapshotCard < T::Struct
     # This object intentionally has no fields.
   end
 
-  class OrderPaymentMethodMobileMoney < T::Struct
+  class PaymentMethodSnapshotMobileMoney < T::Struct
     const :network, Inttegro::MobileMoneyNetwork
     const :account_number, String
     const :last4, String
   end
 
-  class OrderPaymentMethodOwner < T::Struct
+  class PaymentMethodSnapshotOwner < T::Struct
     const :name, String
     const :address, T.nilable(Inttegro::OrderAddress), default: nil
   end
 
-  class OrderPaymentMethod < T::Struct
+  class PaymentMethodSnapshot < T::Struct
     const :id, String
-    const :bank_account, T.nilable(Inttegro::OrderPaymentMethodBankAccount), default: nil
-    const :card, T.nilable(Inttegro::OrderPaymentMethodCard), default: nil
+    const :bank_account, T.nilable(Inttegro::PaymentMethodSnapshotBankAccount), default: nil
+    const :card, T.nilable(Inttegro::PaymentMethodSnapshotCard), default: nil
     const :created_at, String
     const :customer_id, String
-    const :mobile_money, T.nilable(Inttegro::OrderPaymentMethodMobileMoney), default: nil
-    const :owner, T.nilable(Inttegro::OrderPaymentMethodOwner), default: nil
+    const :mobile_money, T.nilable(Inttegro::PaymentMethodSnapshotMobileMoney), default: nil
+    const :owner, T.nilable(Inttegro::PaymentMethodSnapshotOwner), default: nil
     const :type, Inttegro::PaymentMethodType
     const :verified, T::Boolean
     const :verified_at, T.nilable(String), default: nil
   end
 
-  class OrderPaymentLatestAttempt < T::Struct
+  class PaymentLatestAttempt < T::Struct
     const :payment_method_type, T.nilable(String), default: nil
     const :payment_method_id, T.nilable(String), default: nil
     const :reference, T.nilable(String), default: nil
@@ -847,23 +893,23 @@ module Inttegro
     const :authorize, T.nilable(Inttegro::PaymentNextActionAuthorize), default: nil
   end
 
-  class OrderPaymentPayoutConfigurationDestination < T::Struct
+  class PaymentPayoutConfigurationDestination < T::Struct
     const :financial_account_id, T.nilable(String), default: nil
   end
 
-  class OrderPaymentPayoutConfiguration < T::Struct
+  class PaymentPayoutConfiguration < T::Struct
     const :enable_fx, T.nilable(T::Boolean), default: nil
-    const :destination, T.nilable(Inttegro::OrderPaymentPayoutConfigurationDestination), default: nil
+    const :destination, T.nilable(Inttegro::PaymentPayoutConfigurationDestination), default: nil
   end
 
-  class OrderPayment < T::Struct
+  class Payment < T::Struct
     const :id, String
-    const :status, Inttegro::OrderPaymentStatus
+    const :status, Inttegro::PaymentStatus
     const :statement_descriptor, String
-    const :amount, Inttegro::Money
+    const :amount, Inttegro::Amount
     const :balance_transaction, T.nilable(Inttegro::BalanceTransaction), default: nil
-    const :payment_method, T.nilable(Inttegro::OrderPaymentMethod), default: nil
-    const :latest_attempt, T.nilable(Inttegro::OrderPaymentLatestAttempt), default: nil
+    const :payment_method, T.nilable(Inttegro::PaymentMethodSnapshot), default: nil
+    const :latest_attempt, T.nilable(Inttegro::PaymentLatestAttempt), default: nil
     const :next_action, T.nilable(Inttegro::PaymentNextAction), default: nil
     const :initiated_at, String
     const :executed_at, T.nilable(String), default: nil
@@ -874,7 +920,7 @@ module Inttegro
     const :failed_at, T.nilable(String), default: nil
     const :paid_offline, T.nilable(T::Boolean), default: nil
     const :payment_method_types, T.nilable(T::Array[String]), default: nil
-    const :payout_configuration, T.nilable(Inttegro::OrderPaymentPayoutConfiguration), default: nil
+    const :payout_configuration, T.nilable(Inttegro::PaymentPayoutConfiguration), default: nil
   end
 
   class OrderPayoutSettings < T::Struct
@@ -903,7 +949,7 @@ module Inttegro
     const :status, Inttegro::OrderStatus
     const :sealed_at, T.nilable(String), default: nil
     const :line_item_group, T.nilable(Inttegro::OrderLineItemGroup), default: nil
-    const :payment, T.nilable(Inttegro::OrderPayment), default: nil
+    const :payment, T.nilable(Inttegro::Payment), default: nil
     const :paid_at, T.nilable(String), default: nil
     const :payment_due_at, T.nilable(String), default: nil
     const :payout_settings, T.nilable(Inttegro::OrderPayoutSettings), default: nil
@@ -1315,7 +1361,7 @@ module Inttegro
     const :about, T.nilable(String), default: nil
     const :custom_data, T.nilable(T::Hash[String, Object]), default: nil
     const :name, String
-    const :price, Inttegro::Money
+    const :price, Inttegro::PriceParams
     const :quantity, Integer
     const :reference, T.nilable(String), default: nil
     const :tax_code, T.nilable(String), default: nil
@@ -1335,7 +1381,7 @@ module Inttegro
     const :tax_code, T.nilable(String), default: nil
     const :description, T.nilable(String), default: nil
     const :custom_data, T.nilable(T::Hash[String, Object]), default: nil
-    const :amount, Inttegro::Money
+    const :amount, Inttegro::AmountParams
   end
 
   class FeeLineItem < T::Struct
@@ -1347,7 +1393,7 @@ module Inttegro
     const :id, T.nilable(String), default: nil
     const :tax_code, T.nilable(String), default: nil
     const :custom_data, T.nilable(T::Hash[String, Object]), default: nil
-    const :fee, Inttegro::Money
+    const :fee, Inttegro::AmountParams
   end
 
   class ShippingLineItem < T::Struct
@@ -1414,13 +1460,6 @@ module Inttegro
     const :custom_data, T.nilable(T::Hash[String, String]), default: nil
     const :billing_details, T.nilable(Inttegro::BillingDetails), default: nil
     const :shipping, T.nilable(Inttegro::Shipping), default: nil
-  end
-
-  class CreatePriceRequest < T::Struct
-    const :product_id, T.nilable(String), default: nil
-    const :label, T.nilable(String), default: nil
-    const :about, T.nilable(String), default: nil
-    const :amount, Inttegro::Money
   end
 
   class ProductShipmentInput < T::Struct
@@ -1495,24 +1534,14 @@ module Inttegro
     const :variant_set_id, T.nilable(String), default: nil
   end
 
-  class CreatePurchaseIntentRequestPriceNominal < T::Struct
-    const :currency, String
-    const :value, Integer
-  end
-
-  class CreatePurchaseIntentRequestPriceOriginalNominal < T::Struct
-    const :currency, String
-    const :value, Integer
-  end
-
   class CreatePurchaseIntentRequestPriceOriginal < T::Struct
     const :id, T.nilable(String), default: nil
-    const :nominal, T.nilable(Inttegro::CreatePurchaseIntentRequestPriceOriginalNominal), default: nil
+    const :nominal, T.nilable(Inttegro::PriceParams), default: nil
   end
 
   class CreatePurchaseIntentRequestPrice < T::Struct
     const :id, T.nilable(String), default: nil
-    const :nominal, T.nilable(Inttegro::CreatePurchaseIntentRequestPriceNominal), default: nil
+    const :nominal, T.nilable(Inttegro::PriceParams), default: nil
     const :original, T.nilable(Inttegro::CreatePurchaseIntentRequestPriceOriginal), default: nil
     const :original_id, T.nilable(String), default: nil
   end
@@ -1541,7 +1570,7 @@ module Inttegro
     const :order_line_item_id, String
     const :reason, T.nilable(Inttegro::RefundReason), default: nil
     const :reason_details, T.nilable(String), default: nil
-    const :refund_amount, Inttegro::RefundMoney
+    const :refund_amount, Inttegro::AmountParams
   end
 
   class CreateRefundRequest < T::Struct
@@ -1601,7 +1630,7 @@ module Inttegro
 
   class CustomerBalanceValue < T::Struct
     const :as_of, String
-    const :available, Inttegro::Money
+    const :available, Inttegro::Amount
   end
 
   class CustomerAddress < T::Struct
@@ -2652,16 +2681,11 @@ module Inttegro
     const :page_size, T.nilable(Integer), default: nil
   end
 
-  class ProductPriceSummaryNominal < T::Struct
-    const :currency, String
-    const :value, Integer
-  end
-
   class ProductPriceSummary < T::Struct
     const :id, String
     const :active, T::Boolean
     const :label, T.nilable(String), default: nil
-    const :nominal, Inttegro::ProductPriceSummaryNominal
+    const :nominal, Inttegro::Amount
   end
 
   class ProductShipmentDelivery < T::Struct
@@ -2731,11 +2755,6 @@ module Inttegro
     const :page_size, Integer
   end
 
-  class PurchaseIntentMoney < T::Struct
-    const :currency, String
-    const :value, Integer
-  end
-
   class PurchaseIntentActivityAttribution < T::Struct
     const :campaign, T.nilable(String), default: nil
     const :channel, T.nilable(String), default: nil
@@ -2763,7 +2782,7 @@ module Inttegro
   end
 
   class PurchaseIntentActivity < T::Struct
-    const :amount, T.nilable(Inttegro::PurchaseIntentMoney), default: nil
+    const :amount, T.nilable(Inttegro::Amount), default: nil
     const :attribution, T.nilable(Inttegro::PurchaseIntentActivityAttribution), default: nil
     const :created_at, String
     const :error_code, T.nilable(String), default: nil
@@ -2794,32 +2813,15 @@ module Inttegro
     const :active, T::Boolean
     const :id, T.nilable(String), default: nil
     const :label, T.nilable(String), default: nil
-    const :nominal, Inttegro::PurchaseIntentMoney
+    const :nominal, Inttegro::Amount
   end
 
   class PurchaseIntentPrice < T::Struct
     const :active, T::Boolean
     const :id, T.nilable(String), default: nil
     const :label, T.nilable(String), default: nil
-    const :nominal, Inttegro::PurchaseIntentMoney
+    const :nominal, Inttegro::Amount
     const :original, T.nilable(Inttegro::PurchaseIntentOriginalPrice), default: nil
-  end
-
-  class PurchaseIntentProductAttributesItem < T::Struct
-    const :name, String
-    const :value, String
-  end
-
-  class PurchaseIntentProductDimensions < T::Struct
-    # This object intentionally has no fields.
-  end
-
-  class PurchaseIntentProductMedia < T::Struct
-    # This object intentionally has no fields.
-  end
-
-  class PurchaseIntentProductShipment < T::Struct
-    # This object intentionally has no fields.
   end
 
   class PurchaseIntentProduct < T::Struct
@@ -3001,50 +3003,11 @@ module Inttegro
     const :confirmation_sent, T.nilable(T::Boolean), default: nil
   end
 
-  class PriceNominal < T::Struct
-    const :currency, String
-    const :value, Integer
-  end
-
-  class PriceEmbeddedProduct < T::Struct
-    const :id, String
-    const :about, T.nilable(String), default: nil
-    const :active, T::Boolean
-    const :archived_at, T.nilable(String), default: nil
-    const :attributes, T.nilable(T::Array[Inttegro::PurchaseIntentProductAttributesItem]), default: nil
-    const :category, T.nilable(String), default: nil
-    const :created_at, String
-    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
-    const :description, T.nilable(String), default: nil
-    const :dimensions, T.nilable(Inttegro::PurchaseIntentProductDimensions), default: nil
-    const :media, T.nilable(Inttegro::PurchaseIntentProductMedia), default: nil
-    const :name, String
-    const :published_at, T.nilable(String), default: nil
-    const :reference, T.nilable(String), default: nil
-    const :shipment, T.nilable(Inttegro::PurchaseIntentProductShipment), default: nil
-    const :tax_code, T.nilable(String), default: nil
-    const :type, Inttegro::ProductType
-    const :unit_dim, T.nilable(String), default: nil
-    const :updated_at, T.nilable(String), default: nil
-  end
-
-  class Price < T::Struct
-    const :id, String
-    const :label, T.nilable(String), default: nil
-    const :about, T.nilable(String), default: nil
-    const :active, T::Boolean
-    const :nominal, Inttegro::PriceNominal
-    const :product, T.nilable(Inttegro::PriceEmbeddedProduct), default: nil
-    const :created_at, String
-    const :updated_at, T.nilable(String), default: nil
-    const :archived_at, T.nilable(String), default: nil
-  end
-
   class PriceActionRequest < T::Struct
     const :price_id, String
   end
 
-  PricePageItem = T.type_alias { Inttegro::Price }
+  PricePageItem = T.type_alias { Inttegro::CatalogPrice }
 
   class PricePage < T::Struct
     const :number, T.nilable(Integer), default: nil
@@ -3064,29 +3027,12 @@ module Inttegro
   end
 
   class PriceResponse < T::Struct
-    const :price, T.nilable(Inttegro::Price), default: nil
+    const :price, T.nilable(Inttegro::CatalogPrice), default: nil
     const :error, T.nilable(Inttegro::ErrorPayload), default: nil
   end
 
   class ProductActionRequest < T::Struct
     const :product_id, String
-  end
-
-  class ProductPriceNominalInline < T::Struct
-    const :currency, String
-    const :value, Integer
-  end
-
-  class ProductPrice < T::Struct
-    const :id, String
-    const :product_id, T.nilable(String), default: nil
-    const :label, T.nilable(String), default: nil
-    const :about, T.nilable(String), default: nil
-    const :active, T::Boolean
-    const :nominal, Inttegro::ProductPriceNominalInline
-    const :created_at, String
-    const :updated_at, T.nilable(String), default: nil
-    const :archived_at, T.nilable(String), default: nil
   end
 
   class ProductResponse < T::Struct

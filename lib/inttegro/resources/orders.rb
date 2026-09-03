@@ -203,7 +203,7 @@ module Inttegro
       #     token: '123456'
       #   )
       #
-      #   if order.payment&.status == Inttegro::OrderPaymentStatus::PAID
+      #   if order.payment&.status == Inttegro::PaymentStatus::PAID
       #     puts 'Payment confirmed successfully!'
       #   end
       #

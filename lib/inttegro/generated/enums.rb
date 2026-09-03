@@ -101,6 +101,16 @@ module Inttegro
     end
   end
 
+  class Currency < T::Enum
+    enums do
+      GHS = new("ghs")
+      USD = new("usd")
+      GBP = new("gbp")
+      EUR = new("eur")
+      CNY = new("cny")
+    end
+  end
+
   class DeliveryChannel < T::Enum
     enums do
       EMAIL = new("email")
@@ -323,20 +333,6 @@ module Inttegro
     end
   end
 
-  class OrderPaymentStatus < T::Enum
-    enums do
-      INITIATED = new("initiated")
-      REQUIRES_ACTION = new("requires_action")
-      OVERDUE = new("overdue")
-      EXECUTED = new("executed")
-      PAID = new("paid")
-      CANCELED = new("canceled")
-      EXPIRED = new("expired")
-      FAILED = new("failed")
-      UNKNOWN = new("unknown")
-    end
-  end
-
   class OrderProductLineItemType < T::Enum
     enums do
       PRODUCT = new("product")
@@ -419,6 +415,20 @@ module Inttegro
       PROCESSING = new("processing")
       SUCCEEDED = new("succeeded")
       FAILED = new("failed")
+    end
+  end
+
+  class PaymentStatus < T::Enum
+    enums do
+      INITIATED = new("initiated")
+      REQUIRES_ACTION = new("requires_action")
+      OVERDUE = new("overdue")
+      EXECUTED = new("executed")
+      PAID = new("paid")
+      CANCELED = new("canceled")
+      EXPIRED = new("expired")
+      FAILED = new("failed")
+      UNKNOWN = new("unknown")
     end
   end
 
