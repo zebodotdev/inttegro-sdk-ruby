@@ -149,6 +149,7 @@ module Inttegro
     const :about, T.nilable(String), default: nil
     const :active, T::Boolean
     const :nominal, Inttegro::Amount
+    const :product_id, T.nilable(String), default: nil
     const :product, T.nilable(Inttegro::PriceEmbeddedProduct), default: nil
     const :created_at, String
     const :updated_at, T.nilable(String), default: nil

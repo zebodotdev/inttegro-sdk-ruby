@@ -23,7 +23,7 @@ T.assert_type!(client.otp.initialize_session({}), Inttegro::OTPTransaction)
 T.assert_type!(client.files.contents(file_id: "file_example"), Inttegro::FileDownload)
 
 T.assert_type!(
-  Inttegro::Money.new(currency: "ghs", value: 1_000),
-  Inttegro::Money
+  Inttegro::Money::AmountParams.new(currency: Inttegro::Money::Currency::GHS, value: 1_000),
+  Inttegro::Money::AmountParams
 )
 T.assert_type!(Inttegro::ProductType::DIGITAL, Inttegro::ProductType)

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    inttegro (4.0.1)
+    inttegro (4.0.2)
       sorbet-runtime (~> 0.6)
 
 GEM

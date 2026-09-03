@@ -7,6 +7,7 @@ class InttegroEnumTypesTest < Minitest::Test
     refute Inttegro.const_defined?(:Enums, false)
     assert_equal "digital", Inttegro::ProductType::DIGITAL.serialize
     assert_equal "ghs", Inttegro::Money::Currency::GHS.serialize
+    assert_equal Inttegro::Money::Currency::GHS, Inttegro::Currency.deserialize("GHS")
     assert_equal "mtn", Inttegro::MobileMoneyNetwork::MTN.serialize
     assert_equal "requested_by_customer", Inttegro::RefundReason::REQUESTED_BY_CUSTOMER.serialize
     assert_includes Inttegro::UploadRequestStatus.values.map(&:serialize), "pending"
@@ -16,11 +17,19 @@ class InttegroEnumTypesTest < Minitest::Test
     price = Inttegro::PriceParams.new(currency: Inttegro::Money::Currency::GHS, value: 3005)
     amount = Inttegro::Money::AmountParams.new(currency: Inttegro::Money::Currency::GHS, value: 3005)
     catalog = Inttegro::CatalogPriceParams.new(amount: amount, label: "Retail")
+    returned = Inttegro::CatalogPrice.from_hash(
+      "id" => "pr_123",
+      "active" => true,
+      "nominal" => { "currency" => "ghs", "value" => 3005 },
+      "product_id" => "prod_123",
+      "created_at" => "2026-09-02T12:00:00Z"
+    )
 
     assert_equal({ "currency" => "ghs", "value" => 3005 }, price.serialize)
     assert_equal(
       { "amount" => { "currency" => "ghs", "value" => 3005 }, "label" => "Retail" },
       catalog.serialize
     )
+    assert_equal "prod_123", returned.product_id
   end
 end

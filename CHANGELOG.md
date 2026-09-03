@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [4.0.2] - 2026-09-03
+
+- Normalize legacy uppercase currency values when decoding typed amount responses while keeping lowercase wire values for requests.
+- Restore the product identifier on typed catalog-price responses.
+
 ## [4.0.1] - 2026-09-03
 
 - Breaking: renamed order-prefixed payment models to semantic payment domain types.

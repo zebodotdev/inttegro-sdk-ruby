@@ -18,6 +18,19 @@ module Inttegro
     Currency = Inttegro::Currency
   end
 
+  # Currency identifiers serialize to lowercase wire values while accepting
+  # legacy uppercase response values during deserialization.
+  class Currency
+    class << self
+      extend T::Sig
+
+      sig { params(value: String).returns(Inttegro::Currency) }
+      def deserialize(value)
+        T.cast(super(value.strip.downcase), Inttegro::Currency)
+      end
+    end
+  end
+
   # Backward-compatible acronym spellings for domain objects.
   OtpTransaction = OTPTransaction
   OtpTransmission = OTPTransmission
