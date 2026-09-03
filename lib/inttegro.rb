@@ -13,7 +13,7 @@ require_relative "inttegro/version"
 module Inttegro
   wire_constants = Operations::RESPONSE_MODELS.values.filter_map do |model|
     name = model.name&.split("::")&.last
-    name&.to_sym if name&.match?(/Response|Envelope/)
+    name.to_sym if name&.match?(/Response|Envelope/)
   end
   additional_wire_constants = %i[
     ErrorEnvelope

@@ -23,7 +23,7 @@ module Inttegro
 
     sig { params(path: String).returns(Integer) }
     def save_to(path)
-      File.binwrite(path, data)
+      ::File.binwrite(path, data)
     end
   end
 end

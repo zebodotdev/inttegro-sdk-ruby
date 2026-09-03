@@ -239,7 +239,7 @@ module Inttegro
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("request_confirmation", order_id)
           }
-        ).order
+        )
       end
 
       # Finalize an order to make it immutable and ready for payment or fulfillment.
@@ -355,7 +355,7 @@ module Inttegro
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("cancel", order_id)
           }
-        ).order
+        )
       end
 
       # Create a refund through the /orders/refund compatibility alias.

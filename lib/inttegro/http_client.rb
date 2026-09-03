@@ -114,10 +114,10 @@ module Inttegro
       envelope = post_object(path, body, headers: headers, query: query)
       value = envelope.public_send(field)
       value = value.to_h if value.is_a?(ResponseObject)
-      return T.cast(value, T.type_parameter(:Model)) if value.is_a?(model)
+      return value if value.is_a?(model)
 
       decoded = Inttegro.deserialize(value, T.cast(model, T::Class[T::Struct]))
-      return T.cast(decoded, T.type_parameter(:Model)) if decoded.is_a?(model)
+      return decoded if decoded.is_a?(model)
 
       raise TypeError, "expected #{model} in #{field} from #{path}, got #{decoded.class}"
     end
@@ -203,10 +203,10 @@ module Inttegro
         nil
       ), path)
       value = envelope.public_send(field)
-      return T.cast(value, T.type_parameter(:Model)) if value.is_a?(model)
+      return value if value.is_a?(model)
 
       decoded = Inttegro.deserialize(value, T.cast(model, T::Class[T::Struct]))
-      return T.cast(decoded, T.type_parameter(:Model)) if decoded.is_a?(model)
+      return decoded if decoded.is_a?(model)
 
       raise TypeError, "expected #{model} in #{field} from #{path}, got #{decoded.class}"
     end

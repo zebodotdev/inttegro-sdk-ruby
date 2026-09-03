@@ -12,14 +12,14 @@ create_request = T.let(
 )
 created_order = T.let(client.orders.create(create_request), Inttegro::Order)
 T.assert_type!(created_order.id, String)
-T.assert_type!(client.customers.page, Inttegro::PageCustomersResponse)
-T.assert_type!(client.payment_methods.settings, Inttegro::GetPaymentMethodSettingsResponse)
+T.assert_type!(client.customers.page, Inttegro::CustomerPage)
+T.assert_type!(client.payment_methods.settings, Inttegro::PaymentMethodSettings)
 T.assert_type!(
   client.payment_methods.deactivate(payment_method_id: "pm_example"),
-  Inttegro::DisactivatePaymentMethodResponse
+  Inttegro::PaymentMethod
 )
-T.assert_type!(client.payouts.enable, Inttegro::EnableAutomaticPayoutsResponse)
-T.assert_type!(client.otp.initialize_session({}), Inttegro::InitiateOTPResponse)
+T.assert_type!(client.payouts.enable, Inttegro::PayoutSettingsMutation)
+T.assert_type!(client.otp.initialize_session({}), Inttegro::OTPTransaction)
 T.assert_type!(client.files.contents(file_id: "file_example"), Inttegro::FileDownload)
 
 T.assert_type!(
