@@ -10,9 +10,7 @@ module Inttegro
 
       def create(file:, purpose:, title: nil, custom_data: nil, idempotency_key: nil)
         headers = idempotency_key ? { "Idempotency-Key" => idempotency_key } : {}
-        @http.post_multipart_model(
-          "/files/create",
-          Inttegro::FileResponse,
+        @http.post_multipart_resource("/files/create", Inttegro::File, :file,
           fields: { purpose: purpose, title: title, custom_data: custom_data },
           files: { file: file },
           headers: headers
@@ -20,11 +18,11 @@ module Inttegro
       end
 
       def lookup(file_id:)
-        @http.post_model("/files/lookup", Inttegro::FileResponse, { file_id: file_id })
+        @http.post_resource("/files/lookup", Inttegro::File, :file, { file_id: file_id })
       end
 
       def page(payload = {})
-        @http.post_model("/files/page", Inttegro::FilePageResponse, payload || {})
+        @http.post_resource("/files/page", Inttegro::FilePage, :page, payload || {})
       end
 
       def contents(file_id:, disposition: "attachment")
@@ -32,7 +30,7 @@ module Inttegro
       end
 
       def delete(file_id:)
-        @http.post_model("/files/delete", Inttegro::FileResponse, { file_id: file_id })
+        @http.post_resource("/files/delete", Inttegro::File, :file, { file_id: file_id })
       end
     end
   end

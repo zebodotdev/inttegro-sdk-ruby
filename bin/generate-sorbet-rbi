@@ -27,13 +27,36 @@ RESOURCE_PRIVATE_RETURN_TYPES = {
 
 LEGACY_RETURN_TYPES = {
   "/orders/new" => "Inttegro::Order",
-  "/otp/cancel" => "Inttegro::CancelOTPResponse",
-  "/payment_methods/verify" => "Inttegro::PaymentMethodVerificationResponse",
-  "/payment_methods/confirm_verification" => "Inttegro::PaymentMethodResponse",
-  "/payment_methods/delete" => "Inttegro::PaymentMethodDeleteResponse",
-  "/payouts/enable_fx" => "Inttegro::PayoutSettingsResponse",
-  "/payouts/disable_fx" => "Inttegro::PayoutSettingsResponse",
-  "/products/set_default_unit_price" => "Inttegro::ProductResponse"
+  "/otp/cancel" => "Inttegro::OTPTransaction",
+  "/payment_methods/verify" => "Inttegro::PaymentMethodVerification",
+  "/payment_methods/confirm_verification" => "Inttegro::PaymentMethod",
+  "/payment_methods/delete" => "Inttegro::PaymentMethodDeletion",
+  "/payouts/enable_fx" => "Inttegro::PayoutSettingsLookup",
+  "/payouts/disable_fx" => "Inttegro::PayoutSettingsLookup",
+  "/products/set_default_unit_price" => "Inttegro::Product"
+}.freeze
+
+DOMAIN_RETURN_TYPES = {
+  "/apps/create" => "Inttegro::Application", "/apps/lookup" => "Inttegro::Application", "/apps/update" => "Inttegro::Application",
+  "/balance_transactions/lookup" => "Inttegro::BalanceTransaction", "/balance_transactions/page" => "Inttegro::BalanceTransactionPage", "/balances" => "Inttegro::BalanceSnapshot",
+  "/broadcasts/cancel" => "Inttegro::BroadcastCancelDetail", "/broadcasts/lookup" => "Inttegro::BroadcastDetail",
+  "/chimes/broadcast" => "Inttegro::BroadcastCreationDetail", "/chimes/lookup" => "Inttegro::Chime", "/chimes/page" => "Inttegro::ChimePage", "/chimes/schedule" => "Inttegro::ScheduleCreationDetail", "/chimes/send" => "Inttegro::Chime",
+  "/customers/create" => "Inttegro::Customer", "/customers/lookup" => "Inttegro::Customer", "/customers/page" => "Inttegro::CustomerPage", "/customers/update" => "Inttegro::Customer",
+  "/file_links/create" => "Inttegro::FileLinkCreation", "/file_links/lookup" => "Inttegro::FileLink", "/file_links/page" => "Inttegro::FileLinkPage", "/file_links/revoke" => "Inttegro::FileLink",
+  "/file_references/reconcile" => "Inttegro::FileReferenceReconciliation", "/files/create" => "Inttegro::File", "/files/delete" => "Inttegro::File", "/files/lookup" => "Inttegro::File", "/files/page" => "Inttegro::FilePage",
+  "/financial_accounts/connect" => "Inttegro::FinancialAccount", "/financial_accounts/create" => "Inttegro::FinancialAccount", "/financial_accounts/disable_pull" => "Inttegro::FinancialAccount", "/financial_accounts/disable_push" => "Inttegro::FinancialAccount", "/financial_accounts/disconnect" => "Inttegro::FinancialAccount", "/financial_accounts/enable_pull" => "Inttegro::FinancialAccount", "/financial_accounts/enable_push" => "Inttegro::FinancialAccount", "/financial_accounts/lookup" => "Inttegro::FinancialAccount", "/financial_accounts/page" => "Inttegro::FinancialAccountPage", "/financial_accounts/reconnect" => "Inttegro::FinancialAccount", "/financial_accounts/update" => "Inttegro::FinancialAccount",
+  "/keys/destroy" => "Inttegro::SecretKey", "/keys/generate" => "Inttegro::GeneratedSecretKey", "/keys/lookup" => "Inttegro::SecretKey", "/keys/page" => "Inttegro::SecretKeyPage", "/keys/update" => "Inttegro::SecretKey", "/keys/usage" => "Inttegro::SecretKeyUsage",
+  "/message_templates/archive" => "Inttegro::MessageTemplate", "/message_templates/create" => "Inttegro::MessageTemplate", "/message_templates/lookup" => "Inttegro::MessageTemplate", "/message_templates/page" => "Inttegro::MessageTemplatesPage", "/message_templates/publish" => "Inttegro::MessageTemplate", "/message_templates/render_preview" => "Inttegro::MessageTemplatePreview", "/message_templates/update" => "Inttegro::MessageTemplate",
+  "/orders/cancel" => "Inttegro::Order", "/orders/complete" => "Inttegro::Order", "/orders/confirm_payment" => "Inttegro::Order", "/orders/create" => "Inttegro::Order", "/orders/finalize" => "Inttegro::Order", "/orders/lookup" => "Inttegro::Order", "/orders/page" => "Inttegro::OrderPage", "/orders/pay" => "Inttegro::Order", "/orders/refund" => "Inttegro::Refund", "/orders/request_confirmation" => "Inttegro::Order", "/orders/send_invoice" => "Inttegro::OrderDocumentDeliveryResult", "/orders/send_receipt" => "Inttegro::OrderDocumentDeliveryResult", "/orders/update" => "Inttegro::Order",
+  "/otp/initiate" => "Inttegro::OTPTransaction", "/otp/lookup" => "Inttegro::OTPTransaction", "/otp/verify" => "Inttegro::OTPVerification",
+  "/payment_methods/activate" => "Inttegro::PaymentMethod", "/payment_methods/archive" => "Inttegro::PaymentMethod", "/payment_methods/confirm_verification" => "Inttegro::PaymentMethod", "/payment_methods/disactivate" => "Inttegro::PaymentMethod", "/payment_methods/lookup" => "Inttegro::PaymentMethod", "/payment_methods/page" => "Inttegro::PaymentMethodPage", "/payment_methods/settings" => "Inttegro::PaymentMethodSettings", "/payment_methods/tokenize" => "Inttegro::PaymentMethod", "/payment_methods/unarchive" => "Inttegro::PaymentMethod", "/payment_methods/update" => "Inttegro::PaymentMethod",
+  "/payouts/cancel" => "Inttegro::Payout", "/payouts/disable" => "Inttegro::PayoutSettingsMutation", "/payouts/enable" => "Inttegro::PayoutSettingsMutation", "/payouts/lookup" => "Inttegro::Payout", "/payouts/page" => "Inttegro::PayoutPage", "/payouts/schedule" => "Inttegro::Payout", "/payouts/set_destinations" => "Inttegro::PayoutSettingsMutation", "/payouts/settings" => "Inttegro::PayoutSettingsLookup",
+  "/prices/activate" => "Inttegro::Price", "/prices/archive" => "Inttegro::Price", "/prices/create" => "Inttegro::Price", "/prices/deactivate" => "Inttegro::Price", "/prices/lookup" => "Inttegro::Price", "/prices/page" => "Inttegro::PricePage", "/prices/update" => "Inttegro::Price",
+  "/products/add_price" => "Inttegro::ProductPriceNominal", "/products/archive" => "Inttegro::Product", "/products/create" => "Inttegro::Product", "/products/lookup" => "Inttegro::Product", "/products/page" => "Inttegro::ProductPage", "/products/publish" => "Inttegro::Product", "/products/unpublish" => "Inttegro::Product", "/products/update" => "Inttegro::UpdatedProduct",
+  "/purchase_intents/cancel" => "Inttegro::PurchaseIntent", "/purchase_intents/create" => "Inttegro::PurchaseIntent", "/purchase_intents/lookup" => "Inttegro::PurchaseIntent", "/purchase_intents/page" => "Inttegro::PurchaseIntentPage", "/purchase_intents/update" => "Inttegro::PurchaseIntent",
+  "/refunds/cancel" => "Inttegro::Refund", "/refunds/create" => "Inttegro::Refund", "/refunds/lookup" => "Inttegro::Refund", "/refunds/page" => "Inttegro::RefundPage",
+  "/schedules/cancel" => "Inttegro::ScheduleCancelDetail", "/schedules/lookup" => "Inttegro::ScheduleDetail", "/spec/countries" => "Inttegro::CountrySpecifications",
+  "/upload_requests/cancel" => "Inttegro::UploadRequest", "/upload_requests/create" => "Inttegro::UploadRequest", "/upload_requests/lookup" => "Inttegro::UploadRequestDetails", "/upload_requests/page" => "Inttegro::UploadRequestPage", "/upload_requests/review" => "Inttegro::UploadRequestDetails"
 }.freeze
 
 PUBLIC_RETURN_TYPES = {
@@ -58,7 +81,7 @@ LEGACY_REQUEST_TYPES = {
 
 EXTERNAL_RETURN_TYPES = {
   [Inttegro::Resources::FileLinks, :open] => "Inttegro::FileDownload",
-  [Inttegro::Resources::UploadRequests, :fulfill] => "Inttegro::FulfillUploadRequestResponse"
+  [Inttegro::Resources::UploadRequests, :fulfill] => "Inttegro::UploadFulfillment"
 }.freeze
 
 def snake_case(name)
@@ -84,6 +107,8 @@ def return_type(resource, method_name, path)
   public_type = PUBLIC_RETURN_TYPES[[resource, method_name]]
   return public_type if public_type
   return "Inttegro::FileDownload" if Inttegro::Operations::BINARY_PATHS.include?(path)
+  domain_type = DOMAIN_RETURN_TYPES[path]
+  return domain_type if domain_type
 
   model = Inttegro::Operations::RESPONSE_MODELS[path]
   return model.name if model

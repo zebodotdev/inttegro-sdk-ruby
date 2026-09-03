@@ -11,7 +11,7 @@ module Inttegro
       def reconcile(payload)
         @http.post_model(
           "/file_references/reconcile",
-          Inttegro::FileReferenceReconcileResponse,
+          Inttegro::FileReferenceReconciliation,
           payload
         )
       end

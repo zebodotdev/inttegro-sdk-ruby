@@ -10,7 +10,7 @@ module Inttegro
     const :payment_method_id, String
   end
 
-  class PaymentMethodObjectBankAccountGhanaBankAccount < T::Struct
+  class PaymentMethodBankAccountGhanaBankAccount < T::Struct
     const :branch, T.nilable(String), default: nil
     const :name, T.nilable(String), default: nil
     const :account_number, String
@@ -18,18 +18,18 @@ module Inttegro
     const :swift_code, T.nilable(String), default: nil
   end
 
-  class PaymentMethodObjectBankAccount < T::Struct
-    const :ghana_bank_account, T.nilable(Inttegro::PaymentMethodObjectBankAccountGhanaBankAccount), default: nil
+  class PaymentMethodBankAccount < T::Struct
+    const :ghana_bank_account, T.nilable(Inttegro::PaymentMethodBankAccountGhanaBankAccount), default: nil
     const :type, Inttegro::BankAccountType
   end
 
-  class PaymentMethodObjectMobileMoney < T::Struct
+  class PaymentMethodMobileMoney < T::Struct
     const :account_number, String
     const :last4, String
     const :network, Inttegro::MobileMoneyNetwork
   end
 
-  class PaymentMethodObjectOwnerAddress < T::Struct
+  class PaymentMethodOwnerAddress < T::Struct
     const :city, T.nilable(String), default: nil
     const :country, String
     const :line_1, T.nilable(String), default: nil
@@ -40,12 +40,12 @@ module Inttegro
     const :region, T.nilable(String), default: nil
   end
 
-  class PaymentMethodObjectOwner < T::Struct
-    const :address, T.nilable(Inttegro::PaymentMethodObjectOwnerAddress), default: nil
+  class PaymentMethodOwner < T::Struct
+    const :address, T.nilable(Inttegro::PaymentMethodOwnerAddress), default: nil
     const :name, String
   end
 
-  class PaymentMethodObjectSupplied < T::Struct
+  class PaymentMethodSupplied < T::Struct
     const :attempt_id, T.nilable(String), default: nil
     const :by, String
     const :channel, T.nilable(String), default: nil
@@ -54,7 +54,7 @@ module Inttegro
     const :supplied_at, String
   end
 
-  class PaymentMethodObjectVerification < T::Struct
+  class PaymentMethodVerification < T::Struct
     const :completed_at, T.nilable(String), default: nil
     const :initiated_at, String
     const :mechanism, T.nilable(String), default: nil
@@ -62,29 +62,29 @@ module Inttegro
     const :type, String
   end
 
-  class PaymentMethodObject < T::Struct
+  class PaymentMethod < T::Struct
     const :active, T::Boolean
     const :app_customer_local_fingerprint, T.nilable(String), default: nil
     const :app_local_fingerprint, T.nilable(String), default: nil
     const :archived_at, T.nilable(String), default: nil
-    const :bank_account, T.nilable(Inttegro::PaymentMethodObjectBankAccount), default: nil
+    const :bank_account, T.nilable(Inttegro::PaymentMethodBankAccount), default: nil
     const :created_at, String
     const :custom_data, T.nilable(T::Hash[String, String]), default: nil
     const :customer_id, String
     const :ephemeral, T.nilable(T::Boolean), default: nil
     const :expires_on, T.nilable(String), default: nil
     const :id, String
-    const :mobile_money, T.nilable(Inttegro::PaymentMethodObjectMobileMoney), default: nil
-    const :owner, T.nilable(Inttegro::PaymentMethodObjectOwner), default: nil
+    const :mobile_money, T.nilable(Inttegro::PaymentMethodMobileMoney), default: nil
+    const :owner, T.nilable(Inttegro::PaymentMethodOwner), default: nil
     const :type, Inttegro::PaymentMethodType
-    const :supplied, T.nilable(Inttegro::PaymentMethodObjectSupplied), default: nil
+    const :supplied, T.nilable(Inttegro::PaymentMethodSupplied), default: nil
     const :universal_fingerprint, T.nilable(String), default: nil
-    const :verification, T.nilable(Inttegro::PaymentMethodObjectVerification), default: nil
+    const :verification, T.nilable(Inttegro::PaymentMethodVerification), default: nil
     const :verified_at, T.nilable(String), default: nil
   end
 
   class ActivatePaymentMethodResponse < T::Struct
-    const :payment_method, T.nilable(Inttegro::PaymentMethodObject), default: nil
+    const :payment_method, T.nilable(Inttegro::PaymentMethod), default: nil
   end
 
   class AddProductPriceRequestAmount < T::Struct
@@ -143,12 +143,51 @@ module Inttegro
     const :post_code, T.nilable(String), default: nil
   end
 
+  class ApplicationSecretKey < T::Struct
+    const :id, T.nilable(String), default: nil
+    const :token_type, T.nilable(String), default: nil
+    const :issued_at, T.nilable(String), default: nil
+    const :token, T.nilable(String), default: nil
+  end
+
+  class ApplicationRelationshipPolicy < T::Struct
+    const :child_standing, String
+    const :management, Inttegro::AppManagementRole
+    const :credentials, Inttegro::AppCredentialOwner
+  end
+
+  class ApplicationRelationship < T::Struct
+    const :id, String
+    const :kind, Inttegro::AppRelationshipKind
+    const :policy_version, String
+    const :status, Inttegro::AppRelationshipStatus
+    const :actor_app_id, String
+    const :creator_app_id, String
+    const :placement_parent_app_id, String
+    const :subject_app_id, String
+    const :child_app_id, String
+    const :child_standing, String
+    const :relationship_policy, Inttegro::ApplicationRelationshipPolicy
+    const :retained_creator_authority_exists, T::Boolean
+    const :created_at, String
+  end
+
+  class Application < T::Struct
+    const :id, String
+    const :name, String
+    const :alias, T.nilable(String), default: nil
+    const :description, T.nilable(String), default: nil
+    const :created_at, String
+    const :secret_key, T.nilable(Inttegro::ApplicationSecretKey), default: nil
+    const :relationship, T.nilable(Inttegro::ApplicationRelationship), default: nil
+  end
+
   class ArchivePaymentMethodRequest < T::Struct
     const :payment_method_id, String
   end
 
   class ArchivePaymentMethodResponse < T::Struct
-    const :payment_method, T.nilable(Inttegro::PaymentMethodObject), default: nil
+    const :payment_method, T.nilable(Inttegro::PaymentMethod), default: nil
   end
 
   class BalanceValue < T::Struct
@@ -171,12 +210,12 @@ module Inttegro
     const :reserved, Inttegro::CurrencyBalanceSnapshotReserved
   end
 
-  class BalanceSnapshotResponseBalances < T::Struct
+  class BalanceSnapshotBalances < T::Struct
     const :ghs, Inttegro::CurrencyBalanceSnapshot
   end
 
-  class BalanceSnapshotResponse < T::Struct
-    const :balances, Inttegro::BalanceSnapshotResponseBalances
+  class BalanceSnapshot < T::Struct
+    const :balances, Inttegro::BalanceSnapshotBalances
   end
 
   class BalanceTransactionAmount < T::Struct
@@ -198,14 +237,14 @@ module Inttegro
     const :type, Inttegro::BalanceTransactionType
   end
 
-  class BalanceTransactionPageResponsePage < T::Struct
+  class BalanceTransactionPage < T::Struct
     const :number, Integer
     const :size, Integer
     const :transactions, T.nilable(T::Array[Inttegro::BalanceTransaction]), default: nil
   end
 
   class BalanceTransactionPageResponse < T::Struct
-    const :page, Inttegro::BalanceTransactionPageResponsePage
+    const :page, Inttegro::BalanceTransactionPage
   end
 
   class BalanceTransactionResponse < T::Struct
@@ -320,7 +359,7 @@ module Inttegro
   end
 
   class MessageTemplateVariables < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class MessageTemplateReference < T::Struct
@@ -476,19 +515,19 @@ module Inttegro
     const :quantity, Integer
   end
 
-  class ChimeRecipientResponsePhone < T::Struct
+  class ChimeRecipientDetailPhone < T::Struct
     const :number, String
   end
 
-  class ChimeRecipientResponseEmail < T::Struct
+  class ChimeRecipientDetailEmail < T::Struct
     const :address, String
   end
 
-  class ChimeRecipientResponse < T::Struct
+  class ChimeRecipientDetail < T::Struct
     const :type, Inttegro::ChimeRecipientType
     const :name, T.nilable(String), default: nil
-    const :phone, T.nilable(Inttegro::ChimeRecipientResponsePhone), default: nil
-    const :email, T.nilable(Inttegro::ChimeRecipientResponseEmail), default: nil
+    const :phone, T.nilable(Inttegro::ChimeRecipientDetailPhone), default: nil
+    const :email, T.nilable(Inttegro::ChimeRecipientDetailEmail), default: nil
   end
 
   class ChimeEmailEvent < T::Struct
@@ -540,13 +579,29 @@ module Inttegro
     const :id, String
     const :idempotency_key, T.nilable(String), default: nil
     const :purpose, T.nilable(String), default: nil
-    const :recipient, Inttegro::ChimeRecipientResponse
+    const :recipient, Inttegro::ChimeRecipientDetail
     const :sender_id, String
     const :transmission, T.nilable(Inttegro::ChimeTransmission), default: nil
   end
 
+  class ChimePage < T::Struct
+    const :number, Integer
+    const :size, Integer
+    const :chimes, T::Array[Inttegro::Chime]
+  end
+
   class ChimeResponse < T::Struct
     const :chime, T.nilable(Inttegro::Chime), default: nil
+  end
+
+  class CompactFinancialAccount < T::Struct
+    const :created_at, String
+    const :currency, String
+    const :description, T.nilable(String), default: nil
+    const :disconnected_at, T.nilable(String), default: nil
+    const :id, String
+    const :label, T.nilable(String), default: nil
+    const :type, Inttegro::FinancialAccountType
   end
 
   class OrderCheckoutSettings < T::Struct
@@ -700,7 +755,7 @@ module Inttegro
   end
 
   class OrderPaymentMethodCard < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class OrderPaymentMethodMobileMoney < T::Struct
@@ -763,7 +818,7 @@ module Inttegro
   end
 
   class PaymentNextActionExecute < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class PaymentNextActionRedirectLatestVisit < T::Struct
@@ -823,11 +878,11 @@ module Inttegro
   end
 
   class OrderPayoutSettings < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class OrderShipping < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class Order < T::Struct
@@ -924,11 +979,11 @@ module Inttegro
     const :supplied_at, String
   end
 
-  class FinancialAccountCommonResponseVerification < T::Struct
-    # This response intentionally has no fields.
+  class FinancialAccountDetailsVerification < T::Struct
+    # This object intentionally has no fields.
   end
 
-  class FinancialAccountAddressResponse < T::Struct
+  class FinancialAccountAddress < T::Struct
     const :city, String
     const :country, String
     const :line_1, String
@@ -939,41 +994,41 @@ module Inttegro
     const :region, String
   end
 
-  class FinancialAccountOwnerResponse < T::Struct
-    const :address, Inttegro::FinancialAccountAddressResponse
+  class FinancialAccountOwner < T::Struct
+    const :address, Inttegro::FinancialAccountAddress
     const :name, String
   end
 
-  class GhanaBankAccountResponse < T::Struct
+  class GhanaBankAccount < T::Struct
     const :branch, T.nilable(String), default: nil
-    const :holder, Inttegro::FinancialAccountOwnerResponse
+    const :holder, Inttegro::FinancialAccountOwner
     const :name, T.nilable(String), default: nil
     const :number, String
     const :sort_code, T.nilable(String), default: nil
     const :swift_code, T.nilable(String), default: nil
   end
 
-  class FinancialAccountBankResponse < T::Struct
+  class FinancialAccountBank < T::Struct
     const :type, Inttegro::BankAccountType
-    const :ghana_bank_account, T.nilable(Inttegro::GhanaBankAccountResponse), default: nil
+    const :ghana_bank_account, T.nilable(Inttegro::GhanaBankAccount), default: nil
   end
 
-  class FinancialAccountConnectedResponseDoshAccount < T::Struct
-    # This response intentionally has no fields.
+  class ConnectedFinancialAccountDoshAccount < T::Struct
+    # This object intentionally has no fields.
   end
 
-  class FinancialAccountWalletResponseMobileMoney < T::Struct
+  class FinancialAccountWalletMobileMoney < T::Struct
     const :account_number, String
     const :network, Inttegro::MobileMoneyNetwork
   end
 
-  class FinancialAccountWalletResponse < T::Struct
+  class FinancialAccountWallet < T::Struct
     const :id, String
     const :type, Inttegro::WalletType
-    const :mobile_money, T.nilable(Inttegro::FinancialAccountWalletResponseMobileMoney), default: nil
+    const :mobile_money, T.nilable(Inttegro::FinancialAccountWalletMobileMoney), default: nil
   end
 
-  class FinancialAccountConnectedResponse < T::Struct
+  class ConnectedFinancialAccount < T::Struct
     const :app_customer_local_fingerprint, T.nilable(String), default: nil
     const :app_local_fingerprint, T.nilable(String), default: nil
     const :archived_at, T.nilable(String), default: nil
@@ -990,15 +1045,15 @@ module Inttegro
     const :supplied, T.nilable(Inttegro::ResourceSupply), default: nil
     const :type, Inttegro::FinancialAccountType
     const :universal_fingerprint, T.nilable(String), default: nil
-    const :verification, T.nilable(Inttegro::FinancialAccountCommonResponseVerification), default: nil
-    const :bank_account, T.nilable(Inttegro::FinancialAccountBankResponse), default: nil
-    const :dosh_account, T.nilable(Inttegro::FinancialAccountConnectedResponseDoshAccount), default: nil
-    const :owner, T.nilable(Inttegro::FinancialAccountOwnerResponse), default: nil
-    const :wallet, T.nilable(Inttegro::FinancialAccountWalletResponse), default: nil
+    const :verification, T.nilable(Inttegro::FinancialAccountDetailsVerification), default: nil
+    const :bank_account, T.nilable(Inttegro::FinancialAccountBank), default: nil
+    const :dosh_account, T.nilable(Inttegro::ConnectedFinancialAccountDoshAccount), default: nil
+    const :owner, T.nilable(Inttegro::FinancialAccountOwner), default: nil
+    const :wallet, T.nilable(Inttegro::FinancialAccountWallet), default: nil
   end
 
   class ConnectFinancialAccountResponse < T::Struct
-    const :account, T.nilable(Inttegro::FinancialAccountConnectedResponse), default: nil
+    const :account, T.nilable(Inttegro::ConnectedFinancialAccount), default: nil
   end
 
   class CountryBankBranch < T::Struct
@@ -1034,6 +1089,10 @@ module Inttegro
     const :banks, T.nilable(Inttegro::CountryBankDirectory), default: nil
   end
 
+  class CountrySpecifications < T::Struct
+    const :countries, T::Hash[String, Inttegro::CountrySpecification]
+  end
+
   class CreateApplicationRequestRelationshipPolicy < T::Struct
     const :child_standing, T.nilable(String), default: nil
     const :management, T.nilable(Inttegro::AppManagementRole), default: nil
@@ -1049,47 +1108,8 @@ module Inttegro
     const :relationship_policy, T.nilable(Inttegro::CreateApplicationRequestRelationshipPolicy), default: nil
   end
 
-  class CreateApplicationResponseAppSecretKey < T::Struct
-    const :id, T.nilable(String), default: nil
-    const :token_type, T.nilable(String), default: nil
-    const :issued_at, T.nilable(String), default: nil
-    const :token, T.nilable(String), default: nil
-  end
-
-  class CreateApplicationResponseAppRelationshipRelationshipPolicy < T::Struct
-    const :child_standing, String
-    const :management, Inttegro::AppManagementRole
-    const :credentials, Inttegro::AppCredentialOwner
-  end
-
-  class CreateApplicationResponseAppRelationship < T::Struct
-    const :id, String
-    const :kind, Inttegro::AppRelationshipKind
-    const :policy_version, String
-    const :status, Inttegro::AppRelationshipStatus
-    const :actor_app_id, String
-    const :creator_app_id, String
-    const :placement_parent_app_id, String
-    const :subject_app_id, String
-    const :child_app_id, String
-    const :child_standing, String
-    const :relationship_policy, Inttegro::CreateApplicationResponseAppRelationshipRelationshipPolicy
-    const :retained_creator_authority_exists, T::Boolean
-    const :created_at, String
-  end
-
-  class CreateApplicationResponseApp < T::Struct
-    const :id, String
-    const :name, String
-    const :alias, T.nilable(String), default: nil
-    const :description, T.nilable(String), default: nil
-    const :created_at, String
-    const :secret_key, T.nilable(Inttegro::CreateApplicationResponseAppSecretKey), default: nil
-    const :relationship, T.nilable(Inttegro::CreateApplicationResponseAppRelationship), default: nil
-  end
-
   class CreateApplicationResponse < T::Struct
-    const :app, Inttegro::CreateApplicationResponseApp
+    const :app, Inttegro::Application
   end
 
   class CustomerAddressInput < T::Struct
@@ -1180,45 +1200,6 @@ module Inttegro
     const :expires_at, T.nilable(String), default: nil
   end
 
-  class FileLinkAccess < T::Struct
-    const :max_accesses, T.nilable(Integer), default: nil
-    const :access_count, T.nilable(Integer), default: nil
-    const :last_accessed_at, T.nilable(String), default: nil
-    const :allow_download, T.nilable(T::Boolean), default: nil
-    const :allowed_origins, T.nilable(T::Array[String]), default: nil
-  end
-
-  class FileLinkActor < T::Struct
-    const :email, T.nilable(String), default: nil
-    const :id, T.nilable(String), default: nil
-    const :name, T.nilable(String), default: nil
-    const :type, String
-  end
-
-  class FileLinkObject < T::Struct
-    const :id, String
-    const :kind, Inttegro::FileLinkKind
-    const :file_id, String
-    const :purpose, String
-    const :status, Inttegro::FileLinkStatus
-    const :active, T::Boolean
-    const :delivery, Inttegro::FileLinkDelivery
-    const :access, Inttegro::FileLinkAccess
-    const :created_by, Inttegro::FileLinkActor
-    const :revoked_by, T.nilable(Inttegro::FileLinkActor), default: nil
-    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
-    const :metadata, T.nilable(T::Hash[String, String]), default: nil
-    const :created_at, String
-    const :updated_at, String
-    const :expires_at, String
-    const :revoked_at, T.nilable(String), default: nil
-  end
-
-  class CreateFileLinkResponse < T::Struct
-    const :file_link, Inttegro::FileLinkObject
-    const :url, String
-  end
-
   class CreateFileRequest < T::Struct
     const :file, String
     const :purpose, String
@@ -1226,7 +1207,7 @@ module Inttegro
     const :custom_data, T.nilable(String), default: nil
   end
 
-  class FinancialAccountAddressCreateResponse < T::Struct
+  class CreatedFinancialAccountAddress < T::Struct
     const :application_id, String
     const :city, String
     const :country, String
@@ -1239,27 +1220,27 @@ module Inttegro
     const :region, String
   end
 
-  class FinancialAccountOwnerCreateResponse < T::Struct
-    const :address, Inttegro::FinancialAccountAddressCreateResponse
+  class CreatedFinancialAccountOwner < T::Struct
+    const :address, Inttegro::CreatedFinancialAccountAddress
     const :name, String
   end
 
-  class GhanaBankAccountCreateResponse < T::Struct
+  class CreatedGhanaBankAccount < T::Struct
     const :branch, T.nilable(String), default: nil
-    const :holder, Inttegro::FinancialAccountOwnerCreateResponse
+    const :holder, Inttegro::CreatedFinancialAccountOwner
     const :name, String
     const :number, String
     const :sort_code, T.nilable(String), default: nil
     const :swift_code, T.nilable(String), default: nil
   end
 
-  class FinancialAccountBankCreateResponse < T::Struct
+  class CreatedFinancialAccountBank < T::Struct
     const :id, String
     const :type, Inttegro::BankAccountType
-    const :ghana_bank_account, T.nilable(Inttegro::GhanaBankAccountCreateResponse), default: nil
+    const :ghana_bank_account, T.nilable(Inttegro::CreatedGhanaBankAccount), default: nil
   end
 
-  class FinancialAccountCreateResponse < T::Struct
+  class CreatedFinancialAccount < T::Struct
     const :app_customer_local_fingerprint, T.nilable(String), default: nil
     const :app_local_fingerprint, T.nilable(String), default: nil
     const :archived_at, T.nilable(String), default: nil
@@ -1276,14 +1257,14 @@ module Inttegro
     const :supplied, T.nilable(Inttegro::ResourceSupply), default: nil
     const :type, Inttegro::FinancialAccountType
     const :universal_fingerprint, T.nilable(String), default: nil
-    const :verification, T.nilable(Inttegro::FinancialAccountCommonResponseVerification), default: nil
-    const :bank_account, T.nilable(Inttegro::FinancialAccountBankCreateResponse), default: nil
-    const :owner, T.nilable(Inttegro::FinancialAccountOwnerCreateResponse), default: nil
-    const :wallet, T.nilable(Inttegro::FinancialAccountWalletResponse), default: nil
+    const :verification, T.nilable(Inttegro::FinancialAccountDetailsVerification), default: nil
+    const :bank_account, T.nilable(Inttegro::CreatedFinancialAccountBank), default: nil
+    const :owner, T.nilable(Inttegro::CreatedFinancialAccountOwner), default: nil
+    const :wallet, T.nilable(Inttegro::FinancialAccountWallet), default: nil
   end
 
   class CreateFinancialAccountResponse < T::Struct
-    const :account, T.nilable(Inttegro::FinancialAccountCreateResponse), default: nil
+    const :account, T.nilable(Inttegro::CreatedFinancialAccount), default: nil
   end
 
   class MessageTemplateSMSContent < T::Struct
@@ -1301,6 +1282,16 @@ module Inttegro
   end
 
   CreateMessageTemplateRequest = T.type_alias { T.any(Inttegro::CreateSMSMessageTemplateRequest, Inttegro::CreateEmailMessageTemplateRequest) }
+
+  class PaymentMethodDataMobileMoney < T::Struct
+    const :network, Inttegro::MobileMoneyNetwork
+    const :account_number, String
+  end
+
+  class PaymentMethodData < T::Struct
+    const :type, Inttegro::PaymentMethodDataType
+    const :mobile_money, T.nilable(Inttegro::PaymentMethodDataMobileMoney), default: nil
+  end
 
   class CreateOrderExistingCustomerRequestMeta < T::Struct
     const :idempotency_key, T.nilable(String), default: nil
@@ -1373,6 +1364,7 @@ module Inttegro
   class CreateOrderExistingCustomer < T::Struct
     const :customer_id, String
     const :payment_method_id, T.nilable(String), default: nil
+    const :payment_method_data, T.nilable(Inttegro::PaymentMethodData), default: nil
     const :receipt_number, T.nilable(String), default: nil
     const :statement_descriptor, T.nilable(String), default: nil
     const :statement_descriptor_prefix, T.nilable(String), default: nil
@@ -1407,6 +1399,7 @@ module Inttegro
 
   class CreateOrderNewCustomer < T::Struct
     const :customer_data, Inttegro::CustomerData
+    const :payment_method_data, T.nilable(Inttegro::PaymentMethodData), default: nil
     const :number, T.nilable(String), default: nil
     const :receipt_number, T.nilable(String), default: nil
     const :statement_descriptor, T.nilable(String), default: nil
@@ -1677,7 +1670,7 @@ module Inttegro
   end
 
   class DisableAutomaticPayoutsRequest < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class PayoutSettingsMutationScheduleSpec < T::Struct
@@ -1708,11 +1701,11 @@ module Inttegro
   end
 
   class DisableFinancialAccountPullResponse < T::Struct
-    const :account, T.nilable(Inttegro::FinancialAccountConnectedResponse), default: nil
+    const :account, T.nilable(Inttegro::ConnectedFinancialAccount), default: nil
   end
 
   class DisableFinancialAccountPushResponse < T::Struct
-    const :account, T.nilable(Inttegro::FinancialAccountConnectedResponse), default: nil
+    const :account, T.nilable(Inttegro::ConnectedFinancialAccount), default: nil
   end
 
   class DisactivatePaymentMethodRequest < T::Struct
@@ -1720,25 +1713,15 @@ module Inttegro
   end
 
   class DisactivatePaymentMethodResponse < T::Struct
-    const :payment_method, T.nilable(Inttegro::PaymentMethodObject), default: nil
-  end
-
-  class FinancialAccountCompactResponse < T::Struct
-    const :created_at, String
-    const :currency, String
-    const :description, T.nilable(String), default: nil
-    const :disconnected_at, T.nilable(String), default: nil
-    const :id, String
-    const :label, T.nilable(String), default: nil
-    const :type, Inttegro::FinancialAccountType
+    const :payment_method, T.nilable(Inttegro::PaymentMethod), default: nil
   end
 
   class DisconnectFinancialAccountResponse < T::Struct
-    const :account, T.nilable(Inttegro::FinancialAccountCompactResponse), default: nil
+    const :account, T.nilable(Inttegro::CompactFinancialAccount), default: nil
   end
 
   class EnableAutomaticPayoutsRequest < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class EnableAutomaticPayoutsResponse < T::Struct
@@ -1746,11 +1729,11 @@ module Inttegro
   end
 
   class EnableFinancialAccountPullResponse < T::Struct
-    const :account, T.nilable(Inttegro::FinancialAccountConnectedResponse), default: nil
+    const :account, T.nilable(Inttegro::ConnectedFinancialAccount), default: nil
   end
 
   class EnableFinancialAccountPushResponse < T::Struct
-    const :account, T.nilable(Inttegro::FinancialAccountConnectedResponse), default: nil
+    const :account, T.nilable(Inttegro::ConnectedFinancialAccount), default: nil
   end
 
   class ErrorEnvelope < T::Struct
@@ -1764,47 +1747,10 @@ module Inttegro
     const :email, T.nilable(String), default: nil
   end
 
-  class FileApiError < T::Struct
-    const :message, T.nilable(String), default: nil
-    const :fix_code, T.nilable(String), default: nil
-    const :detail, T.nilable(String), default: nil
-    const :cause, T.nilable(String), default: nil
-    const :type, T.nilable(String), default: nil
-    const :code, T.nilable(String), default: nil
-    const :url, T.nilable(String), default: nil
-  end
-
-  class FileContentsRequest < T::Struct
-    const :file_id, String
-    const :disposition, T.nilable(Inttegro::FileDisposition), default: nil
-    const :delivery, T.nilable(Inttegro::FileContentsDeliveryMode), default: nil
-  end
-
-  class FileDelivery < T::Struct
-    const :public_url, T.nilable(String), default: nil
-    const :cache_control, T.nilable(String), default: nil
-    const :content_type, T.nilable(String), default: nil
-  end
-
-  class FileLatestError < T::Struct
-    const :code, T.nilable(String), default: nil
-    const :message, T.nilable(String), default: nil
-    const :retryable, T.nilable(T::Boolean), default: nil
-    const :at, T.nilable(String), default: nil
-  end
-
-  class FileLinkPage < T::Struct
-    const :number, Integer
-    const :size, Integer
-    const :file_links, T::Array[Inttegro::FileLinkObject]
-  end
-
-  class FileLinkPageResponse < T::Struct
-    const :page, Inttegro::FileLinkPage
-  end
-
-  class FileLinkResponse < T::Struct
-    const :file_link, Inttegro::FileLinkObject
+  class FileSource < T::Struct
+    const :type, T.nilable(Inttegro::FileSourceType), default: nil
+    const :service, T.nilable(String), default: nil
+    const :upload_request_id, T.nilable(String), default: nil
   end
 
   class FileMedia < T::Struct
@@ -1820,18 +1766,25 @@ module Inttegro
     const :aspect_ratio, T.nilable(String), default: nil
   end
 
-  class FileSource < T::Struct
-    const :type, T.nilable(Inttegro::FileSourceType), default: nil
-    const :service, T.nilable(String), default: nil
-    const :upload_request_id, T.nilable(String), default: nil
-  end
-
   class PublicFileStorage < T::Struct
     const :encoding, Inttegro::FileStorageEncoding
     const :stored_size, Integer
   end
 
-  class FileObject < T::Struct
+  class FileDelivery < T::Struct
+    const :public_url, T.nilable(String), default: nil
+    const :cache_control, T.nilable(String), default: nil
+    const :content_type, T.nilable(String), default: nil
+  end
+
+  class FileLatestError < T::Struct
+    const :code, T.nilable(String), default: nil
+    const :message, T.nilable(String), default: nil
+    const :retryable, T.nilable(T::Boolean), default: nil
+    const :at, T.nilable(String), default: nil
+  end
+
+  class File < T::Struct
     const :id, String
     const :purpose, String
     const :status, Inttegro::FileStatus
@@ -1855,10 +1808,79 @@ module Inttegro
     const :expires_at, T.nilable(String), default: nil
   end
 
+  class FileApiError < T::Struct
+    const :message, T.nilable(String), default: nil
+    const :fix_code, T.nilable(String), default: nil
+    const :detail, T.nilable(String), default: nil
+    const :cause, T.nilable(String), default: nil
+    const :type, T.nilable(String), default: nil
+    const :code, T.nilable(String), default: nil
+    const :url, T.nilable(String), default: nil
+  end
+
+  class FileContentsRequest < T::Struct
+    const :file_id, String
+    const :disposition, T.nilable(Inttegro::FileDisposition), default: nil
+    const :delivery, T.nilable(Inttegro::FileContentsDeliveryMode), default: nil
+  end
+
+  class FileLinkAccess < T::Struct
+    const :max_accesses, T.nilable(Integer), default: nil
+    const :access_count, T.nilable(Integer), default: nil
+    const :last_accessed_at, T.nilable(String), default: nil
+    const :allow_download, T.nilable(T::Boolean), default: nil
+    const :allowed_origins, T.nilable(T::Array[String]), default: nil
+  end
+
+  class FileLinkActor < T::Struct
+    const :email, T.nilable(String), default: nil
+    const :id, T.nilable(String), default: nil
+    const :name, T.nilable(String), default: nil
+    const :type, String
+  end
+
+  class FileLink < T::Struct
+    const :id, String
+    const :kind, Inttegro::FileLinkKind
+    const :file_id, String
+    const :purpose, String
+    const :status, Inttegro::FileLinkStatus
+    const :active, T::Boolean
+    const :delivery, Inttegro::FileLinkDelivery
+    const :access, Inttegro::FileLinkAccess
+    const :created_by, Inttegro::FileLinkActor
+    const :revoked_by, T.nilable(Inttegro::FileLinkActor), default: nil
+    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
+    const :metadata, T.nilable(T::Hash[String, String]), default: nil
+    const :created_at, String
+    const :updated_at, String
+    const :expires_at, String
+    const :revoked_at, T.nilable(String), default: nil
+  end
+
+  class FileLinkCreation < T::Struct
+    const :file_link, Inttegro::FileLink
+    const :url, String
+  end
+
+  class FileLinkPage < T::Struct
+    const :number, Integer
+    const :size, Integer
+    const :file_links, T::Array[Inttegro::FileLink]
+  end
+
+  class FileLinkPageResponse < T::Struct
+    const :page, Inttegro::FileLinkPage
+  end
+
+  class FileLinkResponse < T::Struct
+    const :file_link, Inttegro::FileLink
+  end
+
   class FilePage < T::Struct
     const :number, Integer
     const :size, Integer
-    const :files, T::Array[Inttegro::FileObject]
+    const :files, T::Array[Inttegro::File]
   end
 
   class FilePageResponse < T::Struct
@@ -1879,12 +1901,12 @@ module Inttegro
     const :references, T.nilable(T::Array[Inttegro::FileReferenceInput]), default: nil
   end
 
-  class FileReferenceReconcileResponse < T::Struct
+  class FileReferenceReconciliation < T::Struct
     const :reconciled, T::Boolean
   end
 
   class FileResponse < T::Struct
-    const :file, Inttegro::FileObject
+    const :file, Inttegro::File
   end
 
   class FileServiceHealthResponse < T::Struct
@@ -1921,7 +1943,7 @@ module Inttegro
   end
 
   class FinancialAccountDoshAccount < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class FinancialAccount < T::Struct
@@ -1941,24 +1963,12 @@ module Inttegro
     const :supplied, T.nilable(Inttegro::ResourceSupply), default: nil
     const :type, Inttegro::FinancialAccountType
     const :universal_fingerprint, T.nilable(String), default: nil
-    const :verification, T.nilable(Inttegro::FinancialAccountCommonResponseVerification), default: nil
-    const :bank_account, T.nilable(Inttegro::FinancialAccountBankResponse), default: nil
+    const :verification, T.nilable(Inttegro::FinancialAccountDetailsVerification), default: nil
+    const :bank_account, T.nilable(Inttegro::FinancialAccountBank), default: nil
     const :disconnected_at, T.nilable(String), default: nil
     const :dosh_account, T.nilable(Inttegro::FinancialAccountDoshAccount), default: nil
-    const :owner, T.nilable(Inttegro::FinancialAccountOwnerResponse), default: nil
-    const :wallet, T.nilable(Inttegro::FinancialAccountWalletResponse), default: nil
-  end
-
-  class FinancialAccountAddressUpdateResponse < T::Struct
-    const :city, String
-    const :country, String
-    const :id, T.nilable(String), default: nil
-    const :line_1, String
-    const :line_2, T.nilable(String), default: nil
-    const :name, T.nilable(String), default: nil
-    const :phone, T.nilable(String), default: nil
-    const :post_code, T.nilable(String), default: nil
-    const :region, String
+    const :owner, T.nilable(Inttegro::FinancialAccountOwner), default: nil
+    const :wallet, T.nilable(Inttegro::FinancialAccountWallet), default: nil
   end
 
   class FinancialAccountOwnerInputAddress < T::Struct
@@ -2010,41 +2020,6 @@ module Inttegro
     const :bank_account, Inttegro::FinancialAccountBankRequestBankAccount
   end
 
-  class GhanaBankAccountUpdateResponse < T::Struct
-    const :branch, T.nilable(String), default: nil
-    const :holder, Inttegro::FinancialAccountOwnerResponse
-    const :name, String
-    const :number, String
-    const :sort_code, T.nilable(String), default: nil
-    const :swift_code, T.nilable(String), default: nil
-  end
-
-  class FinancialAccountBankUpdateResponse < T::Struct
-    const :id, String
-    const :type, Inttegro::BankAccountType
-    const :ghana_bank_account, T.nilable(Inttegro::GhanaBankAccountUpdateResponse), default: nil
-  end
-
-  class FinancialAccountCommonResponse < T::Struct
-    const :app_customer_local_fingerprint, T.nilable(String), default: nil
-    const :app_local_fingerprint, T.nilable(String), default: nil
-    const :archived_at, T.nilable(String), default: nil
-    const :created_at, String
-    const :currency, String
-    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
-    const :description, T.nilable(String), default: nil
-    const :id, String
-    const :institution, T.nilable(Inttegro::FinancialInstitution), default: nil
-    const :label, T.nilable(String), default: nil
-    const :pull_configuration, T.nilable(Inttegro::FinancialAccountPullConfiguration), default: nil
-    const :push_configuration, T.nilable(Inttegro::FinancialAccountPushConfiguration), default: nil
-    const :reference, T.nilable(String), default: nil
-    const :supplied, T.nilable(Inttegro::ResourceSupply), default: nil
-    const :type, Inttegro::FinancialAccountType
-    const :universal_fingerprint, T.nilable(String), default: nil
-    const :verification, T.nilable(Inttegro::FinancialAccountCommonResponseVerification), default: nil
-  end
-
   class FinancialAccountWalletRequestWalletMobileMoney < T::Struct
     const :account_number, String
     const :network, Inttegro::MobileMoneyNetwork
@@ -2069,7 +2044,7 @@ module Inttegro
   end
 
   class FinancialAccountDoshRequestDoshAccount < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class FinancialAccountDoshRequest < T::Struct
@@ -2086,6 +2061,26 @@ module Inttegro
   end
 
   FinancialAccountCreateRequest = T.type_alias { T.any(Inttegro::FinancialAccountWalletRequest, Inttegro::FinancialAccountBankRequest, Inttegro::FinancialAccountDoshRequest) }
+
+  class FinancialAccountDetails < T::Struct
+    const :app_customer_local_fingerprint, T.nilable(String), default: nil
+    const :app_local_fingerprint, T.nilable(String), default: nil
+    const :archived_at, T.nilable(String), default: nil
+    const :created_at, String
+    const :currency, String
+    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
+    const :description, T.nilable(String), default: nil
+    const :id, String
+    const :institution, T.nilable(Inttegro::FinancialInstitution), default: nil
+    const :label, T.nilable(String), default: nil
+    const :pull_configuration, T.nilable(Inttegro::FinancialAccountPullConfiguration), default: nil
+    const :push_configuration, T.nilable(Inttegro::FinancialAccountPushConfiguration), default: nil
+    const :reference, T.nilable(String), default: nil
+    const :supplied, T.nilable(Inttegro::ResourceSupply), default: nil
+    const :type, Inttegro::FinancialAccountType
+    const :universal_fingerprint, T.nilable(String), default: nil
+    const :verification, T.nilable(Inttegro::FinancialAccountDetailsVerification), default: nil
+  end
 
   class FinancialAccountDisableRequest < T::Struct
     const :account_id, String
@@ -2116,11 +2111,6 @@ module Inttegro
   class FinancialAccountOwnerUpdateInput < T::Struct
     const :name, T.nilable(String), default: nil
     const :address, T.nilable(Inttegro::FinancialAccountOwnerUpdateInputAddress), default: nil
-  end
-
-  class FinancialAccountOwnerUpdateResponse < T::Struct
-    const :address, Inttegro::FinancialAccountAddressUpdateResponse
-    const :name, String
   end
 
   class FinancialAccountPage < T::Struct
@@ -2155,130 +2145,26 @@ module Inttegro
     const :reference, T.nilable(String), default: nil
   end
 
-  class FinancialAccountUpdateResponseDoshAccount < T::Struct
-    # This response intentionally has no fields.
-  end
-
-  class FinancialAccountWalletRawResponse < T::Struct
-    const :id, String
-    const :type, Inttegro::WalletType
-    const :mobile_money, T.nilable(Inttegro::FinancialAccountWalletResponseMobileMoney), default: nil
-  end
-
-  class FinancialAccountUpdateResponse < T::Struct
-    const :app_customer_local_fingerprint, T.nilable(String), default: nil
-    const :app_local_fingerprint, T.nilable(String), default: nil
-    const :archived_at, T.nilable(String), default: nil
-    const :created_at, String
-    const :currency, String
-    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
-    const :description, T.nilable(String), default: nil
-    const :id, String
-    const :institution, T.nilable(Inttegro::FinancialInstitution), default: nil
+  class FinancialAccountWirePageAccountsItem < T::Struct
+    const :id, T.nilable(String), default: nil
+    const :type, T.nilable(Inttegro::FinancialAccountType), default: nil
+    const :currency, T.nilable(String), default: nil
     const :label, T.nilable(String), default: nil
-    const :pull_configuration, T.nilable(Inttegro::FinancialAccountPullConfiguration), default: nil
-    const :push_configuration, T.nilable(Inttegro::FinancialAccountPushConfiguration), default: nil
+    const :description, T.nilable(String), default: nil
     const :reference, T.nilable(String), default: nil
-    const :supplied, T.nilable(Inttegro::ResourceSupply), default: nil
-    const :type, Inttegro::FinancialAccountType
-    const :universal_fingerprint, T.nilable(String), default: nil
-    const :verification, T.nilable(Inttegro::FinancialAccountCommonResponseVerification), default: nil
-    const :bank_account, T.nilable(Inttegro::FinancialAccountBankUpdateResponse), default: nil
-    const :disconnected_at, T.nilable(String), default: nil
-    const :dosh_account, T.nilable(Inttegro::FinancialAccountUpdateResponseDoshAccount), default: nil
-    const :owner, T.nilable(Inttegro::FinancialAccountOwnerUpdateResponse), default: nil
-    const :wallet, T.nilable(Inttegro::FinancialAccountWalletRawResponse), default: nil
+    const :created_at, T.nilable(String), default: nil
+    const :archived_at, T.nilable(String), default: nil
+    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
+  end
+
+  class FinancialAccountWirePage < T::Struct
+    const :number, T.nilable(Integer), default: nil
+    const :size, T.nilable(Integer), default: nil
+    const :accounts, T.nilable(T::Array[Inttegro::FinancialAccountWirePageAccountsItem]), default: nil
   end
 
   class FulfillUploadRequestRequest < T::Struct
     const :file, String
-  end
-
-  class UploadRequestActor < T::Struct
-    const :email, T.nilable(String), default: nil
-    const :id, T.nilable(String), default: nil
-    const :name, T.nilable(String), default: nil
-    const :type, String
-  end
-
-  class UploadRequestAttempts < T::Struct
-    const :max_attempts, T.nilable(Integer), default: nil
-    const :attempt_count, Integer
-    const :failed_attempt_count, Integer
-    const :last_attempted_at, T.nilable(String), default: nil
-  end
-
-  class UploadRequestLatestError < T::Struct
-    const :code, T.nilable(String), default: nil
-    const :param, T.nilable(String), default: nil
-    const :message, T.nilable(String), default: nil
-    const :retryable, T.nilable(T::Boolean), default: nil
-    const :at, T.nilable(String), default: nil
-  end
-
-  class UploadRequestReviewReason < T::Struct
-    const :code, String
-    const :message, String
-    const :param, T.nilable(String), default: nil
-  end
-
-  class UploadRequestReview < T::Struct
-    const :created_at, String
-    const :decision, Inttegro::UploadReviewDecision
-    const :file_id, T.nilable(String), default: nil
-    const :public_message, T.nilable(String), default: nil
-    const :reasons, T.nilable(T::Array[Inttegro::UploadRequestReviewReason]), default: nil
-    const :reviewed_at, String
-    const :type, Inttegro::UploadReviewType
-  end
-
-  class UploadRequestAttempt < T::Struct
-    const :attempted_at, String
-    const :content_type, T.nilable(String), default: nil
-    const :declared_size, T.nilable(Integer), default: nil
-    const :error, T.nilable(Inttegro::UploadRequestLatestError), default: nil
-    const :failed_at, T.nilable(String), default: nil
-    const :file_id, T.nilable(String), default: nil
-    const :filename, T.nilable(String), default: nil
-    const :id, String
-    const :ordinal, Integer
-    const :review, T.nilable(Inttegro::UploadRequestReview), default: nil
-    const :status, String
-    const :succeeded_at, T.nilable(String), default: nil
-    const :upload_request_id, String
-  end
-
-  class UploadRequestWithAttemptObject < T::Struct
-    const :id, String
-    const :purpose, String
-    const :status, Inttegro::UploadRequestStatus
-    const :active, T::Boolean
-    const :file_id, T.nilable(String), default: nil
-    const :upload_url, T.nilable(String), default: nil
-    const :constraints, Inttegro::UploadRequestConstraints
-    const :display_data, Inttegro::UploadRequestDisplay, name: "display"
-    const :subject, Inttegro::FileParty
-    const :recipient, Inttegro::FileParty
-    const :resource, Inttegro::FileResource
-    const :requester, Inttegro::UploadRequestActor
-    const :attempts, Inttegro::UploadRequestAttempts
-    const :latest_error, T.nilable(Inttegro::UploadRequestLatestError), default: nil
-    const :canceled_by, T.nilable(Inttegro::UploadRequestActor), default: nil
-    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
-    const :metadata, T.nilable(T::Hash[String, String]), default: nil
-    const :created_at, String
-    const :updated_at, String
-    const :expires_at, String
-    const :uploading_at, T.nilable(String), default: nil
-    const :fulfilled_at, T.nilable(String), default: nil
-    const :expired_at, T.nilable(String), default: nil
-    const :canceled_at, T.nilable(String), default: nil
-    const :attempt, T.nilable(Inttegro::UploadRequestAttempt), default: nil
-  end
-
-  class FulfillUploadRequestResponse < T::Struct
-    const :upload_request, Inttegro::UploadRequestWithAttemptObject
-    const :file, Inttegro::FileUploadReceipt
   end
 
   class GenerateSecretKeyRequest < T::Struct
@@ -2298,7 +2184,7 @@ module Inttegro
   end
 
   class GetPaymentMethodSettingsRequest < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class PaymentMethodTypeSetting < T::Struct
@@ -2321,7 +2207,7 @@ module Inttegro
   end
 
   class GetPayoutSettingsRequest < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class PayoutSettingsLookupScheduleAgingSpec < T::Struct
@@ -2386,14 +2272,10 @@ module Inttegro
   end
 
   class ListCountrySpecsRequest < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
-  class ListCountrySpecsResponse < T::Struct
-    const :countries, T::Hash[String, Inttegro::CountrySpecification]
-  end
-
-  class LookupApplicationResponseApp < T::Struct
+  class LookedUpApplication < T::Struct
     const :id, String
     const :name, String
     const :alias, T.nilable(String), default: nil
@@ -2404,7 +2286,7 @@ module Inttegro
   end
 
   class LookupApplicationResponse < T::Struct
-    const :app, Inttegro::LookupApplicationResponseApp
+    const :app, Inttegro::LookedUpApplication
   end
 
   class LookupBalanceTransactionRequest < T::Struct
@@ -2412,7 +2294,7 @@ module Inttegro
   end
 
   class LookupBalancesRequest < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class LookupBroadcastRequest < T::Struct
@@ -2460,7 +2342,7 @@ module Inttegro
   end
 
   class LookupPaymentMethodResponse < T::Struct
-    const :payment_method, T.nilable(Inttegro::PaymentMethodObject), default: nil
+    const :payment_method, T.nilable(Inttegro::PaymentMethod), default: nil
   end
 
   class LookupPayoutRequest < T::Struct
@@ -2559,6 +2441,10 @@ module Inttegro
     const :id, String
   end
 
+  class RenderedSMSMessageTemplate < T::Struct
+    const :full_message, String
+  end
+
   class MessageTemplateScannedLink < T::Struct
     const :host, T.nilable(String), default: nil
     const :raw, String
@@ -2576,6 +2462,28 @@ module Inttegro
     const :sanitized_html, T.nilable(String), default: nil
     const :scanner, String
     const :status, Inttegro::ContentSafetyStatus
+  end
+
+  class RenderedEmailMessageTemplate < T::Struct
+    const :subject, String
+    const :text, String
+    const :html, T.nilable(String), default: nil
+    const :from, T.nilable(Inttegro::MessageTemplateMailbox), default: nil
+    const :reply_to, T.nilable(Inttegro::MessageTemplateMailbox), default: nil
+    const :headers, T.nilable(T::Hash[String, String]), default: nil
+    const :safety, T.nilable(Inttegro::MessageTemplateSafetyResult), default: nil
+  end
+
+  class RenderedMessageTemplate < T::Struct
+    const :channel, Inttegro::MessageTemplateChannel
+    const :attachments, T.nilable(Inttegro::MessageTemplateAttachmentIDs), default: nil
+    const :sms, T.nilable(Inttegro::RenderedSMSMessageTemplate), default: nil
+    const :email, T.nilable(Inttegro::RenderedEmailMessageTemplate), default: nil
+  end
+
+  class MessageTemplatePreview < T::Struct
+    const :message_template, Inttegro::MessageTemplate
+    const :rendered, Inttegro::RenderedMessageTemplate
   end
 
   class MessageTemplatesPage < T::Struct
@@ -2604,6 +2512,11 @@ module Inttegro
     const :presented_token, String
     const :recipient, String
     const :result, Inttegro::OTPVerificationAttemptResult
+  end
+
+  class OTPVerification < T::Struct
+    const :transaction, Inttegro::OTPTransaction
+    const :verification_attempt, Inttegro::OTPVerificationAttempt
   end
 
   class OrderDocumentDeliveryAttempt < T::Struct
@@ -2657,14 +2570,8 @@ module Inttegro
     const :recipient, T.nilable(String), default: nil
   end
 
-  class PageChimesResponsePage < T::Struct
-    const :number, Integer
-    const :size, Integer
-    const :chimes, T::Array[Inttegro::Chime]
-  end
-
   class PageChimesResponse < T::Struct
-    const :page, T.nilable(Inttegro::PageChimesResponsePage), default: nil
+    const :page, T.nilable(Inttegro::ChimePage), default: nil
   end
 
   class PageCustomersRequest < T::Struct
@@ -2697,26 +2604,8 @@ module Inttegro
     const :page_size, T.nilable(Integer), default: nil
   end
 
-  class PageFinancialAccountsResponsePageAccountsItem < T::Struct
-    const :id, T.nilable(String), default: nil
-    const :type, T.nilable(Inttegro::FinancialAccountType), default: nil
-    const :currency, T.nilable(String), default: nil
-    const :label, T.nilable(String), default: nil
-    const :description, T.nilable(String), default: nil
-    const :reference, T.nilable(String), default: nil
-    const :created_at, T.nilable(String), default: nil
-    const :archived_at, T.nilable(String), default: nil
-    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
-  end
-
-  class PageFinancialAccountsResponsePage < T::Struct
-    const :number, T.nilable(Integer), default: nil
-    const :size, T.nilable(Integer), default: nil
-    const :accounts, T.nilable(T::Array[Inttegro::PageFinancialAccountsResponsePageAccountsItem]), default: nil
-  end
-
   class PageFinancialAccountsResponse < T::Struct
-    const :page, T.nilable(Inttegro::PageFinancialAccountsResponsePage), default: nil
+    const :page, T.nilable(Inttegro::FinancialAccountWirePage), default: nil
     const :error, T.nilable(Inttegro::ErrorPayload), default: nil
   end
 
@@ -2748,14 +2637,14 @@ module Inttegro
     const :page_size, T.nilable(Integer), default: nil
   end
 
-  class PagePayoutsResponsePage < T::Struct
+  class PayoutPage < T::Struct
     const :number, Integer
     const :size, Integer
     const :payouts, T.nilable(T::Array[Inttegro::Payout]), default: nil
   end
 
   class PagePayoutsResponse < T::Struct
-    const :page, T.nilable(Inttegro::PagePayoutsResponsePage), default: nil
+    const :page, T.nilable(Inttegro::PayoutPage), default: nil
   end
 
   class PageProductsRequest < T::Struct
@@ -2776,23 +2665,23 @@ module Inttegro
   end
 
   class ProductShipmentDelivery < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class ProductShipmentDownload < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class ProductShipmentRender < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class ProductShipmentService < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class ProductShipmentStream < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class ProductShipment < T::Struct
@@ -2827,14 +2716,14 @@ module Inttegro
     const :unit_dim, T.nilable(String), default: nil
   end
 
-  class PageProductsResponsePage < T::Struct
+  class ProductPage < T::Struct
     const :number, T.nilable(Integer), default: nil
     const :size, T.nilable(Integer), default: nil
     const :products, T.nilable(T::Array[Inttegro::Product]), default: nil
   end
 
   class PageProductsResponse < T::Struct
-    const :page, T.nilable(Inttegro::PageProductsResponsePage), default: nil
+    const :page, T.nilable(Inttegro::ProductPage), default: nil
   end
 
   class PagePurchaseIntentsRequest < T::Struct
@@ -2922,15 +2811,15 @@ module Inttegro
   end
 
   class PurchaseIntentProductDimensions < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class PurchaseIntentProductMedia < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class PurchaseIntentProductShipment < T::Struct
-    # This response intentionally has no fields.
+    # This object intentionally has no fields.
   end
 
   class PurchaseIntentProduct < T::Struct
@@ -3017,14 +2906,14 @@ module Inttegro
     const :variant_set, T.nilable(Inttegro::PurchaseIntentVariantSetInline), default: nil
   end
 
-  class PagePurchaseIntentsResponsePage < T::Struct
+  class PurchaseIntentPage < T::Struct
     const :number, Integer
     const :purchase_intents, T::Array[Inttegro::PurchaseIntent]
     const :size, Integer
   end
 
   class PagePurchaseIntentsResponse < T::Struct
-    const :page, Inttegro::PagePurchaseIntentsResponsePage
+    const :page, Inttegro::PurchaseIntentPage
   end
 
   class PageRefundsRequest < T::Struct
@@ -3059,16 +2948,6 @@ module Inttegro
     const :page_size, T.nilable(Integer), default: nil
   end
 
-  class PaymentMethodDataMobileMoney < T::Struct
-    const :network, Inttegro::MobileMoneyNetwork
-    const :account_number, String
-  end
-
-  class PaymentMethodData < T::Struct
-    const :type, Inttegro::PaymentMethodDataType
-    const :mobile_money, T.nilable(Inttegro::PaymentMethodDataMobileMoney), default: nil
-  end
-
   class PayOrderRequest < T::Struct
     const :order_id, String
     const :payment_method_data, T.nilable(Inttegro::PaymentMethodData), default: nil
@@ -3092,20 +2971,20 @@ module Inttegro
     const :name, String
   end
 
+  class PaymentMethodPage < T::Struct
+    const :number, Integer
+    const :payment_methods, T::Array[Inttegro::PaymentMethod]
+    const :size, Integer
+  end
+
   class PaymentMethodPageRequest < T::Struct
     const :customer_id, T.nilable(String), default: nil
     const :page_number, T.nilable(Integer), default: nil
     const :page_size, T.nilable(Integer), default: nil
   end
 
-  class PaymentMethodPageResponsePage < T::Struct
-    const :number, Integer
-    const :payment_methods, T::Array[Inttegro::PaymentMethodObject]
-    const :size, Integer
-  end
-
   class PaymentMethodPageResponse < T::Struct
-    const :page, Inttegro::PaymentMethodPageResponsePage
+    const :page, Inttegro::PaymentMethodPage
   end
 
   class PaymentMethodTokenizeBase < T::Struct
@@ -3114,10 +2993,10 @@ module Inttegro
     const :type, Inttegro::PaymentMethodTokenizeBaseType
   end
 
-  class PaymentResponse < T::Struct
+  class PaymentResult < T::Struct
     const :payment_id, T.nilable(String), default: nil
     const :order_id, T.nilable(String), default: nil
-    const :status, T.nilable(Inttegro::PaymentResponseStatus), default: nil
+    const :status, T.nilable(Inttegro::PaymentResultStatus), default: nil
     const :requires_confirmation, T.nilable(T::Boolean), default: nil
     const :confirmation_sent, T.nilable(T::Boolean), default: nil
   end
@@ -3167,20 +3046,20 @@ module Inttegro
 
   PricePageItem = T.type_alias { Inttegro::Price }
 
+  class PricePage < T::Struct
+    const :number, T.nilable(Integer), default: nil
+    const :size, T.nilable(Integer), default: nil
+    const :prices, T.nilable(T::Array[Inttegro::PricePageItem]), default: nil
+  end
+
   class PricePageRequest < T::Struct
     const :page_number, T.nilable(Integer), default: nil
     const :page_size, T.nilable(Integer), default: nil
     const :product_id, T.nilable(String), default: nil
   end
 
-  class PricePageResponsePage < T::Struct
-    const :number, T.nilable(Integer), default: nil
-    const :size, T.nilable(Integer), default: nil
-    const :prices, T.nilable(T::Array[Inttegro::PricePageItem]), default: nil
-  end
-
   class PricePageResponse < T::Struct
-    const :page, T.nilable(Inttegro::PricePageResponsePage), default: nil
+    const :page, T.nilable(Inttegro::PricePage), default: nil
     const :error, T.nilable(Inttegro::ErrorPayload), default: nil
   end
 
@@ -3235,7 +3114,7 @@ module Inttegro
   end
 
   class ReconnectFinancialAccountResponse < T::Struct
-    const :account, T.nilable(Inttegro::FinancialAccountCompactResponse), default: nil
+    const :account, T.nilable(Inttegro::CompactFinancialAccount), default: nil
   end
 
   class RefundPage < T::Struct
@@ -3254,32 +3133,6 @@ module Inttegro
 
   class RenderMessageTemplatePreviewRequest < T::Struct
     const :message_template, Inttegro::MessageTemplateReference
-  end
-
-  class RenderedSMSMessageTemplate < T::Struct
-    const :full_message, String
-  end
-
-  class RenderedEmailMessageTemplate < T::Struct
-    const :subject, String
-    const :text, String
-    const :html, T.nilable(String), default: nil
-    const :from, T.nilable(Inttegro::MessageTemplateMailbox), default: nil
-    const :reply_to, T.nilable(Inttegro::MessageTemplateMailbox), default: nil
-    const :headers, T.nilable(T::Hash[String, String]), default: nil
-    const :safety, T.nilable(Inttegro::MessageTemplateSafetyResult), default: nil
-  end
-
-  class RenderedMessageTemplate < T::Struct
-    const :channel, Inttegro::MessageTemplateChannel
-    const :attachments, T.nilable(Inttegro::MessageTemplateAttachmentIDs), default: nil
-    const :sms, T.nilable(Inttegro::RenderedSMSMessageTemplate), default: nil
-    const :email, T.nilable(Inttegro::RenderedEmailMessageTemplate), default: nil
-  end
-
-  class RenderMessageTemplatePreviewResponse < T::Struct
-    const :message_template, Inttegro::MessageTemplate
-    const :rendered, Inttegro::RenderedMessageTemplate
   end
 
   class RequestConfirmationRequest < T::Struct
@@ -3421,16 +3274,16 @@ module Inttegro
     const :rows, T::Array[Inttegro::SecretKeyUsageRow]
   end
 
+  class SecretKeyUsage < T::Struct
+    const :key, Inttegro::SecretKey
+    const :usage, Inttegro::SecretKeyUsagePage
+  end
+
   class SecretKeyUsageRequest < T::Struct
     const :number, T.nilable(Integer), default: nil
     const :page, T.nilable(Integer), default: nil
     const :secret_key_id, String
     const :size, T.nilable(Integer), default: nil
-  end
-
-  class SecretKeyUsageResponse < T::Struct
-    const :key, Inttegro::SecretKey
-    const :usage, Inttegro::SecretKeyUsagePage
   end
 
   class SendChimeRequestRequestMeta < T::Struct
@@ -3470,7 +3323,7 @@ module Inttegro
   end
 
   class TokenizePaymentMethodResponse < T::Struct
-    const :payment_method, T.nilable(Inttegro::PaymentMethodObject), default: nil
+    const :payment_method, T.nilable(Inttegro::PaymentMethod), default: nil
   end
 
   class UnarchivePaymentMethodRequest < T::Struct
@@ -3478,7 +3331,7 @@ module Inttegro
   end
 
   class UnarchivePaymentMethodResponse < T::Struct
-    const :payment_method, T.nilable(Inttegro::PaymentMethodObject), default: nil
+    const :payment_method, T.nilable(Inttegro::PaymentMethod), default: nil
   end
 
   class UpdateApplicationRequest < T::Struct
@@ -3488,7 +3341,7 @@ module Inttegro
     const :legal_entity_type, T.nilable(String), default: nil
   end
 
-  class UpdateApplicationResponseApp < T::Struct
+  class UpdatedApplication < T::Struct
     const :id, String
     const :name, String
     const :alias, T.nilable(String), default: nil
@@ -3498,7 +3351,7 @@ module Inttegro
   end
 
   class UpdateApplicationResponse < T::Struct
-    const :app, Inttegro::UpdateApplicationResponseApp
+    const :app, Inttegro::UpdatedApplication
   end
 
   class UpdateCustomerRequest < T::Struct
@@ -3514,8 +3367,75 @@ module Inttegro
     const :title, T.nilable(String), default: nil
   end
 
+  class UpdatedGhanaBankAccount < T::Struct
+    const :branch, T.nilable(String), default: nil
+    const :holder, Inttegro::FinancialAccountOwner
+    const :name, String
+    const :number, String
+    const :sort_code, T.nilable(String), default: nil
+    const :swift_code, T.nilable(String), default: nil
+  end
+
+  class UpdatedFinancialAccountBank < T::Struct
+    const :id, String
+    const :type, Inttegro::BankAccountType
+    const :ghana_bank_account, T.nilable(Inttegro::UpdatedGhanaBankAccount), default: nil
+  end
+
+  class UpdatedFinancialAccountDoshAccount < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class UpdatedFinancialAccountAddress < T::Struct
+    const :city, String
+    const :country, String
+    const :id, T.nilable(String), default: nil
+    const :line_1, String
+    const :line_2, T.nilable(String), default: nil
+    const :name, T.nilable(String), default: nil
+    const :phone, T.nilable(String), default: nil
+    const :post_code, T.nilable(String), default: nil
+    const :region, String
+  end
+
+  class UpdatedFinancialAccountOwner < T::Struct
+    const :address, Inttegro::UpdatedFinancialAccountAddress
+    const :name, String
+  end
+
+  class UpdatedFinancialAccountWallet < T::Struct
+    const :id, String
+    const :type, Inttegro::WalletType
+    const :mobile_money, T.nilable(Inttegro::FinancialAccountWalletMobileMoney), default: nil
+  end
+
+  class UpdatedFinancialAccount < T::Struct
+    const :app_customer_local_fingerprint, T.nilable(String), default: nil
+    const :app_local_fingerprint, T.nilable(String), default: nil
+    const :archived_at, T.nilable(String), default: nil
+    const :created_at, String
+    const :currency, String
+    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
+    const :description, T.nilable(String), default: nil
+    const :id, String
+    const :institution, T.nilable(Inttegro::FinancialInstitution), default: nil
+    const :label, T.nilable(String), default: nil
+    const :pull_configuration, T.nilable(Inttegro::FinancialAccountPullConfiguration), default: nil
+    const :push_configuration, T.nilable(Inttegro::FinancialAccountPushConfiguration), default: nil
+    const :reference, T.nilable(String), default: nil
+    const :supplied, T.nilable(Inttegro::ResourceSupply), default: nil
+    const :type, Inttegro::FinancialAccountType
+    const :universal_fingerprint, T.nilable(String), default: nil
+    const :verification, T.nilable(Inttegro::FinancialAccountDetailsVerification), default: nil
+    const :bank_account, T.nilable(Inttegro::UpdatedFinancialAccountBank), default: nil
+    const :disconnected_at, T.nilable(String), default: nil
+    const :dosh_account, T.nilable(Inttegro::UpdatedFinancialAccountDoshAccount), default: nil
+    const :owner, T.nilable(Inttegro::UpdatedFinancialAccountOwner), default: nil
+    const :wallet, T.nilable(Inttegro::UpdatedFinancialAccountWallet), default: nil
+  end
+
   class UpdateFinancialAccountResponse < T::Struct
-    const :account, T.nilable(Inttegro::FinancialAccountUpdateResponse), default: nil
+    const :account, T.nilable(Inttegro::UpdatedFinancialAccount), default: nil
   end
 
   class UpdateMessageTemplateRequest < T::Struct
@@ -3576,7 +3496,7 @@ module Inttegro
   end
 
   class UpdatePaymentMethodResponse < T::Struct
-    const :payment_method, T.nilable(Inttegro::PaymentMethodObject), default: nil
+    const :payment_method, T.nilable(Inttegro::PaymentMethod), default: nil
   end
 
   class UpdatePriceRequest < T::Struct
@@ -3645,7 +3565,94 @@ module Inttegro
     const :key, Inttegro::SecretKey
   end
 
-  class UploadRequestObject < T::Struct
+  class UploadRequestActor < T::Struct
+    const :email, T.nilable(String), default: nil
+    const :id, T.nilable(String), default: nil
+    const :name, T.nilable(String), default: nil
+    const :type, String
+  end
+
+  class UploadRequestAttempts < T::Struct
+    const :max_attempts, T.nilable(Integer), default: nil
+    const :attempt_count, Integer
+    const :failed_attempt_count, Integer
+    const :last_attempted_at, T.nilable(String), default: nil
+  end
+
+  class UploadRequestLatestError < T::Struct
+    const :code, T.nilable(String), default: nil
+    const :param, T.nilable(String), default: nil
+    const :message, T.nilable(String), default: nil
+    const :retryable, T.nilable(T::Boolean), default: nil
+    const :at, T.nilable(String), default: nil
+  end
+
+  class UploadRequestReviewReason < T::Struct
+    const :code, String
+    const :message, String
+    const :param, T.nilable(String), default: nil
+  end
+
+  class UploadRequestReview < T::Struct
+    const :created_at, String
+    const :decision, Inttegro::UploadReviewDecision
+    const :file_id, T.nilable(String), default: nil
+    const :public_message, T.nilable(String), default: nil
+    const :reasons, T.nilable(T::Array[Inttegro::UploadRequestReviewReason]), default: nil
+    const :reviewed_at, String
+    const :type, Inttegro::UploadReviewType
+  end
+
+  class UploadRequestAttempt < T::Struct
+    const :attempted_at, String
+    const :content_type, T.nilable(String), default: nil
+    const :declared_size, T.nilable(Integer), default: nil
+    const :error, T.nilable(Inttegro::UploadRequestLatestError), default: nil
+    const :failed_at, T.nilable(String), default: nil
+    const :file_id, T.nilable(String), default: nil
+    const :filename, T.nilable(String), default: nil
+    const :id, String
+    const :ordinal, Integer
+    const :review, T.nilable(Inttegro::UploadRequestReview), default: nil
+    const :status, String
+    const :succeeded_at, T.nilable(String), default: nil
+    const :upload_request_id, String
+  end
+
+  class UploadRequestDetails < T::Struct
+    const :id, String
+    const :purpose, String
+    const :status, Inttegro::UploadRequestStatus
+    const :active, T::Boolean
+    const :file_id, T.nilable(String), default: nil
+    const :upload_url, T.nilable(String), default: nil
+    const :constraints, Inttegro::UploadRequestConstraints
+    const :display_data, Inttegro::UploadRequestDisplay, name: "display"
+    const :subject, Inttegro::FileParty
+    const :recipient, Inttegro::FileParty
+    const :resource, Inttegro::FileResource
+    const :requester, Inttegro::UploadRequestActor
+    const :attempts, Inttegro::UploadRequestAttempts
+    const :latest_error, T.nilable(Inttegro::UploadRequestLatestError), default: nil
+    const :canceled_by, T.nilable(Inttegro::UploadRequestActor), default: nil
+    const :custom_data, T.nilable(T::Hash[String, String]), default: nil
+    const :metadata, T.nilable(T::Hash[String, String]), default: nil
+    const :created_at, String
+    const :updated_at, String
+    const :expires_at, String
+    const :uploading_at, T.nilable(String), default: nil
+    const :fulfilled_at, T.nilable(String), default: nil
+    const :expired_at, T.nilable(String), default: nil
+    const :canceled_at, T.nilable(String), default: nil
+    const :attempt, T.nilable(Inttegro::UploadRequestAttempt), default: nil
+  end
+
+  class UploadFulfillment < T::Struct
+    const :upload_request, Inttegro::UploadRequestDetails
+    const :file, Inttegro::FileUploadReceipt
+  end
+
+  class UploadRequest < T::Struct
     const :id, String
     const :purpose, String
     const :status, Inttegro::UploadRequestStatus
@@ -3675,7 +3682,7 @@ module Inttegro
   class UploadRequestPage < T::Struct
     const :number, Integer
     const :size, Integer
-    const :upload_requests, T::Array[Inttegro::UploadRequestObject]
+    const :upload_requests, T::Array[Inttegro::UploadRequest]
   end
 
   class UploadRequestPageResponse < T::Struct
@@ -3683,33 +3690,28 @@ module Inttegro
   end
 
   class UploadRequestResponse < T::Struct
-    const :upload_request, Inttegro::UploadRequestObject
+    const :upload_request, Inttegro::UploadRequest
   end
 
-  class UploadRequestValidationErrorResponseError < T::Struct
+  class UploadRequestValidationFailureError < T::Struct
     const :code, String
     const :param, T.nilable(String), default: nil
     const :message, String
     const :retryable, T::Boolean
   end
 
-  class UploadRequestValidationErrorResponse < T::Struct
-    const :upload_request, Inttegro::UploadRequestWithAttemptObject
-    const :error, Inttegro::UploadRequestValidationErrorResponseError
+  class UploadRequestValidationFailure < T::Struct
+    const :upload_request, Inttegro::UploadRequestDetails
+    const :error, Inttegro::UploadRequestValidationFailureError
   end
 
   class UploadRequestWithAttemptResponse < T::Struct
-    const :upload_request, Inttegro::UploadRequestWithAttemptObject
+    const :upload_request, Inttegro::UploadRequestDetails
   end
 
   class VerifyOTPRequest < T::Struct
     const :transaction_id, String
     const :recipient, String
     const :token, String
-  end
-
-  class VerifyOTPResponse < T::Struct
-    const :transaction, Inttegro::OTPTransaction
-    const :verification_attempt, Inttegro::OTPVerificationAttempt
   end
 end

@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## [3.0.0] - 2026-09-03
+
+- Breaking: resource methods now unwrap transport payloads and return domain objects and pages directly.
+- Hid response and envelope classes from the public constant surface and replaced response-oriented nested financial-account names.
+- Removed the explicit `Enums` namespace and exposed enum types directly from `Inttegro`.
+
 ## [2.0.0] - 2026-09-02
 
 - Breaking: moved generated request, response, and domain types from `Inttegro::Models` to `Inttegro`.

@@ -9,7 +9,7 @@ module Inttegro
   module Operations
     RESPONSE_MODELS = T.let({
       "/otp/initiate" => Inttegro::InitiateOTPResponse,
-      "/otp/verify" => Inttegro::VerifyOTPResponse,
+      "/otp/verify" => Inttegro::OTPVerification,
       "/otp/lookup" => Inttegro::LookupOTPResponse,
       "/chimes/send" => Inttegro::ChimeResponse,
       "/chimes/lookup" => Inttegro::ChimeResponse,
@@ -26,7 +26,7 @@ module Inttegro
       "/message_templates/archive" => Inttegro::MessageTemplateEnvelope,
       "/message_templates/lookup" => Inttegro::MessageTemplateEnvelope,
       "/message_templates/page" => Inttegro::MessageTemplatesPageEnvelope,
-      "/message_templates/render_preview" => Inttegro::RenderMessageTemplatePreviewResponse,
+      "/message_templates/render_preview" => Inttegro::MessageTemplatePreview,
       "/customers/create" => Inttegro::CustomerResponse,
       "/customers/lookup" => Inttegro::CustomerResponse,
       "/customers/update" => Inttegro::CustomerResponse,
@@ -56,7 +56,7 @@ module Inttegro
       "/keys/lookup" => Inttegro::LookupSecretKeyResponse,
       "/keys/update" => Inttegro::UpdateSecretKeyResponse,
       "/keys/destroy" => Inttegro::DestroySecretKeyResponse,
-      "/keys/usage" => Inttegro::SecretKeyUsageResponse,
+      "/keys/usage" => Inttegro::SecretKeyUsage,
       "/financial_accounts/create" => Inttegro::CreateFinancialAccountResponse,
       "/financial_accounts/lookup" => Inttegro::LookupFinancialAccountResponse,
       "/financial_accounts/page" => Inttegro::PageFinancialAccountsResponseInline,
@@ -68,7 +68,7 @@ module Inttegro
       "/financial_accounts/reconnect" => Inttegro::ReconnectFinancialAccountResponse,
       "/financial_accounts/enable_pull" => Inttegro::EnableFinancialAccountPullResponse,
       "/financial_accounts/disable_pull" => Inttegro::DisableFinancialAccountPullResponse,
-      "/balances" => Inttegro::BalanceSnapshotResponse,
+      "/balances" => Inttegro::BalanceSnapshot,
       "/balance_transactions/lookup" => Inttegro::BalanceTransactionResponse,
       "/balance_transactions/page" => Inttegro::BalanceTransactionPageResponse,
       "/payouts/schedule" => Inttegro::SchedulePayoutResponse,
@@ -83,7 +83,7 @@ module Inttegro
       "/files/lookup" => Inttegro::FileResponse,
       "/files/page" => Inttegro::FilePageResponse,
       "/files/delete" => Inttegro::FileResponse,
-      "/file_links/create" => Inttegro::CreateFileLinkResponse,
+      "/file_links/create" => Inttegro::FileLinkCreation,
       "/file_links/lookup" => Inttegro::FileLinkResponse,
       "/file_links/page" => Inttegro::FileLinkPageResponse,
       "/file_links/revoke" => Inttegro::FileLinkResponse,
@@ -92,8 +92,8 @@ module Inttegro
       "/upload_requests/page" => Inttegro::UploadRequestPageResponse,
       "/upload_requests/cancel" => Inttegro::UploadRequestResponse,
       "/upload_requests/review" => Inttegro::UploadRequestWithAttemptResponse,
-      "/upload_requests/upload" => Inttegro::FulfillUploadRequestResponse,
-      "/file_references/reconcile" => Inttegro::FileReferenceReconcileResponse,
+      "/upload_requests/upload" => Inttegro::UploadFulfillment,
+      "/file_references/reconcile" => Inttegro::FileReferenceReconciliation,
       "/payment_methods/tokenize" => Inttegro::TokenizePaymentMethodResponse,
       "/payment_methods/lookup" => Inttegro::LookupPaymentMethodResponse,
       "/payment_methods/page" => Inttegro::PaymentMethodPageResponse,
@@ -123,7 +123,7 @@ module Inttegro
       "/prices/activate" => Inttegro::PriceResponse,
       "/prices/deactivate" => Inttegro::PriceResponse,
       "/prices/archive" => Inttegro::PriceResponse,
-      "/spec/countries" => Inttegro::ListCountrySpecsResponse
+      "/spec/countries" => Inttegro::CountrySpecifications
     }.freeze, T::Hash[String, T::Class[T::Struct]])
 
     REQUEST_TYPE_NAMES = T.let({

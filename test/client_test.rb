@@ -25,18 +25,14 @@ class InttegroClientTest < Minitest::Test
     )
   end
 
-  def test_documented_json_endpoints_use_the_exact_openapi_response_model
+  def test_documented_json_endpoints_return_domain_types
     sources = resource_sources
-    Inttegro::Operations::RESPONSE_MODELS.each do |path, model|
-      next if path == "/upload_requests/upload"
-
-      call = /post_(?:multipart_)?model\(\s*#{Regexp.escape(path.inspect)},\s*#{Regexp.escape(model.name)}/
-      assert_match call, sources, "#{path} is not wired to #{model.name}"
-    end
-
     generic_paths = sources.scan(/post_object\(\s*["'](\/[a-z0-9_\/-]+)["']/).flatten
     assert_empty generic_paths & openapi_spec_paths,
       "documented endpoints must not return Inttegro::ResponseObject"
+
+    rbi = File.read(File.expand_path("../rbi/inttegro/generated.rbi", __dir__))
+    refute_match(/returns\(Inttegro::[A-Za-z0-9_]*(?:Response|Envelope)\)/, rbi)
   end
 
   def test_openapi_models_are_typed_structs
@@ -44,6 +40,15 @@ class InttegroClientTest < Minitest::Test
     assert_operator Inttegro::PurchaseIntent, :<, T::Struct
     assert_operator Inttegro::Refund, :<, T::Struct
     assert_operator Inttegro::Customer, :<, T::Struct
+  end
+
+  def test_transport_wrapper_constants_are_not_public_api
+    wire_names = Inttegro::Operations::RESPONSE_MODELS.values.filter_map do |model|
+      name = model.name&.split("::")&.last
+      name&.to_sym if name&.match?(/Response|Envelope/)
+    end
+    leaked = wire_names & Inttegro.constants(false)
+    assert_empty leaked
   end
 
   def test_typed_request_models_and_enums_serialize_to_wire_values
@@ -241,7 +246,7 @@ class InttegroClientTest < Minitest::Test
     )
     client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: payment_adapter)
 
-    payment = client.balance_transactions.lookup(transaction_id: "bt_payment").transaction
+    payment = client.balance_transactions.lookup(transaction_id: "bt_payment")
     assert_equal Inttegro::BalanceTransactionType::PAYMENT, payment.type
     assert_equal "py_123", payment.source_id
     assert payment.valid_source?
@@ -511,7 +516,7 @@ class InttegroClientTest < Minitest::Test
     resource_glob = File.expand_path("../lib/inttegro/resources/**/*.rb", __dir__)
     Dir[resource_glob].flat_map do |file|
       File.read(file).scan(
-        %r{@http\.(?:get|post|post_model|post_object|post_with_headers|post_multipart|post_multipart_model|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
+        %r{@http\.(?:get|post|post_model|post_resource|post_object|post_with_headers|post_multipart|post_multipart_model|post_multipart_resource|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
       ).flatten
     end.uniq.sort
   end
@@ -531,13 +536,30 @@ class InttegroClientTest < Minitest::Test
 
   def minimal_response_body(path)
     return { page: { number: 0, size: 0, orders: [] } } if path == "/orders/page"
+    return { deleted: true, payment_method_id: "pm_123" } if path == "/payment_methods/delete"
+    if path == "/payment_methods/verify"
+      return { verification: { initiated_at: "2026-09-03T00:00:00Z", request_id: "req_123", type: "otp" } }
+    end
 
     model = Inttegro::Operations::RESPONSE_MODELS[path]
-    model ||= Inttegro::OrderEnvelope if path == "/orders/new"
-    model ||= Inttegro::CancelOTPResponse if path == "/otp/cancel"
+    model ||= Inttegro.const_get(:OrderEnvelope) if path == "/orders/new"
+    model ||= Inttegro::Operations::RESPONSE_MODELS["/otp/lookup"] if path == "/otp/cancel"
+    model ||= Inttegro::Operations::RESPONSE_MODELS["/payment_methods/lookup"] if path == "/payment_methods/confirm_verification"
+    model ||= Inttegro::Operations::RESPONSE_MODELS["/payouts/settings"] if ["/payouts/enable_fx", "/payouts/disable_fx"].include?(path)
+    model ||= Inttegro::Operations::RESPONSE_MODELS["/products/lookup"] if path == "/products/set_default_unit_price"
     return {} unless model
 
-    minimal_struct_body(model)
+    body = minimal_struct_body(model)
+    resource_field = %i[
+      app transaction page broadcast chime scheduled_chime customer message_template
+      order refund key account payout settings file file_link upload_request payment_method
+      price product purchase_intent verification
+    ].find { |name| model.props.key?(name) }
+    if resource_field && !body.key?(resource_field.to_s)
+      property = model.props.fetch(resource_field)
+      body[property.fetch(:serialized_form)] = minimal_type_value(property.fetch(:type_object))
+    end
+    body
   end
 
   def minimal_struct_body(model)

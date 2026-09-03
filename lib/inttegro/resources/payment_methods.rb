@@ -29,7 +29,7 @@ module Inttegro
       # @option payload [Hash] :payment_method_data Payment method details (required)
       # @option payload [Boolean] :verify_immediately Send verification OTP immediately (default: false)
       #
-      # @return [Inttegro::TokenizePaymentMethodResponse] Tokenized payment method
+      # @return [Inttegro::PaymentMethod] Tokenized payment method
       #
       # @example Tokenize a mobile money payment method
       #   result = client.payment_methods.tokenize(
@@ -44,13 +44,13 @@ module Inttegro
       #     verify_immediately: true
       #   )
       #
-      #   puts "Tokenized payment method: #{result.payment_method&.id}"
+      #   puts "Tokenized payment method: #{result.id}"
       #
       # @see https://studio.inttegro.com/charge-repeat-customers for usage guide
       def tokenize(payload)
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/tokenize",
-          Inttegro::TokenizePaymentMethodResponse,
+          Inttegro::PaymentMethod, :payment_method,
           payload
         )
       end
@@ -64,20 +64,20 @@ module Inttegro
       # @param payment_method_id [String] ID of the payment method to verify (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Inttegro::PaymentMethodVerificationResponse] Verification details
+      # @return [Inttegro::PaymentMethodVerification] Verification details
       #
       # @example Verify a payment method
       #   result = client.payment_methods.verify(
       #     payment_method_id: 'pm_xyz789'
       #   )
       #
-      #   puts "Verification request: #{result.verification&.request_id}"
+      #   puts "Verification request: #{result.request_id}"
       #
       # @see https://studio.inttegro.com/charge-repeat-customers for verification flow
       def verify(payment_method_id:, request_meta: nil)
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/verify",
-          Inttegro::PaymentMethodVerificationResponse,
+          Inttegro::PaymentMethodVerification, :verification,
           {
             payment_method_id: payment_method_id,
             request_meta: request_meta || stable_payment_method_request_meta("verify", payment_method_id)
@@ -94,7 +94,7 @@ module Inttegro
       # @option payload [String] :payment_method_id ID of the payment method being verified (required)
       # @option payload [String] :token OTP code provided by customer (required, typically 6 digits)
       #
-      # @return [Inttegro::PaymentMethodResponse] Verified payment method
+      # @return [Inttegro::PaymentMethod] Verified payment method
       #
       # @example Confirm verification with OTP
       #   result = client.payment_methods.confirm_verification(
@@ -102,15 +102,15 @@ module Inttegro
       #     token: '123456'
       #   )
       #
-      #   if result.payment_method&.verified_at
+      #   if result.verified_at
       #     puts 'Payment method verified successfully!'
       #   end
       #
       # @see https://studio.inttegro.com/charge-repeat-customers for verification flow
       def confirm_verification(payload)
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/confirm_verification",
-          Inttegro::LookupPaymentMethodResponse,
+          Inttegro::PaymentMethod, :payment_method,
           payload
         )
       end
@@ -122,52 +122,52 @@ module Inttegro
       #
       # @param payment_method_id [String] ID of the payment method to retrieve (required)
       #
-      # @return [Inttegro::LookupPaymentMethodResponse] Payment method details
+      # @return [Inttegro::PaymentMethod] Payment method details
       #
       # @example Lookup a payment method
       #   result = client.payment_methods.lookup(
       #     payment_method_id: 'pm_xyz789'
       #   )
       #
-      #   puts "Payment method type: #{result.payment_method&.type&.serialize}"
+      #   puts "Payment method type: #{result.type&.serialize}"
       #
       # @see https://studio.inttegro.com/payment-methods for API reference
       def lookup(payment_method_id:)
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/lookup",
-          Inttegro::LookupPaymentMethodResponse,
+          Inttegro::PaymentMethod, :payment_method,
           { payment_method_id: payment_method_id }
         )
       end
 
       def page(payload = {})
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/page",
-          Inttegro::PaymentMethodPageResponse,
+          Inttegro::PaymentMethodPage, :page,
           payload || {}
         )
       end
 
       def update(payload)
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/update",
-          Inttegro::UpdatePaymentMethodResponse,
+          Inttegro::PaymentMethod, :payment_method,
           payload
         )
       end
 
       def activate(payment_method_id:)
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/activate",
-          Inttegro::ActivatePaymentMethodResponse,
+          Inttegro::PaymentMethod, :payment_method,
           { payment_method_id: payment_method_id }
         )
       end
 
       def disactivate(payment_method_id:)
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/disactivate",
-          Inttegro::DisactivatePaymentMethodResponse,
+          Inttegro::PaymentMethod, :payment_method,
           { payment_method_id: payment_method_id }
         )
       end
@@ -175,17 +175,17 @@ module Inttegro
       alias deactivate disactivate
 
       def archive(payment_method_id:)
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/archive",
-          Inttegro::ArchivePaymentMethodResponse,
+          Inttegro::PaymentMethod, :payment_method,
           { payment_method_id: payment_method_id }
         )
       end
 
       def unarchive(payment_method_id:)
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/unarchive",
-          Inttegro::UnarchivePaymentMethodResponse,
+          Inttegro::PaymentMethod, :payment_method,
           { payment_method_id: payment_method_id }
         )
       end
@@ -198,7 +198,7 @@ module Inttegro
       # @param payment_method_id [String] ID of the payment method to delete (required)
       # @param request_meta [Hash, nil] Request controls such as idempotency_key (optional)
       #
-      # @return [Inttegro::PaymentMethodDeleteResponse] Deletion confirmation
+      # @return [Inttegro::PaymentMethodDeletion] Deletion confirmation
       #
       # @example Delete a payment method
       #   result = client.payment_methods.delete(
@@ -209,9 +209,7 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/payment-methods for API reference
       def delete(payment_method_id:, request_meta: nil)
-        @http.post_model(
-          "/payment_methods/delete",
-          Inttegro::PaymentMethodDeleteResponse,
+        @http.post_model("/payment_methods/delete", Inttegro::PaymentMethodDeletion,
           {
             payment_method_id: payment_method_id,
             request_meta: request_meta || stable_payment_method_request_meta("delete", payment_method_id)
@@ -224,18 +222,18 @@ module Inttegro
       # Returns settings that control payment method behavior, including whether verification
       # is required before charging and supported payment method types.
       #
-      # @return [Inttegro::GetPaymentMethodSettingsResponse] Payment method settings
+      # @return [Inttegro::PaymentMethodSettings] Payment method settings
       #
       # @example Get payment method settings
       #   result = client.payment_methods.settings
       #
-      #   puts "Mobile money enabled: #{result.settings&.mobile_money&.enabled}"
+      #   puts "Mobile money enabled: #{result.mobile_money&.enabled}"
       #
       # @see https://studio.inttegro.com/payment-methods for API reference
       def settings
-        @http.post_model(
+        @http.post_resource(
           "/payment_methods/settings",
-          Inttegro::GetPaymentMethodSettingsResponse,
+          Inttegro::PaymentMethodSettings, :settings,
           {}
         )
       end

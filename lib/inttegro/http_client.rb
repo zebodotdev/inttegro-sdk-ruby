@@ -99,6 +99,30 @@ module Inttegro
     end
 
     sig do
+      type_parameters(:Model)
+        .params(
+          path: String,
+          model: T::Class[T.type_parameter(:Model)],
+          field: Symbol,
+          body: Types::RequestBody,
+          headers: Types::Headers,
+          query: T.nilable(Types::Query)
+        )
+        .returns(T.type_parameter(:Model))
+    end
+    def post_resource(path, model, field, body, headers: {}, query: nil)
+      envelope = post_object(path, body, headers: headers, query: query)
+      value = envelope.public_send(field)
+      value = value.to_h if value.is_a?(ResponseObject)
+      return T.cast(value, T.type_parameter(:Model)) if value.is_a?(model)
+
+      decoded = Inttegro.deserialize(value, T.cast(model, T::Class[T::Struct]))
+      return T.cast(decoded, T.type_parameter(:Model)) if decoded.is_a?(model)
+
+      raise TypeError, "expected #{model} in #{field} from #{path}, got #{decoded.class}"
+    end
+
+    sig do
       params(
         path: String,
         body: Types::RequestBody,
@@ -154,6 +178,37 @@ module Inttegro
       return T.cast(response, T.type_parameter(:Model)) if response.is_a?(model)
 
       raise TypeError, "expected #{model} from #{path}, got #{response.class}"
+    end
+
+    sig do
+      type_parameters(:Model)
+        .params(
+          path: String,
+          model: T::Class[T.type_parameter(:Model)],
+          field: Symbol,
+          fields: Types::Payload,
+          files: Types::Payload,
+          headers: Types::Headers,
+          authenticated: T::Boolean
+        )
+        .returns(T.type_parameter(:Model))
+    end
+    def post_multipart_resource(path, model, field, fields: {}, files: {}, headers: {}, authenticated: true)
+      envelope = expect_response_object(perform_multipart(
+        path,
+        fields,
+        files,
+        headers,
+        authenticated,
+        nil
+      ), path)
+      value = envelope.public_send(field)
+      return T.cast(value, T.type_parameter(:Model)) if value.is_a?(model)
+
+      decoded = Inttegro.deserialize(value, T.cast(model, T::Class[T::Struct]))
+      return T.cast(decoded, T.type_parameter(:Model)) if decoded.is_a?(model)
+
+      raise TypeError, "expected #{model} in #{field} from #{path}, got #{decoded.class}"
     end
 
     sig do
@@ -393,7 +448,7 @@ module Inttegro
       status = response.code.to_i
       data = parse_json(response.body)
 
-      return wrap_response(data, model_class || response_model_for(path)) if status < 400
+      return wrap_response(data, model_class) if status < 400
 
       raise_response_error(response)
     end
@@ -519,8 +574,7 @@ module Inttegro
 
     sig { params(path: String).returns(T.nilable(T::Class[T::Struct])) }
     def response_model_for(path)
-      return Inttegro::CancelOTPResponse if path == "/otp/cancel"
-      return Inttegro::OrderEnvelope if path == "/orders/new"
+      return T.cast(Inttegro.const_get(:OrderEnvelope), T::Class[T::Struct]) if path == "/orders/new"
 
       Inttegro::Operations::RESPONSE_MODELS[path]
     end

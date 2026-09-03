@@ -100,11 +100,11 @@ module Inttegro
       # @see https://studio.inttegro.com/accept-a-payment for payment flow guide
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def create(payload)
-        @http.post_model("/orders/create", Inttegro::OrderEnvelope, payload).order
+        @http.post_resource("/orders/create", Inttegro::Order, :order, payload)
       end
 
       def new(payload)
-        @http.post_model("/orders/new", Inttegro::OrderEnvelope, payload).order
+        @http.post_resource("/orders/new", Inttegro::Order, :order, payload)
       end
 
       # Retrieve an existing order by its ID.
@@ -127,11 +127,11 @@ module Inttegro
       # @see https://studio.inttegro.com/orders for API reference
       def lookup(order_id:, **options)
         body = { order_id: order_id }.merge(options)
-        @http.post_model("/orders/lookup", Inttegro::OrderEnvelope, body).order
+        @http.post_resource("/orders/lookup", Inttegro::Order, :order, body)
       end
 
       def update(payload)
-        @http.post_model("/orders/update", Inttegro::OrderEnvelope, payload).order
+        @http.post_resource("/orders/update", Inttegro::Order, :order, payload)
       end
 
       # Initiate payment for an existing order.
@@ -183,7 +183,7 @@ module Inttegro
       # @see https://studio.inttegro.com/accept-a-payment for payment flow guide
       # @see https://studio.inttegro.com/charge-repeat-customers for saved payment methods
       def pay(payload)
-        @http.post_model("/orders/pay", Inttegro::OrderEnvelope, payload).order
+        @http.post_resource("/orders/pay", Inttegro::Order, :order, payload)
       end
 
       # Confirm a pending payment using a verification token (e.g., OTP sent to customer's phone).
@@ -209,7 +209,7 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/accept-a-payment for complete payment flow
       def confirm_payment(payload)
-        @http.post_model("/orders/confirm_payment", Inttegro::OrderEnvelope, payload).order
+        @http.post_resource("/orders/confirm_payment", Inttegro::Order, :order, payload)
       end
 
       # Request a new confirmation token to be sent to the customer (e.g., resend OTP).
@@ -231,9 +231,10 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/accept-a-payment for payment confirmation flow
       def request_confirmation(order_id:, request_meta: nil)
-        @http.post_model(
+        @http.post_resource(
           "/orders/request_confirmation",
-          Inttegro::OrderEnvelope,
+          Inttegro::Order,
+          :order,
           {
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("request_confirmation", order_id)
@@ -260,15 +261,15 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def finalize(order_id:, request_meta: nil)
-        response = @http.post_model(
+        @http.post_resource(
           "/orders/finalize",
-          Inttegro::FinalizeOrderEnvelope,
+          Inttegro::Order,
+          :order,
           {
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("finalize", order_id)
           }
         )
-        T.must(response.order)
       end
 
       # Send the hosted invoice link for an existing order.
@@ -324,8 +325,7 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def complete(payload)
-        response = @http.post_model("/orders/complete", Inttegro::CompleteOrderEnvelope, payload)
-        T.must(response.order)
+        @http.post_resource("/orders/complete", Inttegro::Order, :order, payload)
       end
 
       # Cancel an order, stopping payment execution and preventing further processing.
@@ -347,9 +347,10 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/order-lifecycle for order states
       def cancel(order_id:, request_meta: nil)
-        @http.post_model(
+        @http.post_resource(
           "/orders/cancel",
-          Inttegro::OrderEnvelope,
+          Inttegro::Order,
+          :order,
           {
             order_id: order_id,
             request_meta: request_meta || stable_order_request_meta("cancel", order_id)
@@ -380,7 +381,7 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/refunds
       def refund(payload)
-        @http.post_model("/orders/refund", Inttegro::RefundResponse, payload).refund
+        @http.post_resource("/orders/refund", Inttegro::Refund, :refund, payload)
       end
 
       # Retrieve a paginated list of orders.
@@ -411,8 +412,7 @@ module Inttegro
       # @see https://studio.inttegro.com/pagination for pagination guide
       # @see https://studio.inttegro.com/orders for API reference
       def page(payload = {})
-        response = @http.post_model("/orders/page", Inttegro::PageOrdersEnvelope, payload || {})
-        T.must(response.page)
+        @http.post_resource("/orders/page", Inttegro::OrderPage, :page, payload || {})
       end
 
       private

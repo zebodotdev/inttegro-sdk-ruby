@@ -9,17 +9,17 @@ module Inttegro
       end
 
       def lookup(schedule_id:)
-        @http.post_model(
+        @http.post_resource(
           "/schedules/lookup",
-          Inttegro::ScheduleLookupResponse,
+          Inttegro::ScheduleDetail, :scheduled_chime,
           { schedule_id: schedule_id }
         )
       end
 
       def cancel(schedule_id:)
-        @http.post_model(
+        @http.post_resource(
           "/schedules/cancel",
-          Inttegro::ScheduleCancelResponse,
+          Inttegro::ScheduleCancelDetail, :scheduled_chime,
           { schedule_id: schedule_id }
         )
       end

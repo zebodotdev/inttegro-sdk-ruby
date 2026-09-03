@@ -9,17 +9,13 @@ module Inttegro
       end
 
       def lookup(broadcast_id:)
-        @http.post_model(
-          "/broadcasts/lookup",
-          Inttegro::LookupBroadcastResponse,
+        @http.post_resource("/broadcasts/lookup", Inttegro::BroadcastDetail, :broadcast,
           { broadcast_id: broadcast_id }
         )
       end
 
       def cancel(broadcast_id:)
-        @http.post_model(
-          "/broadcasts/cancel",
-          Inttegro::BroadcastCancelResponse,
+        @http.post_resource("/broadcasts/cancel", Inttegro::BroadcastCancelDetail, :broadcast,
           { broadcast_id: broadcast_id }
         )
       end

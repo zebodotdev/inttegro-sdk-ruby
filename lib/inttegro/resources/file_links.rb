@@ -11,24 +11,22 @@ module Inttegro
       def create(payload, idempotency_key: nil)
         @http.post_model(
           "/file_links/create",
-          Inttegro::CreateFileLinkResponse,
+          Inttegro::FileLinkCreation,
           payload,
           headers: headers(idempotency_key)
         )
       end
 
       def lookup(id:)
-        @http.post_model("/file_links/lookup", Inttegro::FileLinkResponse, { id: id })
+        @http.post_resource("/file_links/lookup", Inttegro::FileLink, :file_link, { id: id })
       end
 
       def page(payload = {})
-        @http.post_model("/file_links/page", Inttegro::FileLinkPageResponse, payload || {})
+        @http.post_resource("/file_links/page", Inttegro::FileLinkPage, :page, payload || {})
       end
 
       def revoke(payload, idempotency_key: nil)
-        @http.post_model(
-          "/file_links/revoke",
-          Inttegro::FileLinkResponse,
+        @http.post_resource("/file_links/revoke", Inttegro::FileLink, :file_link,
           payload,
           headers: headers(idempotency_key)
         )

@@ -9,27 +9,27 @@ module Inttegro
       end
 
       def create(payload)
-        @http.post_model("/refunds/create", Inttegro::RefundResponse, payload)
+        @http.post_resource("/refunds/create", Inttegro::Refund, :refund, payload)
       end
 
       def cancel(refund_id:)
-        @http.post_model(
+        @http.post_resource(
           "/refunds/cancel",
-          Inttegro::RefundResponse,
+          Inttegro::Refund, :refund,
           { refund_id: refund_id }
         )
       end
 
       def lookup(refund_id:)
-        @http.post_model(
+        @http.post_resource(
           "/refunds/lookup",
-          Inttegro::RefundResponse,
+          Inttegro::Refund, :refund,
           { refund_id: refund_id }
         )
       end
 
       def page(payload)
-        @http.post_model("/refunds/page", Inttegro::RefundPageResponse, payload)
+        @http.post_resource("/refunds/page", Inttegro::RefundPage, :page, payload)
       end
     end
   end

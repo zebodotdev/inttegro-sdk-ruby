@@ -9,33 +9,33 @@ module Inttegro
       end
 
       def create(payload)
-        @http.post_model("/purchase_intents/create", Inttegro::PurchaseIntentResponse, payload)
+        @http.post_resource("/purchase_intents/create", Inttegro::PurchaseIntent, :purchase_intent, payload)
       end
 
       def update(payload)
-        @http.post_model("/purchase_intents/update", Inttegro::PurchaseIntentResponse, payload)
+        @http.post_resource("/purchase_intents/update", Inttegro::PurchaseIntent, :purchase_intent, payload)
       end
 
       def cancel(id:)
-        @http.post_model(
+        @http.post_resource(
           "/purchase_intents/cancel",
-          Inttegro::PurchaseIntentResponse,
+          Inttegro::PurchaseIntent, :purchase_intent,
           { id: id }
         )
       end
 
       def lookup(id:)
-        @http.post_model(
+        @http.post_resource(
           "/purchase_intents/lookup",
-          Inttegro::PurchaseIntentResponse,
+          Inttegro::PurchaseIntent, :purchase_intent,
           { id: id }
         )
       end
 
       def page(payload = {})
-        @http.post_model(
+        @http.post_resource(
           "/purchase_intents/page",
-          Inttegro::PagePurchaseIntentsResponse,
+          Inttegro::PurchaseIntentPage, :page,
           payload || {}
         )
       end

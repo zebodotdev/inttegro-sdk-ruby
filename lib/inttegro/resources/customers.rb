@@ -9,19 +9,19 @@ module Inttegro
       end
 
       def create(payload)
-        @http.post_model("/customers/create", Inttegro::CustomerResponse, payload)
+        @http.post_resource("/customers/create", Inttegro::Customer, :customer, payload)
       end
 
       def update(payload)
-        @http.post_model("/customers/update", Inttegro::CustomerResponse, payload)
+        @http.post_resource("/customers/update", Inttegro::Customer, :customer, payload)
       end
 
       def lookup(customer_id:)
-        @http.post_model("/customers/lookup", Inttegro::CustomerResponse, { customer_id: customer_id })
+        @http.post_resource("/customers/lookup", Inttegro::Customer, :customer, { customer_id: customer_id })
       end
 
       def page(payload = {})
-        @http.post_model("/customers/page", Inttegro::PageCustomersResponse, payload || {})
+        @http.post_resource("/customers/page", Inttegro::CustomerPage, :page, payload || {})
       end
     end
   end

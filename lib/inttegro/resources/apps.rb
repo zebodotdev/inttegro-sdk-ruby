@@ -9,15 +9,15 @@ module Inttegro
       end
 
       def create(payload)
-        @http.post_model("/apps/create", Inttegro::CreateApplicationResponse, payload)
+        @http.post_resource("/apps/create", Inttegro::Application, :app, payload)
       end
 
       def lookup
-        @http.post_model("/apps/lookup", Inttegro::LookupApplicationResponse, {})
+        @http.post_resource("/apps/lookup", Inttegro::Application, :app, {})
       end
 
       def update(payload)
-        @http.post_model("/apps/update", Inttegro::UpdateApplicationResponse, payload)
+        @http.post_resource("/apps/update", Inttegro::Application, :app, payload)
       end
     end
   end

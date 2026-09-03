@@ -9,17 +9,13 @@ module Inttegro
       end
 
       def lookup(transaction_id:)
-        @http.post_model(
-          "/balance_transactions/lookup",
-          Inttegro::BalanceTransactionResponse,
+        @http.post_resource("/balance_transactions/lookup", Inttegro::BalanceTransaction, :transaction,
           { transaction_id: transaction_id }
         )
       end
 
       def page(payload = {})
-        @http.post_model(
-          "/balance_transactions/page",
-          Inttegro::BalanceTransactionPageResponse,
+        @http.post_resource("/balance_transactions/page", Inttegro::BalanceTransactionPage, :page,
           payload || {}
         )
       end

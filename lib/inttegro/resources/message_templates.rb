@@ -9,61 +9,59 @@ module Inttegro
       end
 
       def create(payload, idempotency_key: nil)
-        @http.post_model(
+        @http.post_resource(
           "/message_templates/create",
-          Inttegro::MessageTemplateEnvelope,
+          Inttegro::MessageTemplate, :message_template,
           payload,
           headers: idempotency_headers(idempotency_key)
         )
       end
 
       def update(payload, idempotency_key: nil)
-        @http.post_model(
+        @http.post_resource(
           "/message_templates/update",
-          Inttegro::MessageTemplateEnvelope,
+          Inttegro::MessageTemplate, :message_template,
           payload,
           headers: idempotency_headers(idempotency_key)
         )
       end
 
       def publish(template_id:, idempotency_key: nil)
-        @http.post_model(
+        @http.post_resource(
           "/message_templates/publish",
-          Inttegro::MessageTemplateEnvelope,
+          Inttegro::MessageTemplate, :message_template,
           { id: template_id },
           headers: idempotency_headers(idempotency_key)
         )
       end
 
       def archive(template_id:, idempotency_key: nil)
-        @http.post_model(
+        @http.post_resource(
           "/message_templates/archive",
-          Inttegro::MessageTemplateEnvelope,
+          Inttegro::MessageTemplate, :message_template,
           { id: template_id },
           headers: idempotency_headers(idempotency_key)
         )
       end
 
       def lookup(template_id:)
-        @http.post_model(
+        @http.post_resource(
           "/message_templates/lookup",
-          Inttegro::MessageTemplateEnvelope,
+          Inttegro::MessageTemplate, :message_template,
           { id: template_id }
         )
       end
 
       def page(payload = {})
-        @http.post_model(
+        @http.post_resource(
           "/message_templates/page",
-          Inttegro::MessageTemplatesPageEnvelope,
+          Inttegro::MessageTemplatesPage, :page,
           payload || {}
         )
       end
 
       def render_preview(payload)
-        @http.post_model(
-          "/message_templates/render_preview",
-          Inttegro::RenderMessageTemplatePreviewResponse,
+        @http.post_model("/message_templates/render_preview", Inttegro::MessageTemplatePreview,
           payload
         )
       end

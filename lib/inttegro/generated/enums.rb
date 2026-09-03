@@ -412,7 +412,7 @@ module Inttegro
     end
   end
 
-  class PaymentResponseStatus < T::Enum
+  class PaymentResultStatus < T::Enum
     enums do
       PENDING = new("pending")
       REQUIRES_CONFIRMATION = new("requires_confirmation")
