@@ -15,7 +15,7 @@ abort "OpenAPI spec not found at #{spec_path}" unless spec_path.file?
 spec_paths = YAML.load_file(spec_path).fetch("paths").keys.sort
 sources = Dir[sdk_root.join("lib", "inttegro", "resources", "*.rb")].sort.map { |path| File.read(path) }.join("\n")
 implemented_paths = sources.scan(
-  %r{@http\.(?:get|post|post_model|post_object|post_with_headers|post_multipart|post_multipart_model|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
+  %r{@http\.(?:get|post|post_model|post_resource|post_object|post_with_headers|post_multipart|post_multipart_model|post_multipart_resource|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
 ).flatten.uniq.sort
 external_paths = ["/file_links/open", "/upload_requests/upload"]
 
@@ -24,11 +24,19 @@ errors = []
   errors << "missing resource method for #{path}"
 end
 
-Inttegro::Operations::RESPONSE_MODELS.each do |path, model|
-  next if path == "/upload_requests/upload"
+typed_calls = sources.scan(
+  %r{@http\.(?:post_model|post_resource|post_multipart_model|post_multipart_resource)\(\s*["'](/[a-z0-9_/-]+)["']\s*,\s*(Inttegro::[A-Za-z0-9_]+)}
+).to_h
 
-  call = /post_(?:multipart_)?model\(\s*#{Regexp.escape(path.inspect)},\s*#{Regexp.escape(model.name)}/
-  errors << "#{path} must return #{model.name}" unless sources.match?(call)
+Inttegro::Operations::RESPONSE_MODELS.each_key do |path|
+  next if external_paths.include?(path)
+
+  model = typed_calls[path]
+  if model.nil?
+    errors << "#{path} does not return a typed domain object"
+  elsif model.match?(/(?:Response|Envelope|Models?|Object)/)
+    errors << "#{path} leaks transport-oriented type #{model}"
+  end
 end
 
 generic_documented_paths = sources.scan(/post_object\(\s*["'](\/[a-z0-9_\/-]+)["']/).flatten & spec_paths
@@ -42,4 +50,4 @@ unless errors.empty?
   exit 1
 end
 
-puts "Ruby SDK covers #{spec_paths.size} OpenAPI paths with exact documented response models"
+puts "Ruby SDK covers #{spec_paths.size} OpenAPI paths with direct domain return types"
