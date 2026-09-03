@@ -18,6 +18,36 @@ module Inttegro
     Currency = Inttegro::Currency
   end
 
+  # Wallet variants used by financial accounts.
+  module Wallets
+    Wallet = Inttegro::FinancialAccountWallet
+    MobileMoney = Inttegro::FinancialAccountWalletMobileMoney
+    UpdatedWallet = Inttegro::UpdatedFinancialAccountWallet
+    WalletParams = Inttegro::FinancialAccountWalletRequestWallet
+    MobileMoneyParams = Inttegro::FinancialAccountWalletRequestWalletMobileMoney
+    WalletType = Inttegro::WalletType
+  end
+
+  # Bank-account variants used by financial accounts. Payment-method bank
+  # snapshots remain in the payment-method domain.
+  module BankAccounts
+    BankAccount = Inttegro::FinancialAccountBank
+    CreatedBankAccount = Inttegro::CreatedFinancialAccountBank
+    UpdatedBankAccount = Inttegro::UpdatedFinancialAccountBank
+    GhanaBankAccount = Inttegro::GhanaBankAccount
+    CreatedGhanaBankAccount = Inttegro::CreatedGhanaBankAccount
+    UpdatedGhanaBankAccount = Inttegro::UpdatedGhanaBankAccount
+    Owner = Inttegro::FinancialAccountOwner
+    CreatedOwner = Inttegro::CreatedFinancialAccountOwner
+    UpdatedOwner = Inttegro::UpdatedFinancialAccountOwner
+    OwnerAddress = Inttegro::FinancialAccountAddress
+    CreatedOwnerAddress = Inttegro::CreatedFinancialAccountAddress
+    UpdatedOwnerAddress = Inttegro::UpdatedFinancialAccountAddress
+    BankAccountParams = Inttegro::FinancialAccountBankRequestBankAccount
+    GhanaBankAccountParams = Inttegro::FinancialAccountBankRequestBankAccountGhanaBankAccount
+    BankAccountType = Inttegro::BankAccountType
+  end
+
   # Currency identifiers serialize to lowercase wire values while accepting
   # legacy uppercase response values during deserialization.
   class Currency

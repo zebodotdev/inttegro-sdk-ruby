@@ -32,4 +32,21 @@ class InttegroEnumTypesTest < Minitest::Test
     )
     assert_equal "prod_123", returned.product_id
   end
+
+  def test_financial_account_variants_have_focused_modules
+    wallet = Inttegro::Wallets::Wallet.new(
+      id: "wallet_1",
+      type: Inttegro::Wallets::WalletType::MOBILE_MONEY,
+      mobile_money: Inttegro::Wallets::MobileMoney.new(
+        account_number: "233200000000",
+        network: Inttegro::MobileMoneyNetwork::MTN
+      )
+    )
+    bank_account = Inttegro::BankAccounts::BankAccount.new(
+      type: Inttegro::BankAccounts::BankAccountType::GHANA_BANK_ACCOUNT
+    )
+
+    assert_equal "mtn", wallet.mobile_money&.network&.serialize
+    assert_equal "ghana_bank_account", bank_account.type.serialize
+  end
 end

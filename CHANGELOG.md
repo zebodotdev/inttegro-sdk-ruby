@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [4.1.0] - 2026-09-03
+
+- Added focused `Inttegro::Wallets` and `Inttegro::BankAccounts` modules for financial-account variants.
+- Preserved the generated root constants for compatibility.
+
 ## [4.0.2] - 2026-09-03
 
 - Normalize legacy uppercase currency values when decoding typed amount responses while keeping lowercase wire values for requests.
