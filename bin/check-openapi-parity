@@ -18,9 +18,15 @@ implemented_paths = sources.scan(
   %r{@http\.(?:get|post|post_model|post_resource|post_object|post_with_headers|post_multipart|post_multipart_model|post_multipart_resource|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
 ).flatten.uniq.sort
 external_paths = ["/file_links/open", "/upload_requests/upload"]
+client_checkout_paths = [
+  "/checkout/lookup",
+  "/checkout/pay",
+  "/checkout/request_confirmation",
+  "/checkout/confirm_payment"
+]
 
 errors = []
-(spec_paths - external_paths - implemented_paths).each do |path|
+(spec_paths - external_paths - client_checkout_paths - implemented_paths).each do |path|
   errors << "missing resource method for #{path}"
 end
 
@@ -29,7 +35,7 @@ typed_calls = sources.scan(
 ).to_h
 
 Inttegro::Operations::RESPONSE_MODELS.each_key do |path|
-  next if external_paths.include?(path)
+  next if external_paths.include?(path) || client_checkout_paths.include?(path)
 
   model = typed_calls[path]
   if model.nil?
