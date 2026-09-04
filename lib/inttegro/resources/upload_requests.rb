@@ -52,7 +52,8 @@ module Inttegro
           upload_url,
           Inttegro::UploadFulfillment,
           files: { file: file },
-          authenticated: false
+          authenticated: false,
+          operation: "upload_requests.upload"
         )
       end
 

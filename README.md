@@ -73,6 +73,20 @@ end
 
 Amounts use integer minor units: `5000` GHS is GHS 50.00. Reuse the same idempotency key when retrying the same logical write. If you omit one, the SDK generates a UUIDv7 key for mutating calls.
 
+## Observe SDK operations
+
+The SDK emits vendor-neutral OpenTelemetry spans through your application's provider. It never configures an exporter or sends telemetry by itself. Configure OpenTelemetry before creating the client:
+
+```ruby
+require "opentelemetry/sdk"
+require "inttegro"
+
+OpenTelemetry::SDK.configure
+inttegro = Inttegro::Client.new(api_key: ENV.fetch("INTTEGRO_API_KEY"))
+```
+
+Spans are named after logical operations such as `inttegro.orders.create`. HTTP attempts, response receipt, and decoding are span events. API keys, bodies, resource IDs, dynamic URLs, and exception messages are never recorded. See [SDK observability](https://studio.inttegro.com/sdk-observability) for the complete contract and set `telemetry_enabled: false` when needed.
+
 ## Work with the API
 
 The SDK covers orders and checkout, customers, products and prices, purchase intents, payment methods, balances, payouts and refunds, notifications, files, application settings, keys, and country specifications. Resources use snake-case readers such as `purchase_intents` and `payment_methods`.
@@ -95,7 +109,7 @@ The GitHub release for each version is the canonical record. It contains the exa
 
 ```bash
 sha256sum --check SHA256SUMS
-gh attestation verify inttegro-4.1.0.gem \
+gh attestation verify inttegro-4.2.0.gem \
   --repo zebodotdev/inttegro-sdk-ruby
 ```
 

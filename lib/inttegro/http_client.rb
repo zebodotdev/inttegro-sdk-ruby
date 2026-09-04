@@ -12,6 +12,7 @@ require_relative "models"
 require_relative "generated/operations"
 require_relative "response_object"
 require_relative "transport_response"
+require_relative "telemetry"
 require_relative "types"
 require_relative "version"
 
@@ -34,10 +35,20 @@ module Inttegro
         base_url: T.nilable(String),
         read_timeout: T.nilable(Numeric),
         open_timeout: T.nilable(Numeric),
-        adapter: T.nilable(Types::Adapter)
+        adapter: T.nilable(Types::Adapter),
+        telemetry_enabled: T::Boolean,
+        tracer_provider: T.nilable(OpenTelemetry::Trace::TracerProvider)
       ).void
     end
-    def initialize(api_key:, base_url: DEFAULT_BASE_URL, read_timeout: 30, open_timeout: 10, adapter: nil)
+    def initialize(
+      api_key:,
+      base_url: DEFAULT_BASE_URL,
+      read_timeout: 30,
+      open_timeout: 10,
+      adapter: nil,
+      telemetry_enabled: true,
+      tracer_provider: nil
+    )
       @api_key = T.let(api_key || "", String)
       raise ArgumentError, "api_key is required" if @api_key.strip.empty?
 
@@ -48,6 +59,10 @@ module Inttegro
       @read_timeout = T.let(read_timeout, T.nilable(Numeric))
       @open_timeout = T.let(open_timeout, T.nilable(Numeric))
       @adapter = T.let(adapter, T.nilable(Types::Adapter))
+      @telemetry = T.let(
+        Telemetry.new(Inttegro::VERSION, enabled: telemetry_enabled, tracer_provider: tracer_provider),
+        Telemetry
+      )
     end
 
     sig { params(path: String, headers: Types::Headers, query: T.nilable(Types::Query)).returns(ResponseValue) }
@@ -165,16 +180,17 @@ module Inttegro
           fields: Types::Payload,
           files: Types::Payload,
           headers: Types::Headers,
-          authenticated: T::Boolean
+          authenticated: T::Boolean,
+          operation: T.nilable(String)
         )
         .returns(T.type_parameter(:Model))
     end
-    def post_multipart_model(path, model, fields: {}, files: {}, headers: {}, authenticated: true)
+    def post_multipart_model(path, model, fields: {}, files: {}, headers: {}, authenticated: true, operation: nil)
       unless model <= T::Struct
         raise TypeError, "response model for #{path} must inherit from T::Struct"
       end
 
-      response = perform_multipart(path, fields, files, headers, authenticated, model)
+      response = perform_multipart(path, fields, files, headers, authenticated, model, operation)
       return T.cast(response, T.type_parameter(:Model)) if response.is_a?(model)
 
       raise TypeError, "expected #{model} from #{path}, got #{response.class}"
@@ -218,62 +234,76 @@ module Inttegro
         files: Types::Payload,
         headers: Types::Headers,
         authenticated: T::Boolean,
-        model: T.nilable(T::Class[T::Struct])
+        model: T.nilable(T::Class[T::Struct]),
+        operation: T.nilable(String)
       ).returns(ResponseValue)
     end
-    def perform_multipart(path, fields, files, headers, authenticated, model)
-      uri = build_uri(path, nil)
-      request = Net::HTTP::Post.new(uri)
-      request["Accept"] = "application/json"
-      request["User-Agent"] = USER_AGENT
-      request["Authorization"] = "Bearer #{@api_key}" if authenticated
-      headers = headers.dup
-      if authenticated && idempotent_mutation_path?(path) && !header_present?(headers, "Idempotency-Key")
-        headers["Idempotency-Key"] = generate_idempotency_key
+    def perform_multipart(path, fields, files, headers, authenticated, model, operation = nil)
+      @telemetry.in_span(path, :post, @base_url, Inttegro::VERSION, operation) do |span|
+        uri = build_uri(path, nil)
+        request = Net::HTTP::Post.new(uri)
+        request["Accept"] = "application/json"
+        request["User-Agent"] = USER_AGENT
+        request["Authorization"] = "Bearer #{@api_key}" if authenticated
+        headers = headers.dup
+        if authenticated && idempotent_mutation_path?(path) && !header_present?(headers, "Idempotency-Key")
+          headers["Idempotency-Key"] = generate_idempotency_key
+        end
+        headers.each { |key, value| request[key] = value }
+
+        form = []
+        fields.each do |key, value|
+          next if value.nil?
+
+          form << [key.to_s, value.is_a?(Hash) || value.is_a?(Array) ? JSON.generate(value) : value.to_s]
+        end
+        files.each do |key, file_path|
+          raise ArgumentError, "file path for #{key} must be a String" unless file_path.is_a?(String)
+
+          form << [key.to_s, File.open(file_path)]
+        end
+        request.set_form(form, "multipart/form-data")
+        @telemetry.prepare(span, request)
+
+        raw_response = @adapter ? @adapter.call(uri, request) : build_http(uri).request(request)
+        response = TransportResponse.new(raw_response)
+        @telemetry.response(span, response, decoded: false)
+        result = handle_response(path, response, model)
+        @telemetry.decoded(span)
+        result
       end
-      headers.each { |key, value| request[key] = value }
-
-      form = []
-      fields.each do |key, value|
-        next if value.nil?
-
-        form << [key.to_s, value.is_a?(Hash) || value.is_a?(Array) ? JSON.generate(value) : value.to_s]
-      end
-      files.each do |key, path|
-        raise ArgumentError, "file path for #{key} must be a String" unless path.is_a?(String)
-
-        form << [key.to_s, File.open(path)]
-      end
-      request.set_form(form, "multipart/form-data")
-
-      raw_response = @adapter ? @adapter.call(uri, request) : build_http(uri).request(request)
-      response = TransportResponse.new(raw_response)
-      handle_response(path, response, model)
     end
 
     sig { params(path: String, body: Types::RequestBody).returns(FileDownload) }
     def post_binary_json(path, body)
-      body = with_request_meta_idempotency(:post, path, coerce_body(body), {})
-      response = raw_request(:post, path, JSON.dump(body), {
-        "Accept" => "application/octet-stream",
-        "Content-Type" => "application/json",
-        "Authorization" => "Bearer #{@api_key}"
-      })
-      return FileDownload.new(response.body, response.headers) if response.code.to_i < 400
+      @telemetry.in_span(path, :post, @base_url, Inttegro::VERSION) do |span|
+        payload = with_request_meta_idempotency(:post, path, coerce_body(body), {})
+        response = raw_request(:post, path, JSON.dump(payload), {
+          "Accept" => "application/octet-stream",
+          "Content-Type" => "application/json",
+          "Authorization" => "Bearer #{@api_key}"
+        }, span)
+        @telemetry.response(span, response, decoded: false)
+        return FileDownload.new(response.body, response.headers) if response.code.to_i < 400
 
-      raise_response_error(response)
+        raise_response_error(response)
+      end
     end
 
     sig { params(url: String).returns(FileDownload) }
     def get_binary_public(url)
-      uri = build_uri(url, nil)
-      request = Net::HTTP::Get.new(uri)
-      request["User-Agent"] = USER_AGENT
-      raw_response = @adapter ? @adapter.call(uri, request) : build_http(uri).request(request)
-      response = TransportResponse.new(raw_response)
-      return FileDownload.new(response.body, response.headers) if response.code.to_i < 400
+      @telemetry.in_span(url, :get, @base_url, Inttegro::VERSION, "file_links.download") do |span|
+        uri = build_uri(url, nil)
+        request = Net::HTTP::Get.new(uri)
+        request["User-Agent"] = USER_AGENT
+        @telemetry.prepare(span, request)
+        raw_response = @adapter ? @adapter.call(uri, request) : build_http(uri).request(request)
+        response = TransportResponse.new(raw_response)
+        @telemetry.response(span, response, decoded: false)
+        return FileDownload.new(response.body, response.headers) if response.code.to_i < 400
 
-      raise_response_error(response)
+        raise_response_error(response)
+      end
     end
 
     sig do
@@ -287,20 +317,26 @@ module Inttegro
       ).returns(ResponseValue)
     end
     def request(method, path, body: nil, headers: {}, query: nil, response_model: nil)
-      uri = build_uri(path, query)
-      body = validate_body(path, coerce_body(body))
-      body = with_request_meta_idempotency(method, path, body, headers)
-      request = build_request(method, uri, body, headers)
+      @telemetry.in_span(path, method, @base_url, Inttegro::VERSION) do |span|
+        uri = build_uri(path, query)
+        body = validate_body(path, coerce_body(body))
+        body = with_request_meta_idempotency(method, path, body, headers)
+        request = build_request(method, uri, body, headers)
+        @telemetry.prepare(span, request)
 
-      raw_response =
-        if @adapter
-          @adapter.call(uri, request)
-        else
-          http = build_http(uri)
-          http.request(request)
-        end
-      response = TransportResponse.new(raw_response)
-      handle_response(path, response, response_model)
+        raw_response =
+          if @adapter
+            @adapter.call(uri, request)
+          else
+            http = build_http(uri)
+            http.request(request)
+          end
+        response = TransportResponse.new(raw_response)
+        @telemetry.response(span, response, decoded: false)
+        result = handle_response(path, response, response_model)
+        @telemetry.decoded(span)
+        result
+      end
     rescue Timeout::Error, Errno::ETIMEDOUT => e
       raise TimeoutError.new("Request timed out", e)
     rescue SocketError, Errno::ECONNREFUSED, Errno::ECONNRESET => e
@@ -327,13 +363,15 @@ module Inttegro
         method: T.any(String, Symbol),
         path: String,
         body: T.nilable(String),
-        headers: Types::Headers
+        headers: Types::Headers,
+        span: T.nilable(OpenTelemetry::Trace::Span)
       ).returns(TransportResponse)
     end
-    def raw_request(method, path, body, headers)
+    def raw_request(method, path, body, headers, span = nil)
       uri = build_uri(path, nil)
       request = build_request(method, uri, nil, headers)
       request.body = body if body
+      @telemetry.prepare(span, request)
       raw_response = @adapter ? @adapter.call(uri, request) : build_http(uri).request(request)
       TransportResponse.new(raw_response)
     end

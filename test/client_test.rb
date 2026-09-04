@@ -16,6 +16,81 @@ class InttegroClientTest < Minitest::Test
   PLATFORM_MANAGED_PATHS = ["/sessions/new"].freeze
   DEFAULT_RESPONSE_BODY = Object.new.freeze
 
+  def test_telemetry_does_not_name_unknown_routes_from_resource_ids
+    telemetry_class = Inttegro.const_get(:Telemetry, false)
+    telemetry = telemetry_class.new(Inttegro::VERSION, enabled: false)
+    operation, route, server_address = telemetry.send(
+      :request_details,
+      "/orders/or_private_123",
+      "https://api.inttegro.com",
+      nil
+    )
+
+    assert_equal "http.request", operation
+    assert_nil route
+    assert_equal "api.inttegro.com", server_address
+  end
+
+  def test_emits_redacted_opentelemetry_span_and_propagates_context
+    exporter = OpenTelemetry::SDK::Trace::Export::InMemorySpanExporter.new
+    provider = OpenTelemetry::SDK::Trace::TracerProvider.new
+    provider.add_span_processor(OpenTelemetry::SDK::Trace::Export::SimpleSpanProcessor.new(exporter))
+    previous_propagation = OpenTelemetry.propagation
+    OpenTelemetry.propagation = OpenTelemetry::Trace::Propagation::TraceContext.text_map_propagator
+    requests = []
+    adapter = make_adapter(
+      requests: requests,
+      headers: { "Content-Type" => "application/json", "x-request-id" => "req_123" }
+    )
+    client = Inttegro::Client.new(
+      token: "sk_live_must_not_appear",
+      adapter: adapter,
+      tracer_provider: provider
+    )
+
+    client.orders.lookup(order_id: "or_private")
+
+    span = exporter.finished_spans.fetch(0)
+    assert_equal "inttegro.orders.lookup", span.name
+    assert_equal "ruby", span.attributes.fetch("inttegro.sdk.language")
+    assert_equal 200, span.attributes.fetch("http.response.status_code")
+    assert_equal "req_123", span.attributes.fetch("inttegro.request.id")
+    assert_equal [
+      "inttegro.request.prepared",
+      "inttegro.http.attempt.started",
+      "inttegro.response.received",
+      "inttegro.response.decoded"
+    ], span.events.map(&:name)
+    assert requests.fetch(0).fetch(:request)["traceparent"]
+    encoded = span.attributes.inspect + span.events.inspect
+    refute_includes encoded, "sk_live_must_not_appear"
+    refute_includes encoded, "or_private"
+  ensure
+    OpenTelemetry.propagation = previous_propagation if previous_propagation
+  end
+
+  def test_opentelemetry_errors_are_redacted
+    exporter = OpenTelemetry::SDK::Trace::Export::InMemorySpanExporter.new
+    provider = OpenTelemetry::SDK::Trace::TracerProvider.new
+    provider.add_span_processor(OpenTelemetry::SDK::Trace::Export::SimpleSpanProcessor.new(exporter))
+    adapter = make_adapter(
+      status: "401",
+      body: { message: "sensitive provider detail" }
+    )
+    client = Inttegro::Client.new(token: "bad", adapter: adapter, tracer_provider: provider)
+
+    assert_raises(Inttegro::AuthenticationError) do
+      client.orders.lookup(order_id: "or_private")
+    end
+
+    span = exporter.finished_spans.fetch(0)
+    assert_equal "http_401", span.attributes.fetch("error.type")
+    assert_equal 401, span.attributes.fetch("http.response.status_code")
+    encoded = span.attributes.inspect + span.events.inspect
+    refute_includes encoded, "sensitive provider detail"
+    refute_includes encoded, "or_private"
+  end
+
   def test_sdk_implementation_paths_cover_openapi_spec
     missing = openapi_spec_paths - EXTERNALLY_SUPPLIED_CAPABILITY_PATHS - PLATFORM_MANAGED_PATHS - implemented_sdk_paths
 

@@ -109,7 +109,9 @@ module Inttegro
         base_url: T.nilable(String),
         read_timeout: T.nilable(Numeric),
         open_timeout: T.nilable(Numeric),
-        adapter: T.nilable(Types::Adapter)
+        adapter: T.nilable(Types::Adapter),
+        telemetry_enabled: T::Boolean,
+        tracer_provider: T.nilable(OpenTelemetry::Trace::TracerProvider)
       ).void
     end
     def initialize(
@@ -119,7 +121,9 @@ module Inttegro
       base_url: DEFAULT_BASE_URL,
       read_timeout: 30,
       open_timeout: 10,
-      adapter: nil
+      adapter: nil,
+      telemetry_enabled: true,
+      tracer_provider: nil
     )
       provided_token = token || token_value
       api_key ||= provided_token
@@ -128,7 +132,9 @@ module Inttegro
         base_url: base_url,
         read_timeout: read_timeout,
         open_timeout: open_timeout,
-        adapter: adapter
+        adapter: adapter,
+        telemetry_enabled: telemetry_enabled,
+        tracer_provider: tracer_provider
       ), HTTPClient)
 
       @orders = T.let(Resources::Orders.new(@http), Resources::Orders)
