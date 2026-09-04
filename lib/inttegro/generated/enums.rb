@@ -47,6 +47,50 @@ module Inttegro
     end
   end
 
+  class CheckoutInvoiceViewStatus < T::Enum
+    enums do
+      DRAFT = new("draft")
+      REQUIRES_PAYMENT = new("requires_payment")
+      OVERDUE = new("overdue")
+      PAID = new("paid")
+      EXPIRED = new("expired")
+      CANCELED = new("canceled")
+    end
+  end
+
+  class CheckoutMobileMoneyDataNetwork < T::Enum
+    enums do
+      MTN = new("mtn")
+      VODAFONE = new("vodafone")
+      AIRTEL = new("airtel")
+      TELECEL = new("telecel")
+    end
+  end
+
+  class CheckoutOrderStatus < T::Enum
+    enums do
+      PREPARING = new("preparing")
+      REQUIRES_PAYMENT = new("requires_payment")
+      COMPLETED = new("completed")
+      PAID = new("paid")
+      CANCELED = new("canceled")
+      EXPIRED = new("expired")
+      UNKNOWN = new("unknown")
+    end
+  end
+
+  class CheckoutPayRequestPaymentMethodDataType < T::Enum
+    enums do
+      MOBILE_MONEY = new("mobile_money")
+    end
+  end
+
+  class CheckoutPaymentMethodDataType < T::Enum
+    enums do
+      MOBILE_MONEY = new("mobile_money")
+    end
+  end
+
   class ChimeEmailSchemaKind < T::Enum
     enums do
       GMAIL_VIEW_ACTION = new("gmail_view_action")

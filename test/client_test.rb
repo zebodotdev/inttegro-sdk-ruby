@@ -13,6 +13,12 @@ class InttegroClientTest < Minitest::Test
 
   UUID_V7_REGEX = /\A[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z/i
   EXTERNALLY_SUPPLIED_CAPABILITY_PATHS = ["/file_links/open", "/upload_requests/upload"].freeze
+  CLIENT_CHECKOUT_PATHS = [
+    "/checkout/lookup",
+    "/checkout/pay",
+    "/checkout/request_confirmation",
+    "/checkout/confirm_payment"
+  ].freeze
   PLATFORM_MANAGED_PATHS = ["/sessions/new"].freeze
   DEFAULT_RESPONSE_BODY = Object.new.freeze
 
@@ -92,7 +98,8 @@ class InttegroClientTest < Minitest::Test
   end
 
   def test_sdk_implementation_paths_cover_openapi_spec
-    missing = openapi_spec_paths - EXTERNALLY_SUPPLIED_CAPABILITY_PATHS - PLATFORM_MANAGED_PATHS - implemented_sdk_paths
+    missing = openapi_spec_paths - EXTERNALLY_SUPPLIED_CAPABILITY_PATHS - CLIENT_CHECKOUT_PATHS -
+      PLATFORM_MANAGED_PATHS - implemented_sdk_paths
 
     assert_empty(
       missing,

@@ -562,6 +562,256 @@ module Inttegro
     const :quantity, Integer
   end
 
+  class CheckoutPaymentAddress < T::Struct
+    const :name, T.nilable(String), default: nil
+    const :phone_number, T.nilable(String), default: nil
+    const :line1, T.nilable(String), default: nil
+    const :line2, T.nilable(String), default: nil
+    const :city, T.nilable(String), default: nil
+    const :region, T.nilable(String), default: nil
+    const :post_code, T.nilable(String), default: nil
+    const :country, String
+  end
+
+  class CheckoutBillingDetails < T::Struct
+    const :name, String
+    const :phone_number, T.nilable(String), default: nil
+    const :address, Inttegro::CheckoutPaymentAddress
+  end
+
+  class CheckoutConfirmPaymentRequest < T::Struct
+    const :order_id, String
+    const :payment_id, T.nilable(String), default: nil
+    const :confirmation_id, T.nilable(String), default: nil
+    const :token, String
+  end
+
+  class CheckoutInvoiceViewFormatWeb < T::Struct
+    const :url, T.nilable(String), default: nil
+  end
+
+  class CheckoutInvoiceViewFormatPdf < T::Struct
+    const :url, T.nilable(String), default: nil
+  end
+
+  class CheckoutInvoiceViewFormatReceipt < T::Struct
+    const :url, T.nilable(String), default: nil
+  end
+
+  class CheckoutInvoiceViewFormat < T::Struct
+    const :web, T.nilable(Inttegro::CheckoutInvoiceViewFormatWeb), default: nil
+    const :pdf, T.nilable(Inttegro::CheckoutInvoiceViewFormatPdf), default: nil
+    const :receipt, T.nilable(Inttegro::CheckoutInvoiceViewFormatReceipt), default: nil
+  end
+
+  class CheckoutInvoiceViewBeneficiary < T::Struct
+    const :id, T.nilable(String), default: nil
+    const :legal_entity_type, T.nilable(String), default: nil
+    const :logo_url, T.nilable(String), default: nil
+    const :alias, T.nilable(String), default: nil
+    const :name, T.nilable(String), default: nil
+    const :support_email, T.nilable(String), default: nil
+    const :support_phone, T.nilable(String), default: nil
+    const :website_url, T.nilable(String), default: nil
+    const :accent_color, T.nilable(String), default: nil
+    const :invoice_support_line, T.nilable(String), default: nil
+    const :invoice_footer, T.nilable(String), default: nil
+  end
+
+  class CheckoutInvoiceView < T::Struct
+    const :id, String
+    const :application_id, T.nilable(String), default: nil
+    const :number, T.nilable(String), default: nil
+    const :status, T.nilable(Inttegro::CheckoutInvoiceViewStatus), default: nil
+    const :created_at, String
+    const :due_at, T.nilable(String), default: nil
+    const :format_value, Inttegro::CheckoutInvoiceViewFormat, name: "format"
+    const :beneficiary, T.nilable(Inttegro::CheckoutInvoiceViewBeneficiary), default: nil
+  end
+
+  class CheckoutMobileMoneyData < T::Struct
+    const :reference, T.nilable(String), default: nil
+    const :network, Inttegro::CheckoutMobileMoneyDataNetwork
+    const :account_number, String
+  end
+
+  class CheckoutOrderCheckoutSettings < T::Struct
+    const :redirect_url, T.nilable(String), default: nil
+    const :cancel_url, T.nilable(String), default: nil
+  end
+
+  class InlineProductDetails < T::Struct
+    const :about, T.nilable(String), default: nil
+    const :custom_data, T.nilable(T::Hash[String, Object]), default: nil
+    const :name, String
+    const :price, Inttegro::PriceParams
+    const :quantity, Integer
+    const :reference, T.nilable(String), default: nil
+    const :tax_code, T.nilable(String), default: nil
+    const :type, Inttegro::ProductType
+  end
+
+  ProductDetails = T.type_alias { T.any(Inttegro::InlineProductDetails, Inttegro::CatalogProductWithPriceData, Inttegro::CatalogProductWithPriceReference) }
+
+  class ProductLineItem < T::Struct
+    const :type, Inttegro::ProductLineItemType
+    const :product, Inttegro::ProductDetails
+  end
+
+  class FeeDetails < T::Struct
+    const :id, T.nilable(String), default: nil
+    const :label, T.nilable(String), default: nil
+    const :tax_code, T.nilable(String), default: nil
+    const :description, T.nilable(String), default: nil
+    const :custom_data, T.nilable(T::Hash[String, Object]), default: nil
+    const :amount, Inttegro::AmountParams
+  end
+
+  class FeeLineItem < T::Struct
+    const :type, Inttegro::FeeLineItemType
+    const :fee, Inttegro::FeeDetails
+  end
+
+  class ShippingDetails < T::Struct
+    const :id, T.nilable(String), default: nil
+    const :tax_code, T.nilable(String), default: nil
+    const :custom_data, T.nilable(T::Hash[String, Object]), default: nil
+    const :fee, Inttegro::AmountParams
+  end
+
+  class ShippingLineItem < T::Struct
+    const :type, Inttegro::ShippingLineItemType
+    const :shipping, Inttegro::ShippingDetails
+  end
+
+  LineItem = T.type_alias { T.any(Inttegro::ProductLineItem, Inttegro::FeeLineItem, Inttegro::ShippingLineItem) }
+
+  class CheckoutOrderLineItemGroup < T::Struct
+    const :line_items, T.nilable(T::Array[Inttegro::LineItem]), default: nil
+    const :total, T.nilable(Inttegro::Amount), default: nil
+  end
+
+  class CheckoutOrderCustomerBillingAddress < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class CheckoutOrderCustomerShippingAddress < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class CheckoutOrderCustomer < T::Struct
+    const :id, T.nilable(String), default: nil
+    const :guest, T.nilable(T::Boolean), default: nil
+    const :name, T.nilable(String), default: nil
+    const :email_address, T.nilable(String), default: nil
+    const :phone_number, T.nilable(String), default: nil
+    const :billing_address, T.nilable(Inttegro::CheckoutOrderCustomerBillingAddress), default: nil
+    const :shipping_address, T.nilable(Inttegro::CheckoutOrderCustomerShippingAddress), default: nil
+  end
+
+  class CheckoutOrderCreatedFrom < T::Struct
+    const :source, T.nilable(String), default: nil
+    const :resource_type, T.nilable(String), default: nil
+    const :resource_id, T.nilable(String), default: nil
+  end
+
+  class CheckoutOrderPaymentPaymentMethod < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class CheckoutOrderPaymentBillingDetails < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class CheckoutOrderPaymentLatestAttempt < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class CheckoutOrderPaymentNextAction < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class CheckoutOrderPaymentLatestError < T::Struct
+    # This object intentionally has no fields.
+  end
+
+  class CheckoutOrderPayment < T::Struct
+    const :id, T.nilable(String), default: nil
+    const :statement_descriptor, T.nilable(String), default: nil
+    const :payment_method_types, T.nilable(T::Array[String]), default: nil
+    const :payment_method, T.nilable(Inttegro::CheckoutOrderPaymentPaymentMethod), default: nil
+    const :billing_details, T.nilable(Inttegro::CheckoutOrderPaymentBillingDetails), default: nil
+    const :receipt, T.nilable(Inttegro::CheckoutInvoiceView), default: nil
+    const :latest_attempt, T.nilable(Inttegro::CheckoutOrderPaymentLatestAttempt), default: nil
+    const :amount, T.nilable(Inttegro::Amount), default: nil
+    const :next_action, T.nilable(Inttegro::CheckoutOrderPaymentNextAction), default: nil
+    const :latest_error, T.nilable(Inttegro::CheckoutOrderPaymentLatestError), default: nil
+    const :status, T.nilable(String), default: nil
+    const :initiated_at, T.nilable(String), default: nil
+    const :executed_at, T.nilable(String), default: nil
+    const :due_at, T.nilable(String), default: nil
+    const :canceled_at, T.nilable(String), default: nil
+    const :expired_at, T.nilable(String), default: nil
+    const :paid_at, T.nilable(String), default: nil
+    const :paid_offline, T.nilable(T::Boolean), default: nil
+    const :failed_at, T.nilable(String), default: nil
+  end
+
+  class CheckoutOrder < T::Struct
+    const :id, String
+    const :number, T.nilable(String), default: nil
+    const :receipt_number, T.nilable(String), default: nil
+    const :reference, T.nilable(String), default: nil
+    const :status, Inttegro::CheckoutOrderStatus
+    const :initiated_at, String
+    const :sealed_at, T.nilable(String), default: nil
+    const :completed_at, T.nilable(String), default: nil
+    const :paid_at, T.nilable(String), default: nil
+    const :canceled_at, T.nilable(String), default: nil
+    const :expires_at, T.nilable(String), default: nil
+    const :payment_due_at, T.nilable(String), default: nil
+    const :checkout_settings, T.nilable(Inttegro::CheckoutOrderCheckoutSettings), default: nil
+    const :line_item_group, T.nilable(Inttegro::CheckoutOrderLineItemGroup), default: nil
+    const :customer, Inttegro::CheckoutOrderCustomer
+    const :created_from, T.nilable(Inttegro::CheckoutOrderCreatedFrom), default: nil
+    const :payment, T.nilable(Inttegro::CheckoutOrderPayment), default: nil
+    const :invoice, T.nilable(Inttegro::CheckoutInvoiceView), default: nil
+  end
+
+  class CheckoutOrderReferenceRequest < T::Struct
+    const :order_id, String
+  end
+
+  class CheckoutOrderResponse < T::Struct
+    const :order, T.nilable(Inttegro::CheckoutOrder), default: nil
+    const :error, T.nilable(Inttegro::ErrorPayload), default: nil
+  end
+
+  class CheckoutPaymentMethodDataBillingDetails < T::Struct
+    const :name, String
+    const :phone_number, T.nilable(String), default: nil
+    const :address, Inttegro::CheckoutPaymentAddress
+  end
+
+  class CheckoutPayRequestPaymentMethodData < T::Struct
+    const :type, Inttegro::CheckoutPayRequestPaymentMethodDataType
+    const :mobile_money, Inttegro::CheckoutMobileMoneyData
+    const :billing_details, T.nilable(Inttegro::CheckoutPaymentMethodDataBillingDetails), default: nil
+  end
+
+  class CheckoutPayRequest < T::Struct
+    const :order_id, String
+    const :payment_method_id, T.nilable(String), default: nil
+    const :payment_method_data, T.nilable(Inttegro::CheckoutPayRequestPaymentMethodData), default: nil
+    const :save_payment_method, T.nilable(T::Boolean), default: nil
+  end
+
+  class CheckoutPaymentMethodData < T::Struct
+    const :type, Inttegro::CheckoutPaymentMethodDataType
+    const :mobile_money, Inttegro::CheckoutMobileMoneyData
+    const :billing_details, T.nilable(Inttegro::CheckoutPaymentMethodDataBillingDetails), default: nil
+  end
+
   class ChimeRecipientDetailPhone < T::Struct
     const :number, String
   end
@@ -1357,52 +1607,6 @@ module Inttegro
     const :destination, T.nilable(Inttegro::OrderPayoutSettingsRequestDestination), default: nil
     const :enable_fx, T.nilable(T::Boolean), default: nil
   end
-
-  class InlineProductDetails < T::Struct
-    const :about, T.nilable(String), default: nil
-    const :custom_data, T.nilable(T::Hash[String, Object]), default: nil
-    const :name, String
-    const :price, Inttegro::PriceParams
-    const :quantity, Integer
-    const :reference, T.nilable(String), default: nil
-    const :tax_code, T.nilable(String), default: nil
-    const :type, Inttegro::ProductType
-  end
-
-  ProductDetails = T.type_alias { T.any(Inttegro::InlineProductDetails, Inttegro::CatalogProductWithPriceData, Inttegro::CatalogProductWithPriceReference) }
-
-  class ProductLineItem < T::Struct
-    const :type, Inttegro::ProductLineItemType
-    const :product, Inttegro::ProductDetails
-  end
-
-  class FeeDetails < T::Struct
-    const :id, T.nilable(String), default: nil
-    const :label, T.nilable(String), default: nil
-    const :tax_code, T.nilable(String), default: nil
-    const :description, T.nilable(String), default: nil
-    const :custom_data, T.nilable(T::Hash[String, Object]), default: nil
-    const :amount, Inttegro::AmountParams
-  end
-
-  class FeeLineItem < T::Struct
-    const :type, Inttegro::FeeLineItemType
-    const :fee, Inttegro::FeeDetails
-  end
-
-  class ShippingDetails < T::Struct
-    const :id, T.nilable(String), default: nil
-    const :tax_code, T.nilable(String), default: nil
-    const :custom_data, T.nilable(T::Hash[String, Object]), default: nil
-    const :fee, Inttegro::AmountParams
-  end
-
-  class ShippingLineItem < T::Struct
-    const :type, Inttegro::ShippingLineItemType
-    const :shipping, Inttegro::ShippingDetails
-  end
-
-  LineItem = T.type_alias { T.any(Inttegro::ProductLineItem, Inttegro::FeeLineItem, Inttegro::ShippingLineItem) }
 
   class Shipping < T::Struct
     const :address, Inttegro::Address

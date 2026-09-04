@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [4.2.1] - 2026-09-04
+
+- Aligned the SDK parity test with hosted-checkout routes that are intentionally handled by the client.
+- Refreshed generated declarations from the OpenAPI commit pinned by CI and release automation.
+
 ## [4.2.0] - 2026-09-04
 
 - Added vendor-neutral OpenTelemetry spans for logical SDK operations, HTTP attempts, response receipt, decoding, and safe failure categories.
