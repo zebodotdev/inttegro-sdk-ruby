@@ -9,7 +9,11 @@ gem "rake", "~> 13.0"
 
 gem "minitest", "~> 5.16", "< 5.26"
 
-gem "opentelemetry-sdk", "~> 1.0"
+gem "logger", "~> 1.7.0"
+gem "opentelemetry-sdk", "~> 1.7.0"
+gem "opentelemetry-common", "~> 0.21.0"
+gem "opentelemetry-registry", "~> 0.3.1"
+gem "opentelemetry-semantic_conventions", "~> 1.10.1"
 
 gem "rubocop", "~> 1.21"
 

@@ -109,7 +109,7 @@ The GitHub release for each version is the canonical record. It contains the exa
 
 ```bash
 sha256sum --check SHA256SUMS
-gh attestation verify inttegro-4.2.1.gem \
+gh attestation verify inttegro-4.2.2.gem \
   --repo zebodotdev/inttegro-sdk-ruby
 ```
 

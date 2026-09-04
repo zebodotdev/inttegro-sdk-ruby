@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [4.2.2] - 2026-09-04
+
+- Constrained OpenTelemetry dependencies to releases that preserve the SDK's Ruby 3.0 runtime support, while declaring `logger` for Ruby 4 compatibility.
+
 ## [4.2.1] - 2026-09-04
 
 - Aligned the SDK parity test with hosted-checkout routes that are intentionally handled by the client.

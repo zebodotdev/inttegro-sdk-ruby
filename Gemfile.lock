@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    inttegro (4.2.1)
-      opentelemetry-api (~> 1.0)
+    inttegro (4.2.2)
+      logger (>= 1.4, < 2)
+      opentelemetry-api (>= 1.0, < 1.5)
       sorbet-runtime (~> 0.6)
 
 GEM
@@ -15,19 +16,17 @@ GEM
     lint_roller (1.1.0)
     logger (1.7.0)
     minitest (5.25.5)
-    opentelemetry-api (1.11.0)
-      logger
-    opentelemetry-common (0.25.1)
+    opentelemetry-api (1.4.0)
+    opentelemetry-common (0.21.0)
       opentelemetry-api (~> 1.0)
-    opentelemetry-registry (0.6.3)
+    opentelemetry-registry (0.3.1)
       opentelemetry-api (~> 1.1)
-    opentelemetry-sdk (1.11.0)
-      logger
+    opentelemetry-sdk (1.7.0)
       opentelemetry-api (~> 1.1)
       opentelemetry-common (~> 0.20)
       opentelemetry-registry (~> 0.2)
       opentelemetry-semantic_conventions
-    opentelemetry-semantic_conventions (1.44.0)
+    opentelemetry-semantic_conventions (1.10.1)
       opentelemetry-api (~> 1.0)
     parallel (1.27.0)
     parser (3.3.10.0)
@@ -75,8 +74,12 @@ PLATFORMS
 
 DEPENDENCIES
   inttegro!
+  logger (~> 1.7.0)
   minitest (~> 5.16, < 5.26)
-  opentelemetry-sdk (~> 1.0)
+  opentelemetry-common (~> 0.21.0)
+  opentelemetry-registry (~> 0.3.1)
+  opentelemetry-sdk (~> 1.7.0)
+  opentelemetry-semantic_conventions (~> 1.10.1)
   rake (~> 13.0)
   rubocop (~> 1.21)
   simplecov (~> 0.22)
