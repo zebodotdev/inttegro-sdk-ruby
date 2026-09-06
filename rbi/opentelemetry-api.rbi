@@ -56,6 +56,9 @@ module OpenTelemetry
     end
 
     class Span
+      sig { returns(SpanContext) }
+      def context; end
+
       sig { params(key: String, value: Object).returns(Span) }
       def set_attribute(key, value); end
 
@@ -67,6 +70,17 @@ module OpenTelemetry
 
       sig { void }
       def finish; end
+    end
+
+    class SpanContext
+      sig { returns(T::Boolean) }
+      def valid?; end
+
+      sig { returns(String) }
+      def hex_trace_id; end
+
+      sig { returns(String) }
+      def hex_span_id; end
     end
 
     class Status

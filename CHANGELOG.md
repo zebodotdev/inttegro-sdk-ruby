@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [4.3.0] - 2026-09-06
+
+- Added opt-in, typed error reporting to application-owned collectors with privacy-safe payloads, stable fingerprints, isolated reporter failures, and no reporting work when unconfigured.
+
 ## [4.2.2] - 2026-09-04
 
 - Constrained OpenTelemetry dependencies to releases that preserve the SDK's Ruby 3.0 runtime support, while declaring `logger` for Ruby 4 compatibility.
