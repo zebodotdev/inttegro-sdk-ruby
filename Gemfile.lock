@@ -66,6 +66,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
+    yard (0.9.45)
 
 PLATFORMS
   arm64-darwin-23
@@ -84,6 +85,7 @@ DEPENDENCIES
   rubocop (~> 1.21)
   simplecov (~> 0.22)
   sorbet (~> 0.6)
+  yard (~> 0.9.45)
 
 BUNDLED WITH
    2.6.6

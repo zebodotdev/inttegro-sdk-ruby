@@ -6,8 +6,21 @@ require "minitest/test_task"
 Minitest::TestTask.create
 
 require "rubocop/rake_task"
+require "yard"
+require "yard/rake/yardoc_task"
 
 RuboCop::RakeTask.new
+
+YARD::Rake::YardocTask.new(:docs) do |task|
+  task.files = ["lib/**/*.rb"]
+  task.options = [
+    "--no-private",
+    "--protected",
+    "--readme", "README.md",
+    "--title", "Inttegro Ruby SDK",
+    "--output-dir", "build/api-docs"
+  ]
+end
 
 namespace :rbi do
   desc "Regenerate Sorbet declarations for models, enums, and resources"

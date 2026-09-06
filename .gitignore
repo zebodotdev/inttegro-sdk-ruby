@@ -12,5 +12,7 @@
 
 # Test artifacts
 /coverage
+/.yardoc
+/build
 .ruby-version
 .tool-versions
