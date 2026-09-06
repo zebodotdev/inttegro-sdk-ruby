@@ -97,6 +97,69 @@ class InttegroClientTest < Minitest::Test
     refute_includes encoded, "or_private"
   end
 
+  def test_reports_one_privacy_safe_final_failure_when_configured
+    reports = []
+    adapter = make_adapter(
+      status: "503",
+      body: {
+        error: {
+          type: "transient_error",
+          code: "provider_failed",
+          fix_code: "repeat_same_request",
+          message: "private provider detail"
+        }
+      },
+      headers: { "Content-Type" => "application/json", "x-request-id" => "req_456" }
+    )
+    client = Inttegro::Client.new(
+      token: "sk_live_must_not_appear",
+      adapter: adapter,
+      telemetry_enabled: false,
+      error_reporter: lambda { |report|
+        reports << report
+        raise "collector unavailable"
+      }
+    )
+
+    error = assert_raises(Inttegro::APIError) do
+      client.orders.lookup(order_id: "or_private")
+    end
+
+    assert_equal 1, reports.length
+    report = reports.fetch(0)
+    assert_equal "http_503", report.category
+    assert_equal "orders.lookup", report.operation
+    assert_equal "POST", report.http.request_method
+    assert_equal "/orders/lookup", report.http.route
+    assert_equal 503, report.http.status_code
+    assert_equal "req_456", report.http.request_id
+    assert_equal "transient_error", report.api_error&.type
+    assert_equal "inttegro:ruby:orders.lookup:http_503:503", report.fingerprint
+    assert_same report, error.report
+    encoded = report.serialize.inspect
+    refute_includes encoded, "private provider detail"
+    refute_includes encoded, "sk_live_must_not_appear"
+    refute_includes encoded, "or_private"
+  end
+
+  def test_default_error_reporting_skips_expected_api_errors
+    reports = []
+    adapter = make_adapter(status: "400", body: { error: { type: "invalid_request_parameter" } })
+    client = Inttegro::Client.new(
+      token: "test",
+      adapter: adapter,
+      telemetry_enabled: false,
+      error_reporter: ->(report) { reports << report }
+    )
+
+    error = assert_raises(Inttegro::APIError) do
+      client.orders.lookup(order_id: "or_private")
+    end
+
+    assert_empty reports
+    assert_nil error.report
+  end
+
   def test_sdk_implementation_paths_cover_openapi_spec
     missing = openapi_spec_paths - EXTERNALLY_SUPPLIED_CAPABILITY_PATHS - CLIENT_CHECKOUT_PATHS -
       PLATFORM_MANAGED_PATHS - implemented_sdk_paths

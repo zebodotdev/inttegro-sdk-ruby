@@ -37,7 +37,9 @@ module Inttegro
         open_timeout: T.nilable(Numeric),
         adapter: T.nilable(Types::Adapter),
         telemetry_enabled: T::Boolean,
-        tracer_provider: T.nilable(OpenTelemetry::Trace::TracerProvider)
+        tracer_provider: T.nilable(OpenTelemetry::Trace::TracerProvider),
+        error_reporter: T.nilable(ErrorReporter),
+        error_reporting_policy: Symbol
       ).void
     end
     def initialize(
@@ -47,7 +49,9 @@ module Inttegro
       open_timeout: 10,
       adapter: nil,
       telemetry_enabled: true,
-      tracer_provider: nil
+      tracer_provider: nil,
+      error_reporter: nil,
+      error_reporting_policy: :unexpected
     )
       @api_key = T.let(api_key || "", String)
       raise ArgumentError, "api_key is required" if @api_key.strip.empty?
@@ -60,7 +64,13 @@ module Inttegro
       @open_timeout = T.let(open_timeout, T.nilable(Numeric))
       @adapter = T.let(adapter, T.nilable(Types::Adapter))
       @telemetry = T.let(
-        Telemetry.new(Inttegro::VERSION, enabled: telemetry_enabled, tracer_provider: tracer_provider),
+        Telemetry.new(
+          Inttegro::VERSION,
+          enabled: telemetry_enabled,
+          tracer_provider: tracer_provider,
+          error_reporter: error_reporter,
+          error_reporting_policy: error_reporting_policy
+        ),
         Telemetry
       )
     end
@@ -504,6 +514,7 @@ module Inttegro
       detail = payload[:detail]
       fix_code = payload[:fix_code]
       cause = payload[:cause]
+      request_id = response["x-request-id"] || response["X-Request-Id"]
 
       case status
       when 401
@@ -517,7 +528,8 @@ module Inttegro
           fix_code: fix_code,
           cause: cause,
           body: body,
-          data: data
+          data: data,
+          request_id: request_id
         )
       when 429
         retry_after = response["Retry-After"]&.to_i
@@ -532,7 +544,8 @@ module Inttegro
           cause: cause,
           body: body,
           data: data,
-          retry_after: retry_after
+          retry_after: retry_after,
+          request_id: request_id
         )
       else
         raise APIError.new(
@@ -545,7 +558,8 @@ module Inttegro
           fix_code: fix_code,
           cause: cause,
           body: body,
-          data: data
+          data: data,
+          request_id: request_id
         )
       end
     end

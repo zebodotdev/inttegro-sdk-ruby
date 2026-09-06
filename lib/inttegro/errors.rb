@@ -4,9 +4,21 @@
 require "sorbet-runtime"
 
 require_relative "types"
+require_relative "error_reporting"
 
 module Inttegro
-  class Error < StandardError; end
+  class Error < StandardError
+    extend T::Sig
+
+    sig { returns(T.nilable(ErrorReport)) }
+    attr_accessor :report
+
+    sig { params(message: String).void }
+    def initialize(message)
+      super(message)
+      @report = T.let(nil, T.nilable(ErrorReport))
+    end
+  end
 
   class NetworkError < Error
     extend T::Sig
@@ -30,7 +42,7 @@ module Inttegro
     attr_reader :status
 
     sig { returns(T.nilable(String)) }
-    attr_reader :code, :type, :url, :detail, :fix_code, :cause, :body
+    attr_reader :code, :type, :url, :detail, :fix_code, :cause, :body, :request_id
 
     sig { returns(Types::WireValue) }
     attr_reader :data
@@ -46,7 +58,8 @@ module Inttegro
         fix_code: T.nilable(String),
         cause: T.nilable(String),
         body: T.nilable(String),
-        data: Types::WireValue
+        data: Types::WireValue,
+        request_id: T.nilable(String)
       ).void
     end
     def initialize(
@@ -59,7 +72,8 @@ module Inttegro
       fix_code: nil,
       cause: nil,
       body: nil,
-      data: nil
+      data: nil,
+      request_id: nil
     )
       super(message)
       @status = status
@@ -71,6 +85,7 @@ module Inttegro
       @cause = cause
       @body = body
       @data = data
+      @request_id = request_id
     end
   end
 
@@ -94,7 +109,8 @@ module Inttegro
         cause: T.nilable(String),
         body: T.nilable(String),
         data: Types::WireValue,
-        retry_after: T.nilable(Integer)
+        retry_after: T.nilable(Integer),
+        request_id: T.nilable(String)
       ).void
     end
     def initialize(
@@ -108,7 +124,8 @@ module Inttegro
       cause: nil,
       body: nil,
       data: nil,
-      retry_after: nil
+      retry_after: nil,
+      request_id: nil
     )
       super(
         message,
@@ -120,7 +137,8 @@ module Inttegro
         fix_code: fix_code,
         cause: cause,
         body: body,
-        data: data
+        data: data,
+        request_id: request_id
       )
       @retry_after = retry_after
     end

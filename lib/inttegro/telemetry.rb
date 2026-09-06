@@ -3,9 +3,12 @@
 
 require "opentelemetry-api"
 require "sorbet-runtime"
+require "securerandom"
+require "time"
 require "uri"
 
 require_relative "errors"
+require_relative "error_reporting"
 
 module Inttegro
   # Emits redacted SDK spans to the application's OpenTelemetry provider.
@@ -30,11 +33,17 @@ module Inttegro
       params(
         version: String,
         enabled: T::Boolean,
-        tracer_provider: T.nilable(OpenTelemetry::Trace::TracerProvider)
+        tracer_provider: T.nilable(OpenTelemetry::Trace::TracerProvider),
+        error_reporter: T.nilable(ErrorReporter),
+        error_reporting_policy: Symbol
       ).void
     end
-    def initialize(version, enabled: true, tracer_provider: nil)
+    def initialize(version, enabled: true, tracer_provider: nil, error_reporter: nil, error_reporting_policy: :unexpected)
       @enabled = T.let(enabled, T::Boolean)
+      raise ArgumentError, "error_reporting_policy must be :unexpected or :all" unless %i[unexpected all].include?(error_reporting_policy)
+
+      @error_reporter = T.let(error_reporter, T.nilable(ErrorReporter))
+      @error_reporting_policy = T.let(error_reporting_policy, Symbol)
       provider = tracer_provider || OpenTelemetry.tracer_provider
       @tracer = T.let(provider.tracer("inttegro", version), OpenTelemetry::Trace::Tracer)
     end
@@ -52,9 +61,18 @@ module Inttegro
         .returns(T.type_parameter(:Result))
     end
     def in_span(path_or_url, method, base_url, version, operation_override = nil, &block)
-      return yield(nil) unless @enabled
+      return yield(nil) unless @enabled || @error_reporter
 
       operation, route, server_address = request_details(path_or_url, base_url, operation_override)
+      started_at = T.let(@error_reporter ? monotonic_milliseconds : nil, T.nilable(Float))
+      unless @enabled
+        begin
+          return yield(nil)
+        rescue StandardError => e
+          report_failure(e, operation, route, server_address, method, version, started_at, nil)
+          raise
+        end
+      end
       attributes = {
         "inttegro.operation.name" => operation,
         "inttegro.sdk.language" => "ruby",
@@ -72,6 +90,7 @@ module Inttegro
         span.set_attribute("error.type", error_type)
         span.status = OpenTelemetry::Trace::Status.error
         span.add_event("inttegro.request.failed", attributes: { "error.type" => error_type })
+        report_failure(e, operation, route, server_address, method, version, started_at, span)
         raise
       ensure
         span.finish
@@ -124,6 +143,71 @@ module Inttegro
     end
 
     private
+
+    sig do
+      params(
+        error: StandardError,
+        operation: String,
+        route: T.nilable(String),
+        server_address: String,
+        method: T.any(String, Symbol),
+        version: String,
+        started_at: T.nilable(Float),
+        span: T.nilable(OpenTelemetry::Trace::Span)
+      ).void
+    end
+    def report_failure(error, operation, route, server_address, method, version, started_at, span)
+      reporter = @error_reporter
+      return unless reporter
+
+      begin
+        category = classify_error(error)
+        return if category == "canceled"
+        if @error_reporting_policy == :unexpected && error.is_a?(APIError)
+          return unless error.status >= 500 || error.type == "unknown_error"
+        end
+
+        api_error = T.let(error.is_a?(APIError) ? error : nil, T.nilable(APIError))
+        api_context = if api_error && (api_error.type || api_error.code || api_error.fix_code)
+          APIErrorReportContext.new(type: api_error.type, code: api_error.code, fix_code: api_error.fix_code)
+        end
+        span_context = span&.context
+        trace_context = if span_context&.valid?
+          TraceReportContext.new(trace_id: span_context.hex_trace_id, span_id: span_context.hex_span_id)
+        end
+        status_code = api_error&.status
+        report = ErrorReport.new(
+          schema_version: 1,
+          event_id: SecureRandom.uuid,
+          occurred_at: Time.now.utc.iso8601(6),
+          severity: "error",
+          category: category,
+          operation: operation,
+          sdk: SDKReportContext.new(language: "ruby", version: version),
+          http: HTTPReportContext.new(
+            request_method: method.to_s.upcase,
+            route: route,
+            server_address: server_address,
+            status_code: status_code,
+            request_id: api_error&.request_id,
+            duration_ms: [(monotonic_milliseconds - (started_at || monotonic_milliseconds)).round, 0].max
+          ),
+          api_error: api_context,
+          trace: trace_context,
+          exception_type: (error.class.name || "StandardError").split("::").last || "StandardError",
+          fingerprint: ["inttegro", "ruby", operation, category, status_code || "none"].join(":")
+        )
+        error.report = report if error.is_a?(Error)
+        reporter.call(report)
+      rescue StandardError
+        # Report preparation and delivery must never replace the original failure.
+      end
+    end
+
+    sig { returns(Float) }
+    def monotonic_milliseconds
+      Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond).to_f
+    end
 
     sig do
       params(path_or_url: String, base_url: String, override: T.nilable(String))
