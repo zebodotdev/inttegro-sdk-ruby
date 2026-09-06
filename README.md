@@ -4,6 +4,8 @@
 
 The official Ruby client for building server-side Inttegro integrations.
 
+[API documentation](https://ruby.inttegro.dev/) · [Integration guides](https://studio.inttegro.com/sdks/ruby)
+
 > **Fastest, most modern path:** connect an agent to [Inttegro MCP](https://studio.inttegro.com/inttegro-mcp) at `https://mcp.inttegro.com`, then ask it to run `design_integration`. It will produce an implementation and test plan for your application. Use this SDK when you are ready to connect that plan to your Ruby service.
 
 All official Inttegro SDKs expose the same API capabilities. This gem adds strict Sorbet types and Ruby-native resource methods.
