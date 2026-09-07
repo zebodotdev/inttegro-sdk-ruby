@@ -3008,7 +3008,6 @@ module Inttegro
   end
 
   class PurchaseIntentMerchant < T::Struct
-    const :app_id, T.nilable(String), default: nil
     const :app_name, T.nilable(String), default: nil
     const :organization_id, T.nilable(String), default: nil
     const :organization_name, T.nilable(String), default: nil
@@ -3098,7 +3097,6 @@ module Inttegro
   class PurchaseIntent < T::Struct
     const :activity, T.nilable(Inttegro::PurchaseIntentActivityInline), default: nil
     const :allow_variants, T::Boolean
-    const :application_id, String
     const :created_at, String
     const :expires_at, T.nilable(String), default: nil
     const :id, String
