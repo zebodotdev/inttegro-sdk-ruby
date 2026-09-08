@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [4.3.1] - 2026-09-08
+
+- Tightened financial-account and payment-method response models to exclude internal platform fields.
+
 ## [4.3.0] - 2026-09-06
 
 - Added opt-in, typed error reporting to application-owned collectors with privacy-safe payloads, stable fingerprints, isolated reporter failures, and no reporting work when unconfigured.
