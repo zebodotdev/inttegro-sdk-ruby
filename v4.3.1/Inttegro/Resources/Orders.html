@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Inttegro::Resources::Orders
+  
+    &mdash; Inttegro Ruby SDK
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "Inttegro::Resources::Orders";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (O)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Resources.html" title="Inttegro::Resources (module)">Resources</a></span></span>
+     &raquo; 
+    <span class="title">Orders</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Inttegro::Resources::Orders
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Inttegro::Resources::Orders</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/inttegro/resources/orders.rb
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Orders resource for creating orders, processing payments, and managing order lifecycle.</p>
+<p>Orders are the central transaction object in Inttegro. They represent a purchase with
+line items, customer information, and payment details. Use this resource to create
+orders, charge customers, handle confirmations, and process refunds.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/orders" target="_parent" title="for detailed guides">for detailed guides</a></li>
+    
+  </ul>
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cancel-instance_method" title="#cancel (instance method)">#<strong>cancel</strong>(order_id:, request_meta: nil)  &#x21d2; Inttegro::Order </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Cancel an order, stopping payment execution and preventing further processing.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#complete-instance_method" title="#complete (instance method)">#<strong>complete</strong>(payload)  &#x21d2; Inttegro::Order </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Mark an order as completed, indicating fulfillment is done.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#confirm_payment-instance_method" title="#confirm_payment (instance method)">#<strong>confirm_payment</strong>(payload)  &#x21d2; Inttegro::Order </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Confirm a pending payment using a verification token (e.g., OTP sent to customer's phone).</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>(payload)  &#x21d2; Inttegro::Order </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Create a new order with line items, customer, and payment details.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#finalize-instance_method" title="#finalize (instance method)">#<strong>finalize</strong>(order_id:, request_meta: nil)  &#x21d2; Inttegro::Order </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Finalize an order to make it immutable and ready for payment or fulfillment.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(http)  &#x21d2; Orders </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of Orders.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lookup-instance_method" title="#lookup (instance method)">#<strong>lookup</strong>(order_id:, **options)  &#x21d2; Inttegro::Order </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Retrieve an existing order by its ID.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new-instance_method" title="#new (instance method)">#<strong>new</strong>(payload)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#page-instance_method" title="#page (instance method)">#<strong>page</strong>(payload = {})  &#x21d2; Inttegro::OrderPage </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Retrieve a paginated list of orders.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pay-instance_method" title="#pay (instance method)">#<strong>pay</strong>(payload)  &#x21d2; Inttegro::Order </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Initiate payment for an existing order.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#refund-instance_method" title="#refund (instance method)">#<strong>refund</strong>(payload)  &#x21d2; Inttegro::Refund </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Create a refund through the /orders/refund compatibility alias.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#request_confirmation-instance_method" title="#request_confirmation (instance method)">#<strong>request_confirmation</strong>(order_id:, request_meta: nil)  &#x21d2; Inttegro::Order </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Request a new confirmation token to be sent to the customer (e.g., resend OTP).</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_invoice-instance_method" title="#send_invoice (instance method)">#<strong>send_invoice</strong>(order_id:)  &#x21d2; Inttegro::OrderDocumentDeliveryResult </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Send the hosted invoice link for an existing order.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_receipt-instance_method" title="#send_receipt (instance method)">#<strong>send_receipt</strong>(order_id:)  &#x21d2; Inttegro::OrderDocumentDeliveryResult </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Send the hosted receipt link for a paid order.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>(payload)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+    
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(http)  &#x21d2; <tt><span class='object_link'><a href="" title="Inttegro::Resources::Orders (class)">Orders</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of Orders.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 14</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http'>http</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span> <span class='op'>=</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_let'>let</span><span class='lparen'>(</span><span class='id identifier rubyid_http'>http</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTPClient.html" title="Inttegro::HTTPClient (class)">HTTPClient</a></span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="cancel-instance_method">
+  
+    #<strong>cancel</strong>(order_id:, request_meta: nil)  &#x21d2; <tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Cancel an order, stopping payment execution and preventing further processing.</p>
+<p>Canceling an order is irreversible and should be done when the customer requests cancellation or
+the order cannot be fulfilled. If payment was already captured, you'll need to refund it separately.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Cancel an order</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_order'>order</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_cancel'>cancel</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span>
+<span class='rparen'>)</span>
+
+<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Order </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'> has been cancelled</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>order_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Unique identifier of the order to cancel (required)</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>request_meta</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Request controls such as idempotency_key (optional)</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Cancelled order object</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/order-lifecycle" target="_parent" title="for order states">for order states</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 349</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cancel'>cancel</span><span class='lparen'>(</span><span class='label'>order_id:</span><span class='comma'>,</span> <span class='label'>request_meta:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/cancel</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span>
+    <span class='symbol'>:order</span><span class='comma'>,</span>
+    <span class='lbrace'>{</span>
+      <span class='label'>order_id:</span> <span class='id identifier rubyid_order_id'>order_id</span><span class='comma'>,</span>
+      <span class='label'>request_meta:</span> <span class='id identifier rubyid_request_meta'>request_meta</span> <span class='op'>||</span> <span class='id identifier rubyid_stable_order_request_meta'>stable_order_request_meta</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cancel</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_order_id'>order_id</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="complete-instance_method">
+  
+    #<strong>complete</strong>(payload)  &#x21d2; <tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Mark an order as completed, indicating fulfillment is done.</p>
+<p>Call this after you've shipped physical goods or delivered digital products to the customer.
+Completing an order transitions it to its final state and can optionally mark payment as received
+offline (out-of-band) if paid_out_of_band is set to true.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Complete order after fulfillment</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_order'>order</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_complete'>complete</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span>
+<span class='rparen'>)</span>
+
+<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Order completed at: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_completed_at'>completed_at</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Complete order with offline payment</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_complete'>complete</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>paid_out_of_band:</span> <span class='kw'>true</span>
+<span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>payload</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Completion parameters</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>payload</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:order_id</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Unique identifier of the order to complete (required)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:paid_out_of_band</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Set to true if payment received outside Inttegro (default: false)</p></div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Completed order object</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/order-lifecycle" target="_parent" title="for order states">for order states</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+327
+328
+329</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 327</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_complete'>complete</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/complete</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='comma'>,</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="confirm_payment-instance_method">
+  
+    #<strong>confirm_payment</strong>(payload)  &#x21d2; <tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Confirm a pending payment using a verification token (e.g., OTP sent to customer's phone).</p>
+<p>Call this method when a payment requires customer confirmation and you've collected the verification
+token from the customer. The token is typically a 6-digit OTP sent via SMS or email.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Confirm payment with OTP</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_order'>order</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_confirm_payment'>confirm_payment</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>token:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123456</span><span class='tstring_end'>&#39;</span></span>
+<span class='rparen'>)</span>
+
+<span class='kw'>if</span> <span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_payment'>payment</span><span class='op'>&amp;.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../PaymentStatus.html" title="Inttegro::PaymentStatus (class)">PaymentStatus</a></span></span><span class='op'>::</span><span class='const'>PAID</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Payment confirmed successfully!</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>payload</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Confirmation parameters</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>payload</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:order_id</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Unique identifier of the order being paid (required)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:token</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Verification token provided by customer (required, typically 6 digits)</p></div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Updated order with payment status</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/accept-a-payment" target="_parent" title="for complete payment flow">for complete payment flow</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+211
+212
+213</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 211</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_confirm_payment'>confirm_payment</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/confirm_payment</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='comma'>,</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
+  
+    #<strong>create</strong>(payload)  &#x21d2; <tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Create a new order with line items, customer, and payment details.</p>
+<p>Creates an order representing a purchase. You can create an order for a new or
+existing customer, include multiple line items, and optionally execute payment
+immediately. Orders must have at least one line item and billing details.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Create order with new customer and execute payment</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_order'>order</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span>
+  <span class='label'>request_meta:</span> <span class='lbrace'>{</span>
+    <span class='label'>idempotency_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>order_2025_001</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>execute_payment:</span> <span class='kw'>true</span><span class='comma'>,</span>
+  <span class='label'>customer_data:</span> <span class='lbrace'>{</span>
+    <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Akua Asantewaa</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>email_address:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>akua@example.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>phone_number:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>+233541234567</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>payment_method_data:</span> <span class='lbrace'>{</span>
+    <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mobile_money</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>mobile_money:</span> <span class='lbrace'>{</span>
+      <span class='label'>network:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mtn</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='label'>account_number:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0541234567</span><span class='tstring_end'>&#39;</span></span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>line_items:</span> <span class='lbracket'>[</span><span class='lbrace'>{</span>
+    <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>product</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>product:</span> <span class='lbrace'>{</span>
+      <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>digital</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Premium Subscription</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='label'>quantity:</span> <span class='int'>1</span><span class='comma'>,</span>
+      <span class='label'>price:</span> <span class='lbrace'>{</span> <span class='label'>currency:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ghs</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>value:</span> <span class='int'>5000</span> <span class='rbrace'>}</span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='label'>billing_details:</span> <span class='lbrace'>{</span>
+    <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Akua Asantewaa</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>phone_number:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>+233541234567</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>checkout_settings:</span> <span class='lbrace'>{</span>
+    <span class='label'>redirect_url:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://example.com/order/complete</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>cancel_url:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://example.com/order/cancelled</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span>
+<span class='rparen'>)</span>
+
+<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Created order: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Create order with existing customer</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span>
+  <span class='label'>customer_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>cu_abc123</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>line_items:</span> <span class='lbracket'>[</span><span class='lbrace'>{</span>
+    <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>product</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>product:</span> <span class='lbrace'>{</span>
+      <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>physical</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>T-Shirt</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='label'>quantity:</span> <span class='int'>2</span><span class='comma'>,</span>
+      <span class='label'>price:</span> <span class='lbrace'>{</span> <span class='label'>currency:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ghs</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>value:</span> <span class='int'>8000</span> <span class='rbrace'>}</span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='label'>billing_details:</span> <span class='lbrace'>{</span>
+    <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Kwame Osei</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>phone_number:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>+233501234567</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span>
+<span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>payload</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Order creation parameters</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>payload</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:customer_data</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>New customer information (required if customer_id not provided)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:customer_id</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Existing customer ID (required if customer_data not provided)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:line_items</span>
+          <span class="type">(<tt>Array&lt;Hash&gt;</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>List of products/services being purchased (required)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:billing_details</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Billing contact information (required)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:payment_method_id</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>ID of saved payment method to use</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:payment_method_data</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Inline payment method details</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:execute_payment</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Whether to immediately charge (default: false)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:checkout_settings</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Checkout flow configuration with redirect_url and cancel_url</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:payout_settings</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Order-specific payout destination configuration</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:custom_data</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Key-value custom data (max 25KB, keys and values must be strings)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:request_meta</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Request controls such as idempotency_key</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:number</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Optional order number for reference</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:statement_descriptor</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Text on customer's bank statement (max 22 characters)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:statement_descriptor_prefix</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Static prefix, 2-10 characters, used to build prefix*order_id; mutually exclusive with statement_descriptor</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:finalize</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Whether to explicitly finalize order (default: false)</p></div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Created order</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/accept-a-payment" target="_parent" title="for payment flow guide">for payment flow guide</a></li>
+    
+      <li><a href="https://studio.inttegro.com/order-lifecycle" target="_parent" title="for order states">for order states</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/create</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='comma'>,</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="finalize-instance_method">
+  
+    #<strong>finalize</strong>(order_id:, request_meta: nil)  &#x21d2; <tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Finalize an order to make it immutable and ready for payment or fulfillment.</p>
+<p>Finalizing (sealing) an order locks its line items and totals, making it ready for payment execution
+or order completion. Most orders are finalized automatically, but you can explicitly finalize if needed.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Finalize an order</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_order'>order</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_finalize'>finalize</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span>
+<span class='rparen'>)</span>
+
+<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Order finalized at: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_sealed_at'>sealed_at</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>order_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Unique identifier of the order to finalize (required)</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>request_meta</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Request controls such as idempotency_key (optional)</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Finalized order object</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/order-lifecycle" target="_parent" title="for order states">for order states</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 263</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_finalize'>finalize</span><span class='lparen'>(</span><span class='label'>order_id:</span><span class='comma'>,</span> <span class='label'>request_meta:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/finalize</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span>
+    <span class='symbol'>:order</span><span class='comma'>,</span>
+    <span class='lbrace'>{</span>
+      <span class='label'>order_id:</span> <span class='id identifier rubyid_order_id'>order_id</span><span class='comma'>,</span>
+      <span class='label'>request_meta:</span> <span class='id identifier rubyid_request_meta'>request_meta</span> <span class='op'>||</span> <span class='id identifier rubyid_stable_order_request_meta'>stable_order_request_meta</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>finalize</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_order_id'>order_id</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="lookup-instance_method">
+  
+    #<strong>lookup</strong>(order_id:, **options)  &#x21d2; <tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Retrieve an existing order by its ID.</p>
+<p>Returns full order details including customer, line items, payment state, and invoice information.
+Use this to check order status, retrieve payment details, or display order confirmation to customers.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Lookup an order</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_order'>order</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span>
+<span class='rparen'>)</span>
+
+<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Order status: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>order_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Unique identifier of the order to retrieve (required)</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Additional options (currently unused)</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Complete order object</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/orders" target="_parent" title="for API reference">for API reference</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130
+131</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='label'>order_id:</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>order_id:</span> <span class='id identifier rubyid_order_id'>order_id</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/lookup</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="new-instance_method">
+  
+    #<strong>new</strong>(payload)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/new</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='comma'>,</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="page-instance_method">
+  
+    #<strong>page</strong>(payload = {})  &#x21d2; <tt><span class='object_link'><a href="../OrderPage.html" title="Inttegro::OrderPage (class)">Inttegro::OrderPage</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Retrieve a paginated list of orders.</p>
+<p>Returns orders in reverse chronological order (most recent first).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Get first page of orders</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_page'>page</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span><span class='lparen'>(</span>
+  <span class='label'>page_size:</span> <span class='int'>25</span><span class='comma'>,</span>
+  <span class='label'>page_number:</span> <span class='int'>0</span>
+<span class='rparen'>)</span>
+
+<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Retrieved </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='op'>&amp;.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>||</span> <span class='int'>0</span><span class='embexpr_end'>}</span><span class='tstring_content'> orders</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Restrict the page to one customer</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_customer_orders'>customer_orders</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span><span class='lparen'>(</span>
+  <span class='label'>customer_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>cu_123</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>page_size:</span> <span class='int'>50</span>
+<span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>payload</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Pagination and filter parameters (optional)</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>payload</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:page_number</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Zero-based page index to retrieve (0-10)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:page_size</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Number of orders per page (1-256)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:customer_id</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Optional customer whose orders should be returned</p></div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../OrderPage.html" title="Inttegro::OrderPage (class)">Inttegro::OrderPage</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Paginated list of orders</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/pagination" target="_parent" title="for pagination guide">for pagination guide</a></li>
+    
+      <li><a href="https://studio.inttegro.com/orders" target="_parent" title="for API reference">for API reference</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+414
+415
+416</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 414</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_page'>page</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/page</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OrderPage.html" title="Inttegro::OrderPage (class)">OrderPage</a></span></span><span class='comma'>,</span> <span class='symbol'>:page</span><span class='comma'>,</span> <span class='id identifier rubyid_payload'>payload</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pay-instance_method">
+  
+    #<strong>pay</strong>(payload)  &#x21d2; <tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Initiate payment for an existing order.</p>
+<p>Supports three payment flows:</p>
+<ol>
+<li>Saved payment method: Provide only order_id to charge a previously saved payment method</li>
+<li>New payment method: Include payment_method_data with inline payment details</li>
+<li>Offline payment: Set paid_out_of_band to true for cash, bank transfer, or check payments</li>
+</ol>
+<p>When payment requires customer confirmation (e.g., OTP), the returned order includes a next_action field.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Pay with inline mobile money</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_order'>order</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_pay'>pay</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>payment_method_data:</span> <span class='lbrace'>{</span>
+    <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mobile_money</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>mobile_money:</span> <span class='lbrace'>{</span>
+      <span class='label'>network:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mtn</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='label'>account_number:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0544998605</span><span class='tstring_end'>&#39;</span></span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+<span class='rparen'>)</span>
+
+<span class='kw'>if</span> <span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_payment'>payment</span><span class='op'>&amp;.</span><span class='id identifier rubyid_next_action'>next_action</span><span class='op'>&amp;.</span><span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../PaymentNextActionType.html" title="Inttegro::PaymentNextActionType (class)">PaymentNextActionType</a></span></span><span class='op'>::</span><span class='const'>CONFIRM_PAYMENT</span>
+  <span class='comment'># Customer needs to provide OTP sent to their phone
+</span>  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Please enter the OTP sent to your phone</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></code></pre>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Pay with saved payment method</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_pay'>pay</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>payment_method_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pm_xyz123abc456</span><span class='tstring_end'>&#39;</span></span>
+<span class='rparen'>)</span></code></pre>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Mark as paid offline</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_pay'>pay</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>paid_out_of_band:</span> <span class='kw'>true</span>
+<span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>payload</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Payment parameters</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>payload</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:order_id</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Unique identifier of the order to pay (required)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:payment_method_data</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Inline payment method details (mobile money, card, etc.)</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:payment_method_id</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>ID of a saved payment method to use</p></div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:paid_out_of_band</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>Set to true if payment received outside Inttegro (default: false)</p></div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Updated order and payment state</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/accept-a-payment" target="_parent" title="for payment flow guide">for payment flow guide</a></li>
+    
+      <li><a href="https://studio.inttegro.com/charge-repeat-customers" target="_parent" title="for saved payment methods">for saved payment methods</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+185
+186
+187</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 185</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pay'>pay</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/pay</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='comma'>,</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="refund-instance_method">
+  
+    #<strong>refund</strong>(payload)  &#x21d2; <tt><span class='object_link'><a href="../Refund.html" title="Inttegro::Refund (class)">Inttegro::Refund</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Create a refund through the /orders/refund compatibility alias.</p>
+<p>This accepts the same line-item payload as client.refunds.create and returns
+the created Refund directly. New integrations should use that canonical method.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Refund an order</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_refund'>refund</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_refund'>refund</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>or_0123456789abcdefghijklmnopqrstuvwxyzABCD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>reason:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>requested_by_customer</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>line_items:</span> <span class='lbracket'>[</span><span class='lbrace'>{</span>
+    <span class='label'>order_line_item_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>oli_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>refund_amount:</span> <span class='lbrace'>{</span> <span class='label'>currency:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ghs</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>value:</span> <span class='int'>2500</span> <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span><span class='rbracket'>]</span>
+<span class='rparen'>)</span>
+
+<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Refund created: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_refund'>refund</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>payload</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Create-refund payload containing order_id, reason, and line_items</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Refund.html" title="Inttegro::Refund (class)">Inttegro::Refund</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Created refund</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/refunds" target="_parent" title="https://studio.inttegro.com/refunds">https://studio.inttegro.com/refunds</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+383
+384
+385</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 383</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_refund'>refund</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/refund</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Refund.html" title="Inttegro::Refund (class)">Refund</a></span></span><span class='comma'>,</span> <span class='symbol'>:refund</span><span class='comma'>,</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="request_confirmation-instance_method">
+  
+    #<strong>request_confirmation</strong>(order_id:, request_meta: nil)  &#x21d2; <tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Request a new confirmation token to be sent to the customer (e.g., resend OTP).</p>
+<p>Use this when the customer didn't receive the original OTP or the token expired. A fresh verification
+token will be sent via SMS or email to the customer's registered contact information.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+        <h5 class="example_title"><div class='inline'><p>Resend OTP to customer</p></div></h5>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_request_confirmation'>request_confirmation</span><span class='lparen'>(</span>
+  <span class='label'>order_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GKj7A8lM5wEGRUvbqpI4bkDFsQvpqVyh5fqePNnb</span><span class='tstring_end'>&#39;</span></span>
+<span class='rparen'>)</span>
+
+<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>New OTP sent to customer</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>order_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Unique identifier of the order requiring confirmation (required)</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>request_meta</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Request controls such as idempotency_key (optional)</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Inttegro::Order</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Updated order</p></div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://studio.inttegro.com/accept-a-payment" target="_parent" title="for payment confirmation flow">for payment confirmation flow</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 233</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_request_confirmation'>request_confirmation</span><span class='lparen'>(</span><span class='label'>order_id:</span><span class='comma'>,</span> <span class='label'>request_meta:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/request_confirmation</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span>
+    <span class='symbol'>:order</span><span class='comma'>,</span>
+    <span class='lbrace'>{</span>
+      <span class='label'>order_id:</span> <span class='id identifier rubyid_order_id'>order_id</span><span class='comma'>,</span>
+      <span class='label'>request_meta:</span> <span class='id identifier rubyid_request_meta'>request_meta</span> <span class='op'>||</span> <span class='id identifier rubyid_stable_order_request_meta'>stable_order_request_meta</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>request_confirmation</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_order_id'>order_id</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_invoice-instance_method">
+  
+    #<strong>send_invoice</strong>(order_id:)  &#x21d2; <tt><span class='object_link'><a href="../OrderDocumentDeliveryResult.html" title="Inttegro::OrderDocumentDeliveryResult (class)">Inttegro::OrderDocumentDeliveryResult</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Send the hosted invoice link for an existing order.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>order_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Unique identifier of the order whose invoice should be sent (required)</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../OrderDocumentDeliveryResult.html" title="Inttegro::OrderDocumentDeliveryResult (class)">Inttegro::OrderDocumentDeliveryResult</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Order and delivery details</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+280
+281
+282
+283
+284
+285
+286</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 280</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_invoice'>send_invoice</span><span class='lparen'>(</span><span class='label'>order_id:</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_model'>post_model</span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/send_invoice</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OrderDocumentDeliveryResult.html" title="Inttegro::OrderDocumentDeliveryResult (class)">OrderDocumentDeliveryResult</a></span></span><span class='comma'>,</span>
+    <span class='lbrace'>{</span> <span class='label'>order_id:</span> <span class='id identifier rubyid_order_id'>order_id</span> <span class='rbrace'>}</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_receipt-instance_method">
+  
+    #<strong>send_receipt</strong>(order_id:)  &#x21d2; <tt><span class='object_link'><a href="../OrderDocumentDeliveryResult.html" title="Inttegro::OrderDocumentDeliveryResult (class)">Inttegro::OrderDocumentDeliveryResult</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Send the hosted receipt link for a paid order.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>order_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Unique identifier of the paid order whose receipt should be sent (required)</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../OrderDocumentDeliveryResult.html" title="Inttegro::OrderDocumentDeliveryResult (class)">Inttegro::OrderDocumentDeliveryResult</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Order and delivery details</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+293
+294
+295
+296
+297
+298
+299</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 293</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_receipt'>send_receipt</span><span class='lparen'>(</span><span class='label'>order_id:</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_model'>post_model</span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/send_receipt</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OrderDocumentDeliveryResult.html" title="Inttegro::OrderDocumentDeliveryResult (class)">OrderDocumentDeliveryResult</a></span></span><span class='comma'>,</span>
+    <span class='lbrace'>{</span> <span class='label'>order_id:</span> <span class='id identifier rubyid_order_id'>order_id</span> <span class='rbrace'>}</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    #<strong>update</strong>(payload)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/resources/orders.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+  <span class='ivar'>@http</span><span class='period'>.</span><span class='id identifier rubyid_post_resource'>post_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/orders/update</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Order.html" title="Inttegro::Order (class)">Order</a></span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='comma'>,</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Sep  8 23:40:44 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.3.12).
+</div>
+
+    </div>
+  </body>
+</html>
