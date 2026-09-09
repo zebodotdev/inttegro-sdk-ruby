@@ -1,0 +1,45 @@
+name: Yank RubyGems version
+
+permissions: read-all
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Published inttegro version to yank
+        required: true
+        type: string
+
+concurrency:
+  group: yank-rubygems-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  yank:
+    if: github.repository == 'zebodotdev/inttegro-sdk-ruby'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: release
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          ruby-version: "3.3"
+      - name: Configure yank-only RubyGems credentials
+        uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
+        with:
+          role-to-assume: ${{ secrets.RUBYGEMS_YANK_ROLE }}
+      - name: Validate yank request
+        env:
+          VERSION: ${{ inputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+([+-][0-9A-Za-z.-]+)?$ ]]
+      - name: Yank the published version
+        env:
+          VERSION: ${{ inputs.version }}
+        run: gem yank inttegro --version "${VERSION}"
