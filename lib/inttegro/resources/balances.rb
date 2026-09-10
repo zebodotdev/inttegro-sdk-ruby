@@ -9,7 +9,7 @@ module Inttegro
       end
 
       def get
-        @http.post_model("/balances", Inttegro::BalanceSnapshot, {})
+        @http.post_resource("/balances", Inttegro::BalanceSnapshot, :balances, {})
       end
     end
   end

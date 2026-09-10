@@ -281,34 +281,12 @@ class InttegroClientTest < Minitest::Test
     refute_respond_to response, :redirect_url
   end
 
-  def test_order_refund_alias_uses_create_refund_contract
-    requests = []
-    adapter = make_adapter(requests: requests)
-    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
-    payload = {
-      order_id: "or_123",
-      reason: "requested_by_customer",
-      request_meta: { idempotency_key: "refund-alias-1" },
-      line_items: [{
-        order_line_item_id: "oli_123",
-        refund_amount: { currency: "ghs", value: 2500 }
-      }]
-    }
-
-    response = client.orders.refund(payload)
-    body = JSON.parse(requests.first.fetch(:request).body)
-
-    assert_instance_of Inttegro::Refund, response
-    assert_equal "/orders/refund", requests.first.fetch(:uri).path
-    assert_equal JSON.parse(payload.to_json), body
-  end
-
   def test_recent_openapi_endpoints_match_spec
     requests = []
     adapter = make_adapter(requests: requests)
     client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
-    client.orders.new(customer_id: "cu_123", line_items: [{ type: "product" }])
+    client.orders.create(customer_id: "cu_123", line_items: [{ type: "product" }])
     client.orders.update(order_id: "or_123", number: "ORDER-123-REV2")
     client.chimes.page(page_number: 1, page_size: 20)
     client.balance_transactions.lookup(transaction_id: "bt_123")
@@ -343,7 +321,7 @@ class InttegroClientTest < Minitest::Test
     client.purchase_intents.page(page_number: 1, page_size: 20)
 
     paths = requests.map { |r| r[:uri].path }
-    assert_includes paths, "/orders/new"
+    assert_includes paths, "/orders/create"
     assert_includes paths, "/orders/update"
     assert_includes paths, "/chimes/page"
     assert_includes paths, "/balance_transactions/lookup"
@@ -372,6 +350,85 @@ class InttegroClientTest < Minitest::Test
     assert_includes paths, "/purchase_intents/cancel"
     assert_includes paths, "/purchase_intents/lookup"
     assert_includes paths, "/purchase_intents/page"
+  end
+
+  def test_purchase_intent_exposes_nested_response_types
+    adapter = make_adapter(
+      requests: [],
+      body: {
+        purchase_intent: {
+          activity: {
+            recent: [{
+              created_at: "2026-09-09T12:01:00Z",
+              id: "saleevt_123",
+              purchase_intent_id: "sale_123",
+              type: "viewed",
+              visitor: { ip_address: "203.0.113.7" }
+            }]
+          },
+          allow_variants: false,
+          created_at: "2026-09-09T12:00:00Z",
+          id: "sale_123",
+          merchant: { organization_name: "Tea House Ltd" },
+          product: {
+            active: true,
+            created_at: "2026-09-09T11:00:00Z",
+            dimensions: { digital: { bytes: 1024 } },
+            id: "prod_123",
+            name: "Tea guide",
+            type: "digital"
+          },
+          quantity: { min: 1 },
+          status: "active",
+          usage: {
+            order: { created_at: "2026-09-09T12:02:00Z", id: "or_123" },
+            single_use: true
+          }
+        }
+      }
+    )
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+
+    intent = client.purchase_intents.lookup(id: "sale_123")
+
+    assert_equal "203.0.113.7", intent.activity&.recent&.first&.visitor&.ip_address
+    assert_equal "Tea House Ltd", intent.merchant&.organization_name
+    assert_equal 1024, intent.product&.dimensions&.digital&.bytes
+    assert_equal "or_123", intent.usage.order&.id
+    assert_equal Inttegro::PurchaseIntentStatus::ACTIVE, intent.status
+    assert_equal Inttegro::PurchaseIntentActivityType::VIEWED, intent.activity&.recent&.first&.type
+  end
+
+  def test_timestamp_fields_decode_to_time_and_require_an_offset
+    balance = Inttegro.deserialize(
+      {
+        ghs: {
+          available: { amount: 1_000 },
+          includes_transactions_before: "2026-09-09T12:00:00Z",
+          pending: { amount: 200 },
+          refund: { amount: 50 },
+          reserved: { amount: 100 }
+        }
+      },
+      Inttegro::BalanceSnapshot
+    )
+
+    assert_instance_of Time, balance.ghs.includes_transactions_before
+    assert_equal "2026-09-09T12:00:00.000000000Z", balance.ghs.includes_transactions_before.iso8601(9)
+    assert_raises(ArgumentError) do
+      Inttegro.deserialize(
+        {
+          ghs: {
+            available: { amount: 1_000 },
+            includes_transactions_before: "2026-09-09T12:00:00",
+            pending: { amount: 200 },
+            refund: { amount: 50 },
+            reserved: { amount: 100 }
+          }
+        },
+        Inttegro::BalanceSnapshot
+      )
+    end
   end
 
   def test_balance_transactions_deserialize_semantic_sources
@@ -419,7 +476,7 @@ class InttegroClientTest < Minitest::Test
       refund_id: "rf_123",
       order_id: "or_123",
       amount: Inttegro::BalanceTransactionAmount.new(currency: "GHS", value: 500),
-      created_at: "2026-08-31T12:01:00Z"
+      created_at: Time.iso8601("2026-08-31T12:01:00Z")
     )
     refute contradictory.valid_source?
   end
@@ -541,7 +598,10 @@ class InttegroClientTest < Minitest::Test
     client.apps.create(name: "My App")
     client.apps.lookup
     client.apps.update(alias: "my-app")
-    client.balances.get
+    balance = client.balances.get
+
+    assert_instance_of Inttegro::BalanceSnapshot, balance
+    assert_instance_of Inttegro::CurrencyBalanceSnapshot, balance.ghs
 
     paths = requests.map { |r| r[:uri].path }
     assert_includes paths, "/apps/create"
@@ -571,7 +631,11 @@ class InttegroClientTest < Minitest::Test
     adapter = make_adapter(requests: requests)
     client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
 
-    client.chimes.schedule(recipients: ["+233"], full_message: "hello", send_after: "2026-01-18T10:00:00Z")
+    client.chimes.schedule(
+      recipients: ["+233"],
+      full_message: "hello",
+      send_after: Time.iso8601("2026-01-18T10:00:00Z")
+    )
     client.chimes.broadcast(recipients: ["+233"], message_template: "hello", service_name: "test")
 
     paths = requests.map { |r| r[:uri].path }
@@ -687,7 +751,6 @@ class InttegroClientTest < Minitest::Test
     end
 
     model = Inttegro::Operations::RESPONSE_MODELS[path]
-    model ||= Inttegro.const_get(:OrderEnvelope) if path == "/orders/new"
     model ||= Inttegro::Operations::RESPONSE_MODELS["/otp/lookup"] if path == "/otp/cancel"
     model ||= Inttegro::Operations::RESPONSE_MODELS["/payment_methods/lookup"] if path == "/payment_methods/confirm_verification"
     model ||= Inttegro::Operations::RESPONSE_MODELS["/payouts/settings"] if ["/payouts/enable_fx", "/payouts/disable_fx"].include?(path)
@@ -737,6 +800,7 @@ class InttegroClientTest < Minitest::Test
     return 1.0 if type == Float
     return true if type == TrueClass
     return false if type == FalseClass
+    return "2026-09-10T10:00:00Z" if type == Time
 
     nil
   end

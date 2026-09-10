@@ -3,6 +3,7 @@
 # Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit.
 
 require "sorbet-runtime"
+require "time"
 
 module Inttegro
   class AppCredentialOwner < T::Enum
@@ -364,6 +365,12 @@ module Inttegro
     end
   end
 
+  class OrderDiscountLineItemType < T::Enum
+    enums do
+      DISCOUNT = new("discount")
+    end
+  end
+
   class OrderDocumentKind < T::Enum
     enums do
       INVOICE = new("invoice")
@@ -447,8 +454,8 @@ module Inttegro
       CONFIRM_PAYMENT = new("confirm_payment")
       EXECUTE = new("execute")
       REDIRECT = new("redirect")
-      AUTHORIZE = new("authorize")
-      NONE = new("none")
+      AUTHORIZE_PAYMENT = new("authorize_payment")
+      REQUEST_CONFIRMATION = new("request_confirmation")
     end
   end
 
