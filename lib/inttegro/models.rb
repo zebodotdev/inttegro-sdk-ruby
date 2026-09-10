@@ -121,6 +121,129 @@ module Inttegro
     end
   end
 
+  # Stable questions derived from payment protocol state.
+  class Payment
+    extend T::Sig
+
+    sig { returns(T::Boolean) }
+    def paid?
+      status == Inttegro::PaymentStatus::PAID
+    end
+
+    sig { returns(T::Boolean) }
+    def requires_action?
+      status == Inttegro::PaymentStatus::REQUIRES_ACTION
+    end
+
+    sig { returns(T::Boolean) }
+    def terminal?
+      [
+        Inttegro::PaymentStatus::PAID,
+        Inttegro::PaymentStatus::CANCELED,
+        Inttegro::PaymentStatus::EXPIRED,
+        Inttegro::PaymentStatus::FAILED
+      ].include?(status)
+    end
+
+    sig { returns(T.nilable(Inttegro::PaymentNextAction)) }
+    def required_action
+      requires_action? ? next_action : nil
+    end
+  end
+
+  # Stable questions derived from order protocol state.
+  class Order
+    extend T::Sig
+
+    sig { returns(T::Boolean) }
+    def paid?
+      status == Inttegro::OrderStatus::PAID || !paid_at.nil?
+    end
+
+    sig { returns(T::Boolean) }
+    def requires_payment?
+      status == Inttegro::OrderStatus::REQUIRES_PAYMENT
+    end
+
+    sig { returns(T::Boolean) }
+    def terminal?
+      [
+        Inttegro::OrderStatus::PAID,
+        Inttegro::OrderStatus::COMPLETED,
+        Inttegro::OrderStatus::CANCELED,
+        Inttegro::OrderStatus::EXPIRED
+      ].include?(status)
+    end
+
+    sig { returns(T.nilable(Inttegro::PaymentNextAction)) }
+    def required_payment_action
+      payment&.required_action
+    end
+  end
+
+  # Stable questions derived from purchase-intent protocol state.
+  class PurchaseIntent
+    extend T::Sig
+
+    sig { returns(T::Boolean) }
+    def active?
+      status == Inttegro::PurchaseIntentStatus::ACTIVE
+    end
+
+    sig { returns(T::Boolean) }
+    def single_use?
+      usage.single_use == true
+    end
+
+    sig { returns(T.nilable(String)) }
+    def used_order_id
+      return nil unless single_use?
+
+      id = usage.order&.id
+      id unless id&.empty?
+    end
+  end
+
+  # Stable questions derived from product publication state.
+  class Product
+    extend T::Sig
+
+    sig { returns(T::Boolean) }
+    def archived?
+      !archived_at.nil?
+    end
+
+    sig { returns(T::Boolean) }
+    def published?
+      active && !archived?
+    end
+
+    sig { returns(T::Boolean) }
+    def ever_published?
+      !published_at.nil?
+    end
+  end
+
+  # Stable questions derived from payment-method protocol state.
+  class PaymentMethod
+    extend T::Sig
+
+    sig { returns(T::Boolean) }
+    def archived?
+      !archived_at.nil?
+    end
+
+    sig { returns(T::Boolean) }
+    def verified?
+      !verified_at.nil?
+    end
+
+    sig { returns(T::Boolean) }
+    def reusable?
+      active && !archived? && ephemeral != true
+    end
+  end
+
   sig { params(value: Object, klass: T::Class[T::Struct]).returns(T::Struct) }
   def self.deserialize(value, klass)
     data = stringify_json_keys(value, decode_timestamps: true)
