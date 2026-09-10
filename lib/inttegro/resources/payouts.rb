@@ -144,8 +144,8 @@ module Inttegro
       # @option payload [Integer] :page Page number to retrieve (minimum 1, default: 1)
       # @option payload [Integer] :per_page Number of results per page (minimum 1, maximum 100, default: 10)
       # @option payload [String] :status Filter by payout status (e.g., 'pending', 'paid', 'failed')
-      # @option payload [String] :created_after Filter payouts created after this timestamp (ISO 8601)
-      # @option payload [String] :created_before Filter payouts created before this timestamp (ISO 8601)
+      # @option payload [Time] :created_after Filter payouts created after this timestamp
+      # @option payload [Time] :created_before Filter payouts created before this timestamp
       #
       # @return [Inttegro::PayoutPage] Paginated list of payouts
       #

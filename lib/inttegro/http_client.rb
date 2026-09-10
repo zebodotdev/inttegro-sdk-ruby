@@ -4,6 +4,7 @@
 require "json"
 require "net/http"
 require "securerandom"
+require "time"
 require "uri"
 
 require_relative "errors"
@@ -626,8 +627,6 @@ module Inttegro
 
     sig { params(path: String).returns(T.nilable(T::Class[T::Struct])) }
     def response_model_for(path)
-      return T.cast(Inttegro.const_get(:OrderEnvelope), T::Class[T::Struct]) if path == "/orders/new"
-
       Inttegro::Operations::RESPONSE_MODELS[path]
     end
 
@@ -654,11 +653,11 @@ module Inttegro
         require_keys(body, %w[product_id price_id], path)
       when "/products/lookup", "/products/update", "/products/publish", "/products/unpublish", "/products/archive"
         require_keys(body, %w[product_id], path)
-      when "/orders/create", "/orders/new"
+      when "/orders/create"
         require_any(body, %w[customer_data customer_id], path)
         require_keys(body, %w[line_items], path)
       when "/orders/lookup", "/orders/update", "/orders/request_confirmation", "/orders/finalize",
-           "/orders/cancel", "/orders/refund", "/orders/complete"
+           "/orders/cancel", "/orders/complete"
         require_keys(body, %w[order_id], path)
       when "/orders/confirm_payment"
         require_keys(body, %w[order_id token], path)
@@ -727,6 +726,8 @@ module Inttegro
         normalize_payload(value.serialize)
       when T::Enum
         value.serialize
+      when Time
+        value.iso8601(9)
       when Hash
         normalize_payload(value)
       when Array

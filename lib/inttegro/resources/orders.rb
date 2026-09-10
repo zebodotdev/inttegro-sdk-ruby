@@ -103,10 +103,6 @@ module Inttegro
         @http.post_resource("/orders/create", Inttegro::Order, :order, payload)
       end
 
-      def new(payload)
-        @http.post_resource("/orders/new", Inttegro::Order, :order, payload)
-      end
-
       # Retrieve an existing order by its ID.
       #
       # Returns full order details including customer, line items, payment state, and invoice information.
@@ -356,32 +352,6 @@ module Inttegro
             request_meta: request_meta || stable_order_request_meta("cancel", order_id)
           }
         )
-      end
-
-      # Create a refund through the /orders/refund compatibility alias.
-      #
-      # This accepts the same line-item payload as client.refunds.create and returns
-      # the created Refund directly. New integrations should use that canonical method.
-      #
-      # @param payload [Hash] Create-refund payload containing order_id, reason, and line_items
-      #
-      # @return [Inttegro::Refund] Created refund
-      #
-      # @example Refund an order
-      #   refund = client.orders.refund(
-      #     order_id: 'or_0123456789abcdefghijklmnopqrstuvwxyzABCD',
-      #     reason: 'requested_by_customer',
-      #     line_items: [{
-      #       order_line_item_id: 'oli_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN',
-      #       refund_amount: { currency: 'ghs', value: 2500 }
-      #     }]
-      #   )
-      #
-      #   puts "Refund created: #{refund.id}"
-      #
-      # @see https://studio.inttegro.com/refunds
-      def refund(payload)
-        @http.post_resource("/orders/refund", Inttegro::Refund, :refund, payload)
       end
 
       # Retrieve a paginated list of orders.

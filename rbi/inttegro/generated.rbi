@@ -256,17 +256,11 @@ module Inttegro
       sig { params(order_id: String, options: Inttegro::Types::Payload).returns(Inttegro::Order) }
       def lookup(order_id:, **options); end
 
-      sig { params(payload: T.any(T.any(Inttegro::CreateOrderNewCustomer, Inttegro::CreateOrderExistingCustomer), Inttegro::Types::Payload)).returns(Inttegro::Order) }
-      def new(payload); end
-
       sig { params(payload: T.nilable(T.any(Inttegro::PageOrdersRequest, Inttegro::Types::Payload))).returns(Inttegro::OrderPage) }
       def page(payload = nil); end
 
       sig { params(payload: T.any(Inttegro::PayOrderRequest, Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def pay(payload); end
-
-      sig { params(payload: T.any(Inttegro::CreateRefundRequest, Inttegro::Types::Payload)).returns(Inttegro::Refund) }
-      def refund(payload); end
 
       sig { params(order_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def request_confirmation(order_id:, request_meta: nil); end

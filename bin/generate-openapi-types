@@ -8,7 +8,6 @@ class OpenAPITypeGenerator
   IGNORED_LEGACY_COMPONENT_SCHEMAS = ["OrderCreateResponse"].freeze
   MODEL_NAME_OVERRIDES = {
     "Error" => "ErrorPayload",
-    "BalanceSnapshotResponse" => "BalanceSnapshot",
     "BalanceTransactionPageResponsePage" => "BalanceTransactionPage",
     "ChimeRecipientResponse" => "ChimeRecipientDetail",
     "ChimeRecipientResponseEmail" => "ChimeRecipientDetailEmail",
@@ -333,7 +332,7 @@ class OpenAPITypeGenerator
     when "number"
       "T.any(Integer, Float)"
     when "string"
-      "String"
+      schema["format"] == "date-time" ? "Time" : "String"
     when nil
       all_of = schema["allOf"]
       return type_expression(all_of.first, candidate, origin) if all_of&.one?
@@ -512,6 +511,7 @@ class OpenAPITypeGenerator
       # Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit.
 
       require "sorbet-runtime"
+      require "time"
 
       module Inttegro
       #{indented_classes}

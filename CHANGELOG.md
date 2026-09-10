@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [5.0.0] - 2026-09-10
+
+- Breaking: replaced generic hashes with named models for balances, purchase intents, products, payment methods, payments, and orders.
+- Breaking: exposed API timestamps as `Time` values and accepted `Time` values in timestamp request fields.
+
 ## [4.3.1] - 2026-09-08
 
 - Tightened financial-account and payment-method response models to exclude internal platform fields.
