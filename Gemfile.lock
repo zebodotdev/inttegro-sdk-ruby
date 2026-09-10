@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    inttegro (4.3.1)
+    inttegro (5.0.0)
       logger (>= 1.4, < 2)
       opentelemetry-api (>= 1.0, < 1.5)
       sorbet-runtime (~> 0.6)
