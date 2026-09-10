@@ -20,7 +20,6 @@ class InttegroClientTest < Minitest::Test
     "/checkout/confirm_payment"
   ].freeze
   PLATFORM_MANAGED_PATHS = ["/sessions/new"].freeze
-  LEGACY_COMPATIBILITY_PATHS = ["/orders/refund"].freeze
   DEFAULT_RESPONSE_BODY = Object.new.freeze
 
   def test_telemetry_does_not_name_unknown_routes_from_resource_ids
@@ -163,7 +162,7 @@ class InttegroClientTest < Minitest::Test
 
   def test_sdk_implementation_paths_cover_openapi_spec
     missing = openapi_spec_paths - EXTERNALLY_SUPPLIED_CAPABILITY_PATHS - CLIENT_CHECKOUT_PATHS -
-      PLATFORM_MANAGED_PATHS - LEGACY_COMPATIBILITY_PATHS - implemented_sdk_paths
+      PLATFORM_MANAGED_PATHS - implemented_sdk_paths
 
     assert_empty(
       missing,
