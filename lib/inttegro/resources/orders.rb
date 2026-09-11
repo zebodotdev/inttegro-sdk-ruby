@@ -104,6 +104,14 @@ module Inttegro
         @http.post_resource("/orders/create", Inttegro::Order, :order, payload)
       end
 
+      # Create a new order and keep HTTP response metadata with the decoded order.
+      #
+      # @param payload [Hash, Inttegro::Order::CreateNewCustomer, Inttegro::Order::CreateExistingCustomer]
+      # @return [Inttegro::APIResponse] response whose data is an Inttegro::Order
+      def create_with_response(payload)
+        @http.post_resource_with_response("/orders/create", Inttegro::Order, :order, payload)
+      end
+
       # Retrieve an existing order by its ID.
       #
       # Returns full order details including customer, line items, payment state, and invoice information.
