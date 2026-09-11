@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Inttegro::PaymentMethod
+  
+    &mdash; Inttegro Ruby SDK
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "Inttegro::PaymentMethod";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span>
+     &raquo; 
+    <span class="title">PaymentMethod</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Inttegro::PaymentMethod
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">T::Struct</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">T::Struct</li>
+          
+            <li class="next">Inttegro::PaymentMethod</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd>T::Sig</dd>
+  </dl>
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/inttegro/payment_method/payment_method.rb<span class="defines">,<br>
+  lib/inttegro/payment_method/base.rb,<br> lib/inttegro/payment_method/card.rb,<br> lib/inttegro/payment_method/data.rb,<br> lib/inttegro/payment_method/page.rb,<br> lib/inttegro/payment_method/type.rb,<br> lib/inttegro/payment_method/owner.rb,<br> lib/inttegro/payment_method/deletion.rb,<br> lib/inttegro/payment_method/settings.rb,<br> lib/inttegro/payment_method/supplied.rb,<br> lib/inttegro/payment_method/data_type.rb,<br> lib/inttegro/payment_method/questions.rb,<br> lib/inttegro/payment_method/owner_input.rb,<br> lib/inttegro/payment_method/bank_account.rb,<br> lib/inttegro/payment_method/mobile_money.rb,<br> lib/inttegro/payment_method/page_request.rb,<br> lib/inttegro/payment_method/type_setting.rb,<br> lib/inttegro/payment_method/verification.rb,<br> lib/inttegro/payment_method/owner_address.rb,<br> lib/inttegro/payment_method/page_response.rb,<br> lib/inttegro/payment_method/tokenize_base.rb,<br> lib/inttegro/payment_method/lookup_request.rb,<br> lib/inttegro/payment_method/update_request.rb,<br> lib/inttegro/payment_method/archive_request.rb,<br> lib/inttegro/payment_method/lookup_response.rb,<br> lib/inttegro/payment_method/update_response.rb,<br> lib/inttegro/payment_method/activate_request.rb,<br> lib/inttegro/payment_method/archive_response.rb,<br> lib/inttegro/payment_method/activate_response.rb,<br> lib/inttegro/payment_method/data_mobile_money.rb,<br> lib/inttegro/payment_method/tokenize_response.rb,<br> lib/inttegro/payment_method/unarchive_request.rb,<br> lib/inttegro/payment_method/tokenize_base_type.rb,<br> lib/inttegro/payment_method/unarchive_response.rb,<br> lib/inttegro/payment_method/disactivate_request.rb,<br> lib/inttegro/payment_method/owner_input_address.rb,<br> lib/inttegro/payment_method/disactivate_response.rb,<br> lib/inttegro/payment_method/get_settings_request.rb,<br> lib/inttegro/payment_method/update_request_owner.rb,<br> lib/inttegro/payment_method/get_settings_response.rb,<br> lib/inttegro/payment_method/update_request_owner_address.rb,<br> lib/inttegro/payment_method/tokenize_mobile_money_request.rb,<br> lib/inttegro/payment_method/bank_account_ghana_bank_account.rb,<br> lib/inttegro/payment_method/tokenize_mobile_money_request_type.rb,<br> lib/inttegro/payment_method/tokenize_mobile_money_request_mobile_money.rb</span>
+
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>A tokenized payment instrument tied to a customer</p>
+<p>This generated model is immutable. Construct it with <code>.new</code>, or decode a string-keyed API
+payload with <code>.from_hash</code>. <code>#serialize</code> produces a string-keyed hash using the original wire
+field names and serialized enum values.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="PaymentMethod/ActivateRequest.html" title="Inttegro::PaymentMethod::ActivateRequest (class)">ActivateRequest</a></span>, <span class='object_link'><a href="PaymentMethod/ActivateResponse.html" title="Inttegro::PaymentMethod::ActivateResponse (class)">ActivateResponse</a></span>, <span class='object_link'><a href="PaymentMethod/ArchiveRequest.html" title="Inttegro::PaymentMethod::ArchiveRequest (class)">ArchiveRequest</a></span>, <span class='object_link'><a href="PaymentMethod/ArchiveResponse.html" title="Inttegro::PaymentMethod::ArchiveResponse (class)">ArchiveResponse</a></span>, <span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span>, <span class='object_link'><a href="PaymentMethod/BankAccountGhanaBankAccount.html" title="Inttegro::PaymentMethod::BankAccountGhanaBankAccount (class)">BankAccountGhanaBankAccount</a></span>, <span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span>, <span class='object_link'><a href="PaymentMethod/Data.html" title="Inttegro::PaymentMethod::Data (class)">Data</a></span>, <span class='object_link'><a href="PaymentMethod/DataMobileMoney.html" title="Inttegro::PaymentMethod::DataMobileMoney (class)">DataMobileMoney</a></span>, <span class='object_link'><a href="PaymentMethod/DataType.html" title="Inttegro::PaymentMethod::DataType (class)">DataType</a></span>, <span class='object_link'><a href="PaymentMethod/Deletion.html" title="Inttegro::PaymentMethod::Deletion (class)">Deletion</a></span>, <span class='object_link'><a href="PaymentMethod/DisactivateRequest.html" title="Inttegro::PaymentMethod::DisactivateRequest (class)">DisactivateRequest</a></span>, <span class='object_link'><a href="PaymentMethod/DisactivateResponse.html" title="Inttegro::PaymentMethod::DisactivateResponse (class)">DisactivateResponse</a></span>, <span class='object_link'><a href="PaymentMethod/GetSettingsRequest.html" title="Inttegro::PaymentMethod::GetSettingsRequest (class)">GetSettingsRequest</a></span>, <span class='object_link'><a href="PaymentMethod/GetSettingsResponse.html" title="Inttegro::PaymentMethod::GetSettingsResponse (class)">GetSettingsResponse</a></span>, <span class='object_link'><a href="PaymentMethod/LookupRequest.html" title="Inttegro::PaymentMethod::LookupRequest (class)">LookupRequest</a></span>, <span class='object_link'><a href="PaymentMethod/LookupResponse.html" title="Inttegro::PaymentMethod::LookupResponse (class)">LookupResponse</a></span>, <span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span>, <span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span>, <span class='object_link'><a href="PaymentMethod/OwnerAddress.html" title="Inttegro::PaymentMethod::OwnerAddress (class)">OwnerAddress</a></span>, <span class='object_link'><a href="PaymentMethod/OwnerInput.html" title="Inttegro::PaymentMethod::OwnerInput (class)">OwnerInput</a></span>, <span class='object_link'><a href="PaymentMethod/OwnerInputAddress.html" title="Inttegro::PaymentMethod::OwnerInputAddress (class)">OwnerInputAddress</a></span>, <span class='object_link'><a href="PaymentMethod/Page.html" title="Inttegro::PaymentMethod::Page (class)">Page</a></span>, <span class='object_link'><a href="PaymentMethod/PageRequest.html" title="Inttegro::PaymentMethod::PageRequest (class)">PageRequest</a></span>, <span class='object_link'><a href="PaymentMethod/PageResponse.html" title="Inttegro::PaymentMethod::PageResponse (class)">PageResponse</a></span>, <span class='object_link'><a href="PaymentMethod/Settings.html" title="Inttegro::PaymentMethod::Settings (class)">Settings</a></span>, <span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span>, <span class='object_link'><a href="PaymentMethod/TokenizeBase.html" title="Inttegro::PaymentMethod::TokenizeBase (class)">TokenizeBase</a></span>, <span class='object_link'><a href="PaymentMethod/TokenizeBaseType.html" title="Inttegro::PaymentMethod::TokenizeBaseType (class)">TokenizeBaseType</a></span>, <span class='object_link'><a href="PaymentMethod/TokenizeMobileMoneyRequest.html" title="Inttegro::PaymentMethod::TokenizeMobileMoneyRequest (class)">TokenizeMobileMoneyRequest</a></span>, <span class='object_link'><a href="PaymentMethod/TokenizeMobileMoneyRequestMobileMoney.html" title="Inttegro::PaymentMethod::TokenizeMobileMoneyRequestMobileMoney (class)">TokenizeMobileMoneyRequestMobileMoney</a></span>, <span class='object_link'><a href="PaymentMethod/TokenizeMobileMoneyRequestType.html" title="Inttegro::PaymentMethod::TokenizeMobileMoneyRequestType (class)">TokenizeMobileMoneyRequestType</a></span>, <span class='object_link'><a href="PaymentMethod/TokenizeResponse.html" title="Inttegro::PaymentMethod::TokenizeResponse (class)">TokenizeResponse</a></span>, <span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span>, <span class='object_link'><a href="PaymentMethod/TypeSetting.html" title="Inttegro::PaymentMethod::TypeSetting (class)">TypeSetting</a></span>, <span class='object_link'><a href="PaymentMethod/UnarchiveRequest.html" title="Inttegro::PaymentMethod::UnarchiveRequest (class)">UnarchiveRequest</a></span>, <span class='object_link'><a href="PaymentMethod/UnarchiveResponse.html" title="Inttegro::PaymentMethod::UnarchiveResponse (class)">UnarchiveResponse</a></span>, <span class='object_link'><a href="PaymentMethod/UpdateRequest.html" title="Inttegro::PaymentMethod::UpdateRequest (class)">UpdateRequest</a></span>, <span class='object_link'><a href="PaymentMethod/UpdateRequestOwner.html" title="Inttegro::PaymentMethod::UpdateRequestOwner (class)">UpdateRequestOwner</a></span>, <span class='object_link'><a href="PaymentMethod/UpdateRequestOwnerAddress.html" title="Inttegro::PaymentMethod::UpdateRequestOwnerAddress (class)">UpdateRequestOwnerAddress</a></span>, <span class='object_link'><a href="PaymentMethod/UpdateResponse.html" title="Inttegro::PaymentMethod::UpdateResponse (class)">UpdateResponse</a></span>, <span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span>
+    
+  
+</p>
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#active-instance_method" title="#active (instance method)">#<strong>active</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether this payment method is active and reusable in new payment flows.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#archived_at-instance_method" title="#archived_at (instance method)">#<strong>archived_at</strong>  &#x21d2; Time<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Timestamp when the payment method was archived.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bank_account-instance_method" title="#bank_account (instance method)">#<strong>bank_account</strong>  &#x21d2; Inttegro::PaymentMethod::BankAccount<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Bank account details (present when type is bank_account).</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#card-instance_method" title="#card (instance method)">#<strong>card</strong>  &#x21d2; Inttegro::PaymentMethod::Card<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Card marker.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#created_at-instance_method" title="#created_at (instance method)">#<strong>created_at</strong>  &#x21d2; Time </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>When this payment method was tokenized.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#custom_data-instance_method" title="#custom_data (instance method)">#<strong>custom_data</strong>  &#x21d2; Hash{String =&gt; String}<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Merchant-defined string values attached to a resource.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#customer_id-instance_method" title="#customer_id (instance method)">#<strong>customer_id</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Customer who owns this payment method.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ephemeral-instance_method" title="#ephemeral (instance method)">#<strong>ephemeral</strong>  &#x21d2; Boolean<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether the method is limited to its originating flow and cannot be reused.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#expires_on-instance_method" title="#expires_on (instance method)">#<strong>expires_on</strong>  &#x21d2; Time<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>When this payment method expires.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Unique identifier for this payment method.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mobile_money-instance_method" title="#mobile_money (instance method)">#<strong>mobile_money</strong>  &#x21d2; Inttegro::PaymentMethod::MobileMoney<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Masked mobile-money wallet details (present when type is mobile_money).</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#owner-instance_method" title="#owner (instance method)">#<strong>owner</strong>  &#x21d2; Inttegro::PaymentMethod::Owner<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Owner identity captured during tokenization when provided.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#supplied-instance_method" title="#supplied (instance method)">#<strong>supplied</strong>  &#x21d2; Inttegro::PaymentMethod::Supplied<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Public provenance for how the payment method was supplied.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#type-instance_method" title="#type (instance method)">#<strong>type</strong>  &#x21d2; Inttegro::PaymentMethod::Type </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Payment rail type.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verification-instance_method" title="#verification (instance method)">#<strong>verification</strong>  &#x21d2; Inttegro::PaymentMethod::Verification<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Most recent verification record when the payment method has entered a verification flow.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verified_at-instance_method" title="#verified_at (instance method)">#<strong>verified_at</strong>  &#x21d2; Time<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>When ownership verification was completed.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#archived%3F-instance_method" title="#archived? (instance method)">#<strong>archived?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Determine whether the API supplied an archive timestamp.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reusable%3F-instance_method" title="#reusable? (instance method)">#<strong>reusable?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Determine whether the payment method can be treated as reusable by local application code.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verified%3F-instance_method" title="#verified? (instance method)">#<strong>verified?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Determine whether the API supplied a verification timestamp.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+    
+  
+
+
+  
+  
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="active-instance_method">
+  
+    #<strong>active</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Whether this payment method is active and reusable in new payment flows</p>
+<p>Required in the API payload. Wire name: <code>active</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="archived_at-instance_method">
+  
+    #<strong>archived_at</strong>  &#x21d2; <tt>Time</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Timestamp when the payment method was archived. Omitted while unarchived.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>archived_at</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Time</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="bank_account-instance_method">
+  
+    #<strong>bank_account</strong>  &#x21d2; <tt><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">Inttegro::PaymentMethod::BankAccount</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Bank account details (present when type is bank_account)</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>bank_account</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">Inttegro::PaymentMethod::BankAccount</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="card-instance_method">
+  
+    #<strong>card</strong>  &#x21d2; <tt><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Inttegro::PaymentMethod::Card</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Card marker. Nested card credentials are not returned.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>card</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Inttegro::PaymentMethod::Card</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="created_at-instance_method">
+  
+    #<strong>created_at</strong>  &#x21d2; <tt>Time</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>When this payment method was tokenized</p>
+<p>Required in the API payload. Wire name: <code>created_at</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Time</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="custom_data-instance_method">
+  
+    #<strong>custom_data</strong>  &#x21d2; <tt>Hash{String =&gt; String}</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Merchant-defined string values attached to a resource. SDKs expose this as a semantic
+collection rather than a raw map.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>custom_data</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash{String =&gt; String}</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="customer_id-instance_method">
+  
+    #<strong>customer_id</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Customer who owns this payment method</p>
+<p>Required in the API payload. Wire name: <code>customer_id</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ephemeral-instance_method">
+  
+    #<strong>ephemeral</strong>  &#x21d2; <tt>Boolean</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Whether the method is limited to its originating flow and cannot be reused.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>ephemeral</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="expires_on-instance_method">
+  
+    #<strong>expires_on</strong>  &#x21d2; <tt>Time</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>When this payment method expires. Omitted when no expiry is available.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>expires_on</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Time</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    #<strong>id</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Unique identifier for this payment method</p>
+<p>Required in the API payload. Wire name: <code>id</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mobile_money-instance_method">
+  
+    #<strong>mobile_money</strong>  &#x21d2; <tt><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">Inttegro::PaymentMethod::MobileMoney</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Masked mobile-money wallet details (present when type is mobile_money)</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>mobile_money</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">Inttegro::PaymentMethod::MobileMoney</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="owner-instance_method">
+  
+    #<strong>owner</strong>  &#x21d2; <tt><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Inttegro::PaymentMethod::Owner</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Owner identity captured during tokenization when provided</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>owner</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Inttegro::PaymentMethod::Owner</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="supplied-instance_method">
+  
+    #<strong>supplied</strong>  &#x21d2; <tt><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Inttegro::PaymentMethod::Supplied</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Public provenance for how the payment method was supplied.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>supplied</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Inttegro::PaymentMethod::Supplied</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="type-instance_method">
+  
+    #<strong>type</strong>  &#x21d2; <tt><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Inttegro::PaymentMethod::Type</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Payment rail type</p>
+<p>Required in the API payload. Wire name: <code>type</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Inttegro::PaymentMethod::Type</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="verification-instance_method">
+  
+    #<strong>verification</strong>  &#x21d2; <tt><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Inttegro::PaymentMethod::Verification</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Most recent verification record when the payment method has entered a verification flow.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>verification</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Inttegro::PaymentMethod::Verification</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="verified_at-instance_method">
+  
+    #<strong>verified_at</strong>  &#x21d2; <tt>Time</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>When ownership verification was completed</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>verified_at</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Time</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/payment_method.rb', line 120</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:bank_account</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/BankAccount.html" title="Inttegro::PaymentMethod::BankAccount (class)">BankAccount</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:card</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Card.html" title="Inttegro::PaymentMethod::Card (class)">Card</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:custom_data</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Hash</span><span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:customer_id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:ephemeral</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:expires_on</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:mobile_money</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/MobileMoney.html" title="Inttegro::PaymentMethod::MobileMoney (class)">MobileMoney</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Owner.html" title="Inttegro::PaymentMethod::Owner (class)">Owner</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:type</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Type.html" title="Inttegro::PaymentMethod::Type (class)">Type</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:supplied</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Supplied.html" title="Inttegro::PaymentMethod::Supplied (class)">Supplied</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verification</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PaymentMethod/Verification.html" title="Inttegro::PaymentMethod::Verification (class)">Verification</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:verified_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="archived?-instance_method">
+  
+    #<strong>archived?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Determine whether the API supplied an archive timestamp.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether this payment method is archived</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/questions.rb', line 12</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_archived?'>archived?</span>
+  <span class='op'>!</span><span class='id identifier rubyid_archived_at'>archived_at</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reusable?-instance_method">
+  
+    #<strong>reusable?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Determine whether the payment method can be treated as reusable by local application code.</p>
+<p>This predicate requires an active, non-archived, non-ephemeral method. It does not contact
+the API or guarantee that a future payment attempt will succeed.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether the current model satisfies the reusable-method conditions</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/questions.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reusable?'>reusable?</span>
+  <span class='id identifier rubyid_active'>active</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_archived?'>archived?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_ephemeral'>ephemeral</span> <span class='op'>!=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="verified?-instance_method">
+  
+    #<strong>verified?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Determine whether the API supplied a verification timestamp.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether this payment method is verified</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/payment_method/questions.rb', line 20</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_verified?'>verified?</span>
+  <span class='op'>!</span><span class='id identifier rubyid_verified_at'>verified_at</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Fri Sep 11 10:37:20 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.3.12).
+</div>
+
+    </div>
+  </body>
+</html>

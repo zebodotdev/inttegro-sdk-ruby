@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Inttegro::Application
+  
+    &mdash; Inttegro Ruby SDK
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "Inttegro::Application";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span>
+     &raquo; 
+    <span class="title">Application</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Inttegro::Application
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">T::Struct</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">T::Struct</li>
+          
+            <li class="next">Inttegro::Application</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/inttegro/app/application.rb<span class="defines">,<br>
+  lib/inttegro/app/base.rb,<br> lib/inttegro/app/updated.rb,<br> lib/inttegro/app/looked_up.rb,<br> lib/inttegro/app/secret_key.rb,<br> lib/inttegro/app/relationship.rb,<br> lib/inttegro/app/create_request.rb,<br> lib/inttegro/app/update_request.rb,<br> lib/inttegro/app/create_response.rb,<br> lib/inttegro/app/lookup_response.rb,<br> lib/inttegro/app/management_role.rb,<br> lib/inttegro/app/update_response.rb,<br> lib/inttegro/app/credential_owner.rb,<br> lib/inttegro/app/relationship_kind.rb,<br> lib/inttegro/app/relationship_policy.rb,<br> lib/inttegro/app/relationship_status.rb,<br> lib/inttegro/app/create_request_relationship_policy.rb</span>
+
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Typed representation of the application object in the Inttegro API.</p>
+<p>This generated model is immutable. Construct it with <code>.new</code>, or decode a string-keyed API
+payload with <code>.from_hash</code>. <code>#serialize</code> produces a string-keyed hash using the original wire
+field names and serialized enum values.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Application/CreateRequest.html" title="Inttegro::Application::CreateRequest (class)">CreateRequest</a></span>, <span class='object_link'><a href="Application/CreateRequestRelationshipPolicy.html" title="Inttegro::Application::CreateRequestRelationshipPolicy (class)">CreateRequestRelationshipPolicy</a></span>, <span class='object_link'><a href="Application/CreateResponse.html" title="Inttegro::Application::CreateResponse (class)">CreateResponse</a></span>, <span class='object_link'><a href="Application/CredentialOwner.html" title="Inttegro::Application::CredentialOwner (class)">CredentialOwner</a></span>, <span class='object_link'><a href="Application/LookedUp.html" title="Inttegro::Application::LookedUp (class)">LookedUp</a></span>, <span class='object_link'><a href="Application/LookupResponse.html" title="Inttegro::Application::LookupResponse (class)">LookupResponse</a></span>, <span class='object_link'><a href="Application/ManagementRole.html" title="Inttegro::Application::ManagementRole (class)">ManagementRole</a></span>, <span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Relationship</a></span>, <span class='object_link'><a href="Application/RelationshipKind.html" title="Inttegro::Application::RelationshipKind (class)">RelationshipKind</a></span>, <span class='object_link'><a href="Application/RelationshipPolicy.html" title="Inttegro::Application::RelationshipPolicy (class)">RelationshipPolicy</a></span>, <span class='object_link'><a href="Application/RelationshipStatus.html" title="Inttegro::Application::RelationshipStatus (class)">RelationshipStatus</a></span>, <span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">SecretKey</a></span>, <span class='object_link'><a href="Application/UpdateRequest.html" title="Inttegro::Application::UpdateRequest (class)">UpdateRequest</a></span>, <span class='object_link'><a href="Application/UpdateResponse.html" title="Inttegro::Application::UpdateResponse (class)">UpdateResponse</a></span>, <span class='object_link'><a href="Application/Updated.html" title="Inttegro::Application::Updated (class)">Updated</a></span>
+    
+  
+</p>
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#alias-instance_method" title="#alias (instance method)">#<strong>alias</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Value of the <code>alias</code> field in the Inttegro API payload.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#created_at-instance_method" title="#created_at (instance method)">#<strong>created_at</strong>  &#x21d2; Time </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Value of the <code>created_at</code> field in the Inttegro API payload.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#description-instance_method" title="#description (instance method)">#<strong>description</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Value of the <code>description</code> field in the Inttegro API payload.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Value of the <code>id</code> field in the Inttegro API payload.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">#<strong>name</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Value of the <code>name</code> field in the Inttegro API payload.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#relationship-instance_method" title="#relationship (instance method)">#<strong>relationship</strong>  &#x21d2; Inttegro::Application::Relationship<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Relationship receipt for the created child app.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#secret_key-instance_method" title="#secret_key (instance method)">#<strong>secret_key</strong>  &#x21d2; Inttegro::Application::SecretKey<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Value of the <code>secret_key</code> field in the Inttegro API payload.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+
+  
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="alias-instance_method">
+  
+    #<strong>alias</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Value of the <code>alias</code> field in the Inttegro API payload.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>alias</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/app/application.rb', line 60</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:alias</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:secret_key</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">SecretKey</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:relationship</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Relationship</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="created_at-instance_method">
+  
+    #<strong>created_at</strong>  &#x21d2; <tt>Time</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Value of the <code>created_at</code> field in the Inttegro API payload.</p>
+<p>Required in the API payload. Wire name: <code>created_at</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Time</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/app/application.rb', line 60</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:alias</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:secret_key</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">SecretKey</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:relationship</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Relationship</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="description-instance_method">
+  
+    #<strong>description</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Value of the <code>description</code> field in the Inttegro API payload.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>description</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/app/application.rb', line 60</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:alias</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:secret_key</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">SecretKey</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:relationship</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Relationship</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    #<strong>id</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Value of the <code>id</code> field in the Inttegro API payload.</p>
+<p>Required in the API payload. Wire name: <code>id</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/app/application.rb', line 60</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:alias</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:secret_key</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">SecretKey</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:relationship</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Relationship</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    #<strong>name</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Value of the <code>name</code> field in the Inttegro API payload.</p>
+<p>Required in the API payload. Wire name: <code>name</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/app/application.rb', line 60</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:alias</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:secret_key</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">SecretKey</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:relationship</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Relationship</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="relationship-instance_method">
+  
+    #<strong>relationship</strong>  &#x21d2; <tt><span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Inttegro::Application::Relationship</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Relationship receipt for the created child app.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>relationship</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Inttegro::Application::Relationship</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/app/application.rb', line 60</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:alias</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:secret_key</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">SecretKey</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:relationship</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Relationship</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="secret_key-instance_method">
+  
+    #<strong>secret_key</strong>  &#x21d2; <tt><span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">Inttegro::Application::SecretKey</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Value of the <code>secret_key</code> field in the Inttegro API payload.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>secret_key</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">Inttegro::Application::SecretKey</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/app/application.rb', line 60</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:alias</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:secret_key</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/SecretKey.html" title="Inttegro::Application::SecretKey (class)">SecretKey</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:relationship</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Inttegro::Application (class)">Application</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Application/Relationship.html" title="Inttegro::Application::Relationship (class)">Relationship</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+</div>
+
+      <div id="footer">
+  Generated on Fri Sep 11 10:37:03 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.3.12).
+</div>
+
+    </div>
+  </body>
+</html>

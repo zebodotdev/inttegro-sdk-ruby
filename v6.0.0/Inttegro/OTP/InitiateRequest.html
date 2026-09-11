@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Inttegro::OTP::InitiateRequest
+  
+    &mdash; Inttegro Ruby SDK
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "Inttegro::OTP::InitiateRequest";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (I)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span>
+     &raquo; 
+    <span class="title">InitiateRequest</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Inttegro::OTP::InitiateRequest
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">T::Struct</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">T::Struct</li>
+          
+            <li class="next">Inttegro::OTP::InitiateRequest</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/inttegro/otp/initiate_request.rb
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Typed representation of the initiate request object in the Inttegro API.</p>
+<p>This generated model is immutable. Construct it with <code>.new</code>, or decode a string-keyed API
+payload with <code>.from_hash</code>. <code>#serialize</code> produces a string-keyed hash using the original wire
+field names and serialized enum values.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#async_delivery-instance_method" title="#async_delivery (instance method)">#<strong>async_delivery</strong>  &#x21d2; Boolean<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return after accepting the transaction while SMS delivery continues asynchronously.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#message_template-instance_method" title="#message_template (instance method)">#<strong>message_template</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>SMS text containing the required <code>{token}</code> placeholder and optional <code>{service}</code> placeholder.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purpose-instance_method" title="#purpose (instance method)">#<strong>purpose</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Your label for the verification flow.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#recipient-instance_method" title="#recipient (instance method)">#<strong>recipient</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Phone number in international format (E.164).</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sender-instance_method" title="#sender (instance method)">#<strong>sender</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Optional sender identifier shown to the recipient (3-12 characters).</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#service_name-instance_method" title="#service_name (instance method)">#<strong>service_name</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Service name substituted for <code>{service}</code> (2-20 characters).</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#token_alphabet-instance_method" title="#token_alphabet (instance method)">#<strong>token_alphabet</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Custom alphabet for token generation (mutually exclusive with token_alphabet_type).</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#token_alphabet_type-instance_method" title="#token_alphabet_type (instance method)">#<strong>token_alphabet_type</strong>  &#x21d2; Inttegro::OTP::AlphabetType<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Predefined alphabet type (mutually exclusive with token_alphabet).</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#token_size-instance_method" title="#token_size (instance method)">#<strong>token_size</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Length of generated token (5-10 characters).</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validity_duration_in_minutes-instance_method" title="#validity_duration_in_minutes (instance method)">#<strong>validity_duration_in_minutes</strong>  &#x21d2; Integer<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>How long the token remains valid (3-10080 minutes).</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+
+  
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="async_delivery-instance_method">
+  
+    #<strong>async_delivery</strong>  &#x21d2; <tt>Boolean</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Return after accepting the transaction while SMS delivery continues asynchronously.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>async_delivery</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="message_template-instance_method">
+  
+    #<strong>message_template</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>SMS text containing the required <code>{token}</code> placeholder and optional <code>{service}</code> placeholder.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>message_template</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="purpose-instance_method">
+  
+    #<strong>purpose</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Your label for the verification flow.</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>purpose</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="recipient-instance_method">
+  
+    #<strong>recipient</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Phone number in international format (E.164)</p>
+<p>Required in the API payload. Wire name: <code>recipient</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="sender-instance_method">
+  
+    #<strong>sender</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Optional sender identifier shown to the recipient (3-12 characters).</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>sender</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="service_name-instance_method">
+  
+    #<strong>service_name</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Service name substituted for <code>{service}</code> (2-20 characters).</p>
+<p>Required in the API payload. Wire name: <code>service_name</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="token_alphabet-instance_method">
+  
+    #<strong>token_alphabet</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Custom alphabet for token generation (mutually exclusive with token_alphabet_type)</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>token_alphabet</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="token_alphabet_type-instance_method">
+  
+    #<strong>token_alphabet_type</strong>  &#x21d2; <tt><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">Inttegro::OTP::AlphabetType</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Predefined alphabet type (mutually exclusive with token_alphabet)</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>token_alphabet_type</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">Inttegro::OTP::AlphabetType</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="token_size-instance_method">
+  
+    #<strong>token_size</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Length of generated token (5-10 characters)</p>
+<p>Required in the API payload. Wire name: <code>token_size</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="validity_duration_in_minutes-instance_method">
+  
+    #<strong>validity_duration_in_minutes</strong>  &#x21d2; <tt>Integer</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>How long the token remains valid (3-10080 minutes)</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>validity_duration_in_minutes</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/otp/initiate_request.rb', line 78</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::OTP::InitiateRequest (class)">InitiateRequest</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:async_delivery</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:message_template</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:purpose</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:recipient</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:sender</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:service_name</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_alphabet_type</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OTP.html" title="Inttegro::OTP (module)">OTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlphabetType.html" title="Inttegro::OTP::AlphabetType (class)">AlphabetType</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:token_size</span><span class='comma'>,</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:validity_duration_in_minutes</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+</div>
+
+      <div id="footer">
+  Generated on Fri Sep 11 10:37:22 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.3.12).
+</div>
+
+    </div>
+  </body>
+</html>
