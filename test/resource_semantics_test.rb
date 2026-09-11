@@ -22,9 +22,9 @@ class InttegroResourceSemanticsTest < Minitest::Test
 
     assert payment.requires_action?
     refute payment.terminal?
-    assert_equal Inttegro::PaymentNextActionType::REDIRECT, payment.required_action&.type
+    assert_equal Inttegro::Payment::NextActionType::REDIRECT, payment.required_action&.type
     assert order.requires_payment?
-    assert_equal Inttegro::PaymentNextActionType::REDIRECT, order.required_payment_action&.type
+    assert_equal Inttegro::Payment::NextActionType::REDIRECT, order.required_payment_action&.type
   end
 
   def test_catalog_and_payment_method_questions

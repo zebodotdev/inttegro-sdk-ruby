@@ -1,0 +1,37 @@
+# frozen_string_literal: true
+# typed: strict
+
+# Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit.
+
+require_relative "base"
+require_relative "../shared/error_payload"
+require_relative "product"
+
+module Inttegro
+  class Product
+    # Typed representation of the response object in the Inttegro API.
+    #
+    # This generated model is immutable. Construct it with `.new`, or decode a string-keyed API
+    # payload with `.from_hash`. `#serialize` produces a string-keyed hash using the original wire
+    # field names and serialized enum values.
+    #
+    # @api public
+    #
+    # @!attribute [r] product
+    #   Value of the `product` field in the Inttegro API payload.
+    #
+    #   Optional in the API payload; omitted values default to `nil`. Wire name: `product`.
+    #   @return [Inttegro::Product, nil]
+    #
+    # @!attribute [r] error
+    #   Standard error response structure returned by all API endpoints. Provides machine-readable
+    #   codes, human-readable messages, and actionable guidance for resolution.
+    #
+    #   Optional in the API payload; omitted values default to `nil`. Wire name: `error`.
+    #   @return [Inttegro::Shared::ErrorPayload, nil]
+    class Response < T::Struct
+      const :product, T.nilable(Inttegro::Product), default: nil
+      const :error, T.nilable(Inttegro::Shared::ErrorPayload), default: nil
+    end
+  end
+end

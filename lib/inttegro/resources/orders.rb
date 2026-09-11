@@ -11,6 +11,7 @@ module Inttegro
     #
     # @see https://studio.inttegro.com/orders for detailed guides
     class Orders
+      # @param http [Inttegro::HTTPClient] configured transport used for each request
       def initialize(http)
         @http = T.let(http, Inttegro::HTTPClient)
       end
@@ -21,7 +22,7 @@ module Inttegro
       # existing customer, include multiple line items, and optionally execute payment
       # immediately. Orders must have at least one line item and billing details.
       #
-      # @param payload [Hash] Order creation parameters
+      # @param payload [Hash, Inttegro::Order::CreateNewCustomer, Inttegro::Order::CreateExistingCustomer] Order creation parameters
       # @option payload [Hash] :customer_data New customer information (required if customer_id not provided)
       # @option payload [String] :customer_id Existing customer ID (required if customer_data not provided)
       # @option payload [Array<Hash>] :line_items List of products/services being purchased (required)
@@ -126,6 +127,10 @@ module Inttegro
         @http.post_resource("/orders/lookup", Inttegro::Order, :order, body)
       end
 
+      # Update mutable fields on an order.
+      #
+      # @param payload [Hash, Inttegro::Order::UpdateRequest] order identifier and fields to change
+      # @return [Inttegro::Order] updated order
       def update(payload)
         @http.post_resource("/orders/update", Inttegro::Order, :order, payload)
       end
@@ -139,7 +144,7 @@ module Inttegro
       #
       # When payment requires customer confirmation (e.g., OTP), the returned order includes a next_action field.
       #
-      # @param payload [Hash] Payment parameters
+      # @param payload [Hash, Inttegro::Order::PayRequest] Payment parameters
       # @option payload [String] :order_id Unique identifier of the order to pay (required)
       # @option payload [Hash] :payment_method_data Inline payment method details (mobile money, card, etc.)
       # @option payload [String] :payment_method_id ID of a saved payment method to use
@@ -159,7 +164,7 @@ module Inttegro
       #     }
       #   )
       #
-      #   if order.payment&.next_action&.type == Inttegro::PaymentNextActionType::CONFIRM_PAYMENT
+      #   if order.payment&.next_action&.type == Inttegro::Payment::NextActionType::CONFIRM_PAYMENT
       #     # Customer needs to provide OTP sent to their phone
       #     puts 'Please enter the OTP sent to your phone'
       #   end
@@ -187,7 +192,7 @@ module Inttegro
       # Call this method when a payment requires customer confirmation and you've collected the verification
       # token from the customer. The token is typically a 6-digit OTP sent via SMS or email.
       #
-      # @param payload [Hash] Confirmation parameters
+      # @param payload [Hash, Inttegro::Payment::ConfirmRequest] Confirmation parameters
       # @option payload [String] :order_id Unique identifier of the order being paid (required)
       # @option payload [String] :token Verification token provided by customer (required, typically 6 digits)
       #
@@ -199,7 +204,7 @@ module Inttegro
       #     token: '123456'
       #   )
       #
-      #   if order.payment&.status == Inttegro::PaymentStatus::PAID
+      #   if order.payment&.status == Inttegro::Payment::Status::PAID
       #     puts 'Payment confirmed successfully!'
       #   end
       #
@@ -272,11 +277,11 @@ module Inttegro
       #
       # @param order_id [String] Unique identifier of the order whose invoice should be sent (required)
       #
-      # @return [Inttegro::OrderDocumentDeliveryResult] Order and delivery details
+      # @return [Inttegro::Order::DocumentDeliveryResult] Order and delivery details
       def send_invoice(order_id:)
         @http.post_model(
           "/orders/send_invoice",
-          Inttegro::OrderDocumentDeliveryResult,
+          Inttegro::Order::DocumentDeliveryResult,
           { order_id: order_id }
         )
       end
@@ -285,11 +290,11 @@ module Inttegro
       #
       # @param order_id [String] Unique identifier of the paid order whose receipt should be sent (required)
       #
-      # @return [Inttegro::OrderDocumentDeliveryResult] Order and delivery details
+      # @return [Inttegro::Order::DocumentDeliveryResult] Order and delivery details
       def send_receipt(order_id:)
         @http.post_model(
           "/orders/send_receipt",
-          Inttegro::OrderDocumentDeliveryResult,
+          Inttegro::Order::DocumentDeliveryResult,
           { order_id: order_id }
         )
       end
@@ -300,7 +305,7 @@ module Inttegro
       # Completing an order transitions it to its final state and can optionally mark payment as received
       # offline (out-of-band) if paid_out_of_band is set to true.
       #
-      # @param payload [Hash] Completion parameters
+      # @param payload [Hash, Inttegro::Order::CompleteRequest] Completion parameters
       # @option payload [String] :order_id Unique identifier of the order to complete (required)
       # @option payload [Boolean] :paid_out_of_band Set to true if payment received outside Inttegro (default: false)
       #
@@ -358,12 +363,12 @@ module Inttegro
       #
       # Returns orders in reverse chronological order (most recent first).
       #
-      # @param payload [Hash] Pagination and filter parameters (optional)
+      # @param payload [Hash, Inttegro::Order::PageRequest] Pagination and filter parameters (optional)
       # @option payload [Integer] :page_number Zero-based page index to retrieve (0-10)
       # @option payload [Integer] :page_size Number of orders per page (1-256)
       # @option payload [String] :customer_id Optional customer whose orders should be returned
       #
-      # @return [Inttegro::OrderPage] Paginated list of orders
+      # @return [Inttegro::Order::Page] Paginated list of orders
       #
       # @example Get first page of orders
       #   page = client.orders.page(
@@ -382,7 +387,7 @@ module Inttegro
       # @see https://studio.inttegro.com/pagination for pagination guide
       # @see https://studio.inttegro.com/orders for API reference
       def page(payload = {})
-        @http.post_resource("/orders/page", Inttegro::OrderPage, :page, payload || {})
+        @http.post_resource("/orders/page", Inttegro::Order::Page, :page, payload || {})
       end
 
       private

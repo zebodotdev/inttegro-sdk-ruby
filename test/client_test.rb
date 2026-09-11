@@ -200,8 +200,8 @@ class InttegroClientTest < Minitest::Test
     requests = []
     adapter = make_adapter(requests: requests)
     client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
-    request = Inttegro::CreateProductRequest.new(
-      type: Inttegro::ProductType::DIGITAL,
+    request = Inttegro::Product::CreateRequest.new(
+      type: Inttegro::Product::Type::DIGITAL,
       name: "Download"
     )
 
@@ -395,8 +395,8 @@ class InttegroClientTest < Minitest::Test
     assert_equal "Tea House Ltd", intent.merchant&.organization_name
     assert_equal 1024, intent.product&.dimensions&.digital&.bytes
     assert_equal "or_123", intent.usage.order&.id
-    assert_equal Inttegro::PurchaseIntentStatus::ACTIVE, intent.status
-    assert_equal Inttegro::PurchaseIntentActivityType::VIEWED, intent.activity&.recent&.first&.type
+    assert_equal Inttegro::PurchaseIntent::Status::ACTIVE, intent.status
+    assert_equal Inttegro::PurchaseIntent::ActivityType::VIEWED, intent.activity&.recent&.first&.type
   end
 
   def test_timestamp_fields_decode_to_time_and_require_an_offset
@@ -410,7 +410,7 @@ class InttegroClientTest < Minitest::Test
           reserved: { amount: 100 }
         }
       },
-      Inttegro::BalanceSnapshot
+      Inttegro::Balance::Snapshot
     )
 
     assert_instance_of Time, balance.ghs.includes_transactions_before
@@ -426,7 +426,7 @@ class InttegroClientTest < Minitest::Test
             reserved: { amount: 100 }
           }
         },
-        Inttegro::BalanceSnapshot
+        Inttegro::Balance::Snapshot
       )
     end
   end
@@ -449,11 +449,11 @@ class InttegroClientTest < Minitest::Test
     client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: payment_adapter)
 
     payment = client.balance_transactions.lookup(transaction_id: "bt_payment")
-    assert_equal Inttegro::BalanceTransactionType::PAYMENT, payment.type
+    assert_equal Inttegro::BalanceTransaction::Type::PAYMENT, payment.type
     assert_equal "py_123", payment.source_id
     assert payment.valid_source?
     assert payment.valid?
-    assert_instance_of Inttegro::BalanceTransactionAmount, payment.amount
+    assert_instance_of Inttegro::BalanceTransaction::Amount, payment.amount
 
     refund = Inttegro.deserialize(
       {
@@ -471,11 +471,11 @@ class InttegroClientTest < Minitest::Test
 
     contradictory = Inttegro::BalanceTransaction.new(
       id: "bt_invalid",
-      type: Inttegro::BalanceTransactionType::REFUND,
+      type: Inttegro::BalanceTransaction::Type::REFUND,
       payment_id: "py_123",
       refund_id: "rf_123",
       order_id: "or_123",
-      amount: Inttegro::BalanceTransactionAmount.new(currency: "GHS", value: 500),
+      amount: Inttegro::BalanceTransaction::Amount.new(currency: "GHS", value: 500),
       created_at: Time.iso8601("2026-08-31T12:01:00Z")
     )
     refute contradictory.valid_source?
@@ -508,7 +508,7 @@ class InttegroClientTest < Minitest::Test
     )
 
     assert_instance_of Inttegro::BalanceTransaction, order.payment.balance_transaction
-    assert_equal Inttegro::BalanceTransactionType::PAYMENT, order.payment.balance_transaction.type
+    assert_equal Inttegro::BalanceTransaction::Type::PAYMENT, order.payment.balance_transaction.type
   end
 
   def test_order_document_delivery_endpoints_match_spec
@@ -600,8 +600,8 @@ class InttegroClientTest < Minitest::Test
     client.apps.update(alias: "my-app")
     balance = client.balances.get
 
-    assert_instance_of Inttegro::BalanceSnapshot, balance
-    assert_instance_of Inttegro::CurrencyBalanceSnapshot, balance.ghs
+    assert_instance_of Inttegro::Balance::Snapshot, balance
+    assert_instance_of Inttegro::Balance::CurrencySnapshot, balance.ghs
 
     paths = requests.map { |r| r[:uri].path }
     assert_includes paths, "/apps/create"

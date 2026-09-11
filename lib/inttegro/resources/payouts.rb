@@ -11,6 +11,7 @@ module Inttegro
     #
     # @see https://studio.inttegro.com/payouts for detailed guides
     class Payouts
+      # @param http [Inttegro::HTTPClient] configured transport used for each request
       def initialize(http)
         @http = T.let(http, Inttegro::HTTPClient)
       end
@@ -23,7 +24,7 @@ module Inttegro
       #
       # @param destinations [Hash] Map of currency codes to financial account IDs (required)
       #
-      # @return [Inttegro::PayoutSettingsMutation] Updated payout settings
+      # @return [Inttegro::Payout::SettingsMutation] Updated payout settings
       #
       # @example Set payout destinations for multiple currencies
       #   result = client.payouts.set_destinations(
@@ -39,7 +40,7 @@ module Inttegro
       def set_destinations(destinations:)
         @http.post_resource(
           "/payouts/set_destinations",
-          Inttegro::PayoutSettingsMutation, :settings,
+          Inttegro::Payout::SettingsMutation, :settings,
           { destinations: destinations }
         )
       end
@@ -49,7 +50,7 @@ module Inttegro
       # Returns payout settings including configured payout destinations, schedule information,
       # and whether foreign exchange is enabled.
       #
-      # @return [Inttegro::PayoutSettingsLookup] Current payout settings
+      # @return [Inttegro::Payout::SettingsLookup] Current payout settings
       #
       # @example Get payout settings
       #   result = client.payouts.settings
@@ -58,7 +59,7 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/product-payouts for payouts overview
       def settings
-        @http.post_resource("/payouts/settings", Inttegro::PayoutSettingsLookup, :settings, {})
+        @http.post_resource("/payouts/settings", Inttegro::Payout::SettingsLookup, :settings, {})
       end
 
       # Disable automatic payouts by switching to manual payout mode.
@@ -68,7 +69,7 @@ module Inttegro
       # still be at least 7 days old before they can be paid out, but the payout will only occur when you
       # explicitly request it.
       #
-      # @return [Inttegro::PayoutSettingsMutation] Updated payout settings
+      # @return [Inttegro::Payout::SettingsMutation] Updated payout settings
       #
       # @example Disable automatic payouts
       #   result = client.payouts.disable_automatic
@@ -79,15 +80,18 @@ module Inttegro
       def disable_automatic
         @http.post_resource(
           "/payouts/disable",
-          Inttegro::PayoutSettingsMutation, :settings,
+          Inttegro::Payout::SettingsMutation, :settings,
           {}
         )
       end
 
+      # Re-enable automatic payouts using the application's retained schedule settings.
+      #
+      # @return [Inttegro::Payout::SettingsMutation] updated payout settings
       def enable_automatic
         @http.post_resource(
           "/payouts/enable",
-          Inttegro::PayoutSettingsMutation, :settings,
+          Inttegro::Payout::SettingsMutation, :settings,
           {}
         )
       end
@@ -106,7 +110,7 @@ module Inttegro
       # Important: FX conversion incurs additional fees beyond standard payout fees, and exchange rates are
       # determined at payout execution time. FX-enabled payouts require approval and special configuration.
       #
-      # @return [Inttegro::PayoutSettingsLookup] Updated payout settings
+      # @return [Inttegro::Payout::SettingsLookup] Updated payout settings
       #
       # @example Enable foreign exchange for payouts
       #   result = client.payouts.enable_fx
@@ -115,7 +119,7 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/enable-fx-payouts for FX payout guide
       def enable_fx
-        @http.post_resource("/payouts/enable_fx", Inttegro::PayoutSettingsLookup, :settings, {})
+        @http.post_resource("/payouts/enable_fx", Inttegro::Payout::SettingsLookup, :settings, {})
       end
 
       # Disable foreign exchange conversion for payouts.
@@ -123,7 +127,7 @@ module Inttegro
       # Disables FX conversion, restricting payouts to accounts that match the transaction currency.
       # After disabling FX, GHS balance can only be paid out to GHS accounts, USD balance only to USD accounts, etc.
       #
-      # @return [Inttegro::PayoutSettingsLookup] Updated payout settings
+      # @return [Inttegro::Payout::SettingsLookup] Updated payout settings
       #
       # @example Disable foreign exchange for payouts
       #   result = client.payouts.disable_fx
@@ -132,7 +136,7 @@ module Inttegro
       #
       # @see https://studio.inttegro.com/disable-fx-payouts for FX payout guide
       def disable_fx
-        @http.post_resource("/payouts/disable_fx", Inttegro::PayoutSettingsLookup, :settings, {})
+        @http.post_resource("/payouts/disable_fx", Inttegro::Payout::SettingsLookup, :settings, {})
       end
 
       # Retrieve a paginated list of payouts.
@@ -140,14 +144,14 @@ module Inttegro
       # Returns payouts in reverse chronological order (most recent first). Use the has_more field
       # and page parameter to navigate through results. Supports filtering by status and time range.
       #
-      # @param payload [Hash] Pagination and filter parameters (optional)
+      # @param payload [Hash, Inttegro::Payout::PageRequest] Pagination and filter parameters (optional)
       # @option payload [Integer] :page Page number to retrieve (minimum 1, default: 1)
       # @option payload [Integer] :per_page Number of results per page (minimum 1, maximum 100, default: 10)
       # @option payload [String] :status Filter by payout status (e.g., 'pending', 'paid', 'failed')
       # @option payload [Time] :created_after Filter payouts created after this timestamp
       # @option payload [Time] :created_before Filter payouts created before this timestamp
       #
-      # @return [Inttegro::PayoutPage] Paginated list of payouts
+      # @return [Inttegro::Payout::Page] Paginated list of payouts
       #
       # @example Get first page of payouts
       #   result = client.payouts.page(
@@ -166,13 +170,21 @@ module Inttegro
       # @see https://studio.inttegro.com/pagination for pagination guide
       # @see https://studio.inttegro.com/product-payouts for payouts overview
       def page(payload = {})
-        @http.post_resource("/payouts/page", Inttegro::PayoutPage, :page, payload || {})
+        @http.post_resource("/payouts/page", Inttegro::Payout::Page, :page, payload || {})
       end
 
+      # Schedule a payout from the application's available balance.
+      #
+      # @param payload [Hash, Inttegro::Schedule::PayoutRequest] amount, destination, and execution fields
+      # @return [Inttegro::Payout] scheduled payout
       def schedule(payload)
         @http.post_resource("/payouts/schedule", Inttegro::Payout, :payout, payload)
       end
 
+      # Retrieve the current state of one payout.
+      #
+      # @param payout_id [String] unique payout identifier
+      # @return [Inttegro::Payout] matching payout
       def lookup(payout_id:)
         @http.post_resource(
           "/payouts/lookup",
