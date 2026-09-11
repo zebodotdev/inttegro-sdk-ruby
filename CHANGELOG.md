@@ -1,8 +1,12 @@
 ## [Unreleased]
 
+## [6.0.1] - 2026-09-11
+
+- Corrected the resource-namespace examples to show Ruby's class-backed layout accurately.
+
 ## [6.0.0] - 2026-09-11
 
-- Breaking: moved resource models and enums from the `Inttegro` root into singular resource modules such as `Inttegro::Payment::Payment`, with one public type per file.
+- Breaking: moved related models and enums from the `Inttegro` root beneath their primary resource classes, such as `Inttegro::Payment::Status`, with one public type per file.
 - Breaking: removed the obsolete root and plural-module compatibility aliases.
 - Added focused question and accessor methods for common resource state, actionability, amounts, customers, and payment methods.
 - Expanded and automatically verified the API documentation for resource types, enum values, and client operations.
