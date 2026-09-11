@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Inttegro::Price::CatalogPrice
+  
+    &mdash; Inttegro Ruby SDK
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "Inttegro::Price::CatalogPrice";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span>
+     &raquo; 
+    <span class="title">CatalogPrice</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Inttegro::Price::CatalogPrice
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">T::Struct</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">T::Struct</li>
+          
+            <li class="next">Inttegro::Price::CatalogPrice</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/inttegro/price/catalog_price.rb
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Typed representation of the catalog price object in the Inttegro API.</p>
+<p>This generated model is immutable. Construct it with <code>.new</code>, or decode a string-keyed API
+payload with <code>.from_hash</code>. <code>#serialize</code> produces a string-keyed hash using the original wire
+field names and serialized enum values.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#about-instance_method" title="#about (instance method)">#<strong>about</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Longer description of this price.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#active-instance_method" title="#active (instance method)">#<strong>active</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether this price is active and usable in new flows.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#archived_at-instance_method" title="#archived_at (instance method)">#<strong>archived_at</strong>  &#x21d2; Time<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Archive timestamp (if archived).</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#created_at-instance_method" title="#created_at (instance method)">#<strong>created_at</strong>  &#x21d2; Time </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Price creation timestamp.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Unique price identifier with pr_ prefix.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#label-instance_method" title="#label (instance method)">#<strong>label</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Short label for this price.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#nominal-instance_method" title="#nominal (instance method)">#<strong>nominal</strong>  &#x21d2; Inttegro::Money::Amount </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Price amount.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#product-instance_method" title="#product (instance method)">#<strong>product</strong>  &#x21d2; Inttegro::Price::EmbeddedProduct<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Embedded product details, if this price belongs to a product.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#product_id-instance_method" title="#product_id (instance method)">#<strong>product_id</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Product ID when the operation returns the relationship by reference.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#updated_at-instance_method" title="#updated_at (instance method)">#<strong>updated_at</strong>  &#x21d2; Time<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Last update timestamp.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+
+  
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="about-instance_method">
+  
+    #<strong>about</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Longer description of this price</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>about</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="active-instance_method">
+  
+    #<strong>active</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Whether this price is active and usable in new flows</p>
+<p>Required in the API payload. Wire name: <code>active</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="archived_at-instance_method">
+  
+    #<strong>archived_at</strong>  &#x21d2; <tt>Time</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Archive timestamp (if archived)</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>archived_at</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Time</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="created_at-instance_method">
+  
+    #<strong>created_at</strong>  &#x21d2; <tt>Time</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Price creation timestamp</p>
+<p>Required in the API payload. Wire name: <code>created_at</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Time</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    #<strong>id</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Unique price identifier with pr_ prefix</p>
+<p>Required in the API payload. Wire name: <code>id</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="label-instance_method">
+  
+    #<strong>label</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Short label for this price</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>label</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="nominal-instance_method">
+  
+    #<strong>nominal</strong>  &#x21d2; <tt><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Inttegro::Money::Amount</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Price amount</p>
+<p>Required in the API payload. Wire name: <code>nominal</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Inttegro::Money::Amount</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="product-instance_method">
+  
+    #<strong>product</strong>  &#x21d2; <tt><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">Inttegro::Price::EmbeddedProduct</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Embedded product details, if this price belongs to a product</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>product</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">Inttegro::Price::EmbeddedProduct</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="product_id-instance_method">
+  
+    #<strong>product_id</strong>  &#x21d2; <tt>String</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Product ID when the operation returns the relationship by reference</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>product_id</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="updated_at-instance_method">
+  
+    #<strong>updated_at</strong>  &#x21d2; <tt>Time</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Last update timestamp</p>
+<p>Optional in the API payload; omitted values default to <code>nil</code>. Wire name: <code>updated_at</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Time</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/price/catalog_price.rb', line 79</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Inttegro::Price::CatalogPrice (class)">CatalogPrice</a></span></span> <span class='op'>&lt;</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='const'>String</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:about</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:active</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Boolean</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:nominal</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Money/Amount.html" title="Inttegro::Money::Amount (class)">Amount</a></span></span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product_id</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:product</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EmbeddedProduct.html" title="Inttegro::Price::EmbeddedProduct (class)">EmbeddedProduct</a></span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='const'>Time</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:archived_at</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+</div>
+
+      <div id="footer">
+  Generated on Fri Sep 11 10:52:04 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.3.12).
+</div>
+
+    </div>
+  </body>
+</html>

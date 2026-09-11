@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Inttegro
+  
+    &mdash; Inttegro Ruby SDK
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "Inttegro";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (I)</a> &raquo;
+    
+    
+    <span class="title">Inttegro</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Inttegro
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd>T::Sig</dd>
+  </dl>
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/inttegro/version.rb<span class="defines">,<br>
+  lib/inttegro.rb,<br> lib/inttegro/types.rb,<br> lib/inttegro/client.rb,<br> lib/inttegro/errors.rb,<br> lib/inttegro/app/base.rb,<br> lib/inttegro/otp/base.rb,<br> lib/inttegro/file/base.rb,<br> lib/inttegro/file/file.rb,<br> lib/inttegro/file/page.rb,<br> lib/inttegro/telemetry.rb,<br> lib/inttegro/chime/base.rb,<br> lib/inttegro/chime/page.rb,<br> lib/inttegro/file/actor.rb,<br> lib/inttegro/file/media.rb,<br> lib/inttegro/file/party.rb,<br> lib/inttegro/money/base.rb,<br> lib/inttegro/order/base.rb,<br> lib/inttegro/order/page.rb,<br> lib/inttegro/otp/status.rb,<br> lib/inttegro/price/base.rb,<br> lib/inttegro/price/page.rb,<br> lib/inttegro/app/updated.rb,<br> lib/inttegro/chime/chime.rb,<br> lib/inttegro/file/source.rb,<br> lib/inttegro/file/status.rb,<br> lib/inttegro/http_client.rb,<br> lib/inttegro/order/order.rb,<br> lib/inttegro/payout/base.rb,<br> lib/inttegro/payout/page.rb,<br> lib/inttegro/price/price.rb,<br> lib/inttegro/refund/base.rb,<br> lib/inttegro/refund/page.rb,<br> lib/inttegro/shared/base.rb,<br> lib/inttegro/wallet/base.rb,<br> lib/inttegro/wallet/type.rb,<br> lib/inttegro/balance/base.rb,<br> lib/inttegro/money/amount.rb,<br> lib/inttegro/order/status.rb,<br> lib/inttegro/payment/base.rb,<br> lib/inttegro/payout/error.rb,<br> lib/inttegro/product/base.rb,<br> lib/inttegro/product/page.rb,<br> lib/inttegro/product/type.rb,<br> lib/inttegro/app/looked_up.rb,<br> lib/inttegro/balance/value.rb,<br> lib/inttegro/checkout/base.rb,<br> lib/inttegro/customer/base.rb,<br> lib/inttegro/customer/data.rb,<br> lib/inttegro/customer/page.rb,<br> lib/inttegro/file/delivery.rb,<br> lib/inttegro/file/resource.rb,<br> lib/inttegro/file/response.rb,<br> lib/inttegro/file_download.rb,<br> lib/inttegro/order/address.rb,<br> lib/inttegro/order/invoice.rb,<br> lib/inttegro/payout/payout.rb,<br> lib/inttegro/payout/status.rb,<br> lib/inttegro/product/media.rb,<br> lib/inttegro/refund/reason.rb,<br> lib/inttegro/refund/refund.rb,<br> lib/inttegro/refund/status.rb,<br> lib/inttegro/resources/otp.rb,<br> lib/inttegro/schedule/base.rb,<br> lib/inttegro/app/secret_key.rb,<br> lib/inttegro/broadcast/base.rb,<br> lib/inttegro/checkout/order.rb,<br> lib/inttegro/chime/response.rb,<br> lib/inttegro/file/api_error.rb,<br> lib/inttegro/file_link/base.rb,<br> lib/inttegro/file_link/kind.rb,<br> lib/inttegro/file_link/page.rb,<br> lib/inttegro/money/currency.rb,<br> lib/inttegro/order/customer.rb,<br> lib/inttegro/order/discount.rb,<br> lib/inttegro/order/envelope.rb,<br> lib/inttegro/payment/result.rb,<br> lib/inttegro/payment/status.rb,<br> lib/inttegro/price/response.rb,<br> lib/inttegro/product/render.rb,<br> lib/inttegro/product/stream.rb,<br> lib/inttegro/resources/apps.rb,<br> lib/inttegro/resources/keys.rb,<br> lib/inttegro/resources/spec.rb,<br> lib/inttegro/schedule/error.rb,<br> lib/inttegro/shared/address.rb,<br> lib/inttegro/app/application.rb,<br> lib/inttegro/broadcast/error.rb,<br> lib/inttegro/chime/recipient.rb,<br> lib/inttegro/chime/transport.rb,<br> lib/inttegro/error_reporting.rb,<br> lib/inttegro/file_link/actor.rb,<br> lib/inttegro/order/line_item.rb,<br> lib/inttegro/order/questions.rb,<br> lib/inttegro/otp/transaction.rb,<br> lib/inttegro/payment/payment.rb,<br> lib/inttegro/price/page_item.rb,<br> lib/inttegro/product/details.rb,<br> lib/inttegro/product/product.rb,<br> lib/inttegro/product/service.rb,<br> lib/inttegro/product/updated.rb,<br> lib/inttegro/refund/response.rb,<br> lib/inttegro/resources/files.rb,<br> lib/inttegro/response_object.rb,<br> lib/inttegro/schedule/detail.rb,<br> lib/inttegro/secret_key/base.rb,<br> lib/inttegro/secret_key/page.rb,<br> lib/inttegro/shared/shipping.rb,<br> lib/inttegro/app/relationship.rb,<br> lib/inttegro/balance/snapshot.rb,<br> lib/inttegro/broadcast/detail.rb,<br> lib/inttegro/customer/address.rb,<br> lib/inttegro/file/actor_input.rb,<br> lib/inttegro/file/disposition.rb,<br> lib/inttegro/file/scan_status.rb,<br> lib/inttegro/file/source_type.rb,<br> lib/inttegro/file_link/access.rb,<br> lib/inttegro/file_link/status.rb,<br> lib/inttegro/otp/transmission.rb,<br> lib/inttegro/otp/verification.rb,<br> lib/inttegro/payment/customer.rb,<br> lib/inttegro/product/delivery.rb,<br> lib/inttegro/product/download.rb,<br> lib/inttegro/product/response.rb,<br> lib/inttegro/product/shipment.rb,<br> lib/inttegro/refund/line_item.rb,<br> lib/inttegro/resources/chimes.rb,<br> lib/inttegro/resources/orders.rb,<br> lib/inttegro/resources/prices.rb,<br> lib/inttegro/secret_key/usage.rb,<br> lib/inttegro/shared/line_item.rb,<br> lib/inttegro/bank_account/base.rb,<br> lib/inttegro/bank_account/type.rb,<br> lib/inttegro/broadcast/request.rb,<br> lib/inttegro/chime/email_event.rb,<br> lib/inttegro/customer/customer.rb,<br> lib/inttegro/customer/response.rb,<br> lib/inttegro/file/latest_error.rb,<br> lib/inttegro/file/page_request.rb,<br> lib/inttegro/order/pay_request.rb,<br> lib/inttegro/otp/alphabet_type.rb,<br> lib/inttegro/payment/questions.rb,<br> lib/inttegro/product/attribute.rb,<br> lib/inttegro/product/line_item.rb,<br> lib/inttegro/product/questions.rb,<br> lib/inttegro/resources/payouts.rb,<br> lib/inttegro/resources/refunds.rb,<br> lib/inttegro/schedule/response.rb,<br> lib/inttegro/secret_key/status.rb,<br> lib/inttegro/app/create_request.rb,<br> lib/inttegro/app/update_request.rb,<br> lib/inttegro/broadcast/response.rb,<br> lib/inttegro/chime/page_request.rb,<br> lib/inttegro/chime/send_request.rb,<br> lib/inttegro/chime/transmission.rb,<br> lib/inttegro/file/page_response.rb,<br> lib/inttegro/file_link/creation.rb,<br> lib/inttegro/file_link/delivery.rb,<br> lib/inttegro/file_link/response.rb,<br> lib/inttegro/order/created_from.rb,<br> lib/inttegro/order/page_request.rb,<br> lib/inttegro/otp/lookup_request.rb,<br> lib/inttegro/otp/verify_request.rb,<br> lib/inttegro/price/page_request.rb,<br> lib/inttegro/price/price_params.rb,<br> lib/inttegro/product/dimensions.rb,<br> lib/inttegro/resources/balances.rb,<br> lib/inttegro/resources/products.rb,<br> lib/inttegro/shared/fee_details.rb,<br> lib/inttegro/transport_response.rb,<br> lib/inttegro/app/create_response.rb,<br> lib/inttegro/app/lookup_response.rb,<br> lib/inttegro/app/management_role.rb,<br> lib/inttegro/app/update_response.rb,<br> lib/inttegro/chime/email_mailbox.rb,<br> lib/inttegro/chime/email_message.rb,<br> lib/inttegro/chime/page_response.rb,<br> lib/inttegro/file/create_request.rb,<br> lib/inttegro/file/delete_request.rb,<br> lib/inttegro/file/lookup_request.rb,<br> lib/inttegro/file/public_storage.rb,<br> lib/inttegro/file/upload_receipt.rb,<br> lib/inttegro/file_link/file_link.rb,<br> lib/inttegro/file_reference/base.rb,<br> lib/inttegro/model_serialization.rb,<br> lib/inttegro/money/amount_params.rb,<br> lib/inttegro/order/document_kind.rb,<br> lib/inttegro/order/fee_line_item.rb,<br> lib/inttegro/order/page_envelope.rb,<br> lib/inttegro/otp/lookup_response.rb,<br> lib/inttegro/payment/next_action.rb,<br> lib/inttegro/payment_method/base.rb,<br> lib/inttegro/payment_method/card.rb,<br> lib/inttegro/payment_method/data.rb,<br> lib/inttegro/payment_method/page.rb,<br> lib/inttegro/payment_method/type.rb,<br> lib/inttegro/payout/page_request.rb,<br> lib/inttegro/price/catalog_price.rb,<br> lib/inttegro/price/page_response.rb,<br> lib/inttegro/refund/page_request.rb,<br> lib/inttegro/refund/request_meta.rb,<br> lib/inttegro/resources/customers.rb,<br> lib/inttegro/resources/schedules.rb,<br> lib/inttegro/shared/country_bank.rb,<br> lib/inttegro/shared/dosh_account.rb,<br> lib/inttegro/shared/mobile_money.rb,<br> lib/inttegro/upload_request/base.rb,<br> lib/inttegro/upload_request/page.rb,<br> lib/inttegro/app/credential_owner.rb,<br> lib/inttegro/bank_account/created.rb,<br> lib/inttegro/bank_account/updated.rb,<br> lib/inttegro/checkout/pay_request.rb,<br> lib/inttegro/chime/lookup_request.rb,<br> lib/inttegro/chime/recipient_type.rb,<br> lib/inttegro/file_reference/input.rb,<br> lib/inttegro/generated/operations.rb,<br> lib/inttegro/order/cancel_request.rb,<br> lib/inttegro/order/invoice_format.rb,<br> lib/inttegro/order/lookup_request.rb,<br> lib/inttegro/order/update_request.rb,<br> lib/inttegro/otp/initiate_request.rb,<br> lib/inttegro/payment/latest_error.rb,<br> lib/inttegro/payment_method/owner.rb,<br> lib/inttegro/payout/page_response.rb,<br> lib/inttegro/price/action_request.rb,<br> lib/inttegro/price/lookup_request.rb,<br> lib/inttegro/price/update_request.rb,<br> lib/inttegro/product/page_request.rb,<br> lib/inttegro/purchase_intent/base.rb,<br> lib/inttegro/purchase_intent/page.rb,<br> lib/inttegro/refund/page_response.rb,<br> lib/inttegro/resources/broadcasts.rb,<br> lib/inttegro/resources/file_links.rb,<br> lib/inttegro/secret_key/generated.rb,<br> lib/inttegro/secret_key/usage_row.rb,<br> lib/inttegro/shared/error_payload.rb,<br> lib/inttegro/shared/fee_line_item.rb,<br> lib/inttegro/upload_request/actor.rb,<br> lib/inttegro/app/relationship_kind.rb,<br> lib/inttegro/checkout/invoice_view.rb,<br> lib/inttegro/checkout/order_status.rb,<br> lib/inttegro/customer/page_request.rb,<br> lib/inttegro/file/contents_request.rb,<br> lib/inttegro/file/storage_encoding.rb,<br> lib/inttegro/message_template/base.rb,<br> lib/inttegro/message_template/page.rb,<br> lib/inttegro/order/document_format.rb,<br> lib/inttegro/order/line_item_group.rb,<br> lib/inttegro/otp/initiate_response.rb,<br> lib/inttegro/payment/result_status.rb,<br> lib/inttegro/payout/cancel_request.rb,<br> lib/inttegro/payout/lookup_request.rb,<br> lib/inttegro/product/page_response.rb,<br> lib/inttegro/product/price_summary.rb,<br> lib/inttegro/product/shipment_type.rb,<br> lib/inttegro/purchase_intent/price.rb,<br> lib/inttegro/purchase_intent/usage.rb,<br> lib/inttegro/refund/cancel_request.rb,<br> lib/inttegro/refund/create_request.rb,<br> lib/inttegro/refund/lookup_request.rb,<br> lib/inttegro/secret_key/secret_key.rb,<br> lib/inttegro/secret_key/token_type.rb,<br> lib/inttegro/secret_key/usage_page.rb,<br> lib/inttegro/shared/error_envelope.rb,<br> lib/inttegro/upload_request/review.rb,<br> lib/inttegro/upload_request/status.rb,<br> lib/inttegro/balance/lookup_request.rb,<br> lib/inttegro/checkout/order_payment.rb,<br> lib/inttegro/chime/inline_recipient.rb,<br> lib/inttegro/chime/recipient_detail.rb,<br> lib/inttegro/customer/address_input.rb,<br> lib/inttegro/customer/balance_value.rb,<br> lib/inttegro/customer/page_response.rb,<br> lib/inttegro/file_link/page_request.rb,<br> lib/inttegro/financial_account/bank.rb,<br> lib/inttegro/financial_account/base.rb,<br> lib/inttegro/financial_account/page.rb,<br> lib/inttegro/financial_account/type.rb,<br> lib/inttegro/order/complete_request.rb,<br> lib/inttegro/order/finalize_request.rb,<br> lib/inttegro/payment/attempt_status.rb,<br> lib/inttegro/payment/latest_attempt.rb,<br> lib/inttegro/payment/payment_method.rb,<br> lib/inttegro/payout/cancel_response.rb,<br> lib/inttegro/payout/lookup_response.rb,<br> lib/inttegro/payout/settings_lookup.rb,<br> lib/inttegro/price/embedded_product.rb,<br> lib/inttegro/product/action_request.rb,<br> lib/inttegro/product/create_request.rb,<br> lib/inttegro/product/inline_details.rb,<br> lib/inttegro/product/line_item_type.rb,<br> lib/inttegro/product/lookup_request.rb,<br> lib/inttegro/product/shipment_input.rb,<br> lib/inttegro/product/update_request.rb,<br> lib/inttegro/purchase_intent/status.rb,<br> lib/inttegro/schedule/cancel_detail.rb,<br> lib/inttegro/schedule/chime_request.rb,<br> lib/inttegro/secret_key/auth_result.rb,<br> lib/inttegro/shared/billing_details.rb,<br> lib/inttegro/shared/resource_supply.rb,<br> lib/inttegro/upload_request/attempt.rb,<br> lib/inttegro/upload_request/details.rb,<br> lib/inttegro/upload_request/display.rb,<br> lib/inttegro/app/relationship_policy.rb,<br> lib/inttegro/app/relationship_status.rb,<br> lib/inttegro/broadcast/cancel_detail.rb,<br> lib/inttegro/checkout/order_customer.rb,<br> lib/inttegro/checkout/order_response.rb,<br> lib/inttegro/chime/email_schema_kind.rb,<br> lib/inttegro/customer/create_request.rb,<br> lib/inttegro/customer/lookup_request.rb,<br> lib/inttegro/customer/update_request.rb,<br> lib/inttegro/file_link/delivery_mode.rb,<br> lib/inttegro/file_link/page_response.rb,<br> lib/inttegro/financial_account/owner.rb,<br> lib/inttegro/message_template/status.rb,<br> lib/inttegro/order/checkout_settings.rb,<br> lib/inttegro/order/complete_envelope.rb,<br> lib/inttegro/order/document_delivery.rb,<br> lib/inttegro/order/fee_line_item_fee.rb,<br> lib/inttegro/order/finalize_envelope.rb,<br> lib/inttegro/order/product_line_item.rb,<br> lib/inttegro/otp/transmission_status.rb,<br> lib/inttegro/payment/billing_details.rb,<br> lib/inttegro/payment/confirm_request.rb,<br> lib/inttegro/payment_method/deletion.rb,<br> lib/inttegro/payment_method/settings.rb,<br> lib/inttegro/payment_method/supplied.rb,<br> lib/inttegro/product/update_response.rb,<br> lib/inttegro/purchase_intent/product.rb,<br> lib/inttegro/purchase_intent/variant.rb,<br> lib/inttegro/refund/create_line_item.rb,<br> lib/inttegro/schedule/cancel_request.rb,<br> lib/inttegro/schedule/lookup_request.rb,<br> lib/inttegro/schedule/payout_request.rb,<br> lib/inttegro/secret_key/page_request.rb,<br> lib/inttegro/shared/delivery_channel.rb,<br> lib/inttegro/shared/invoice_settings.rb,<br> lib/inttegro/shared/shipping_details.rb,<br> lib/inttegro/upload_request/attempts.rb,<br> lib/inttegro/upload_request/response.rb,<br> lib/inttegro/balance_transaction/base.rb,<br> lib/inttegro/balance_transaction/page.rb,<br> lib/inttegro/balance_transaction/type.rb,<br> lib/inttegro/broadcast/cancel_request.rb,<br> lib/inttegro/broadcast/lookup_request.rb,<br> lib/inttegro/checkout/billing_details.rb,<br> lib/inttegro/checkout/payment_address.rb,<br> lib/inttegro/chime/email_scanned_link.rb,<br> lib/inttegro/file_link/access_request.rb,<br> lib/inttegro/file_link/create_request.rb,<br> lib/inttegro/file_link/lookup_request.rb,<br> lib/inttegro/file_link/revoke_request.rb,<br> lib/inttegro/financial_account/wallet.rb,<br> lib/inttegro/message_template/channel.rb,<br> lib/inttegro/message_template/mailbox.rb,<br> lib/inttegro/message_template/preview.rb,<br> lib/inttegro/order/discount_line_item.rb,<br> lib/inttegro/order/fee_line_item_type.rb,<br> lib/inttegro/order/shipping_line_item.rb,<br> lib/inttegro/otp/verification_attempt.rb,<br> lib/inttegro/otp/verification_verdict.rb,<br> lib/inttegro/payment/next_action_type.rb,<br> lib/inttegro/payment_method/data_type.rb,<br> lib/inttegro/payment_method/questions.rb,<br> lib/inttegro/payout/settings_mutation.rb,<br> lib/inttegro/purchase_intent/activity.rb,<br> lib/inttegro/purchase_intent/merchant.rb,<br> lib/inttegro/purchase_intent/quantity.rb,<br> lib/inttegro/purchase_intent/response.rb,<br> lib/inttegro/schedule/cancel_response.rb,<br> lib/inttegro/schedule/creation_detail.rb,<br> lib/inttegro/schedule/lookup_response.rb,<br> lib/inttegro/schedule/payout_response.rb,<br> lib/inttegro/secret_key/page_response.rb,<br> lib/inttegro/secret_key/usage_request.rb,<br> lib/inttegro/balance/currency_snapshot.rb,<br> lib/inttegro/balance/snapshot_response.rb,<br> lib/inttegro/broadcast/cancel_response.rb,<br> lib/inttegro/broadcast/creation_detail.rb,<br> lib/inttegro/broadcast/lookup_response.rb,<br> lib/inttegro/chime/email_message_input.rb,<br> lib/inttegro/chime/email_safety_result.rb,<br> lib/inttegro/chime/email_schema_markup.rb,<br> lib/inttegro/financial_account/address.rb,<br> lib/inttegro/financial_account/compact.rb,<br> lib/inttegro/financial_account/created.rb,<br> lib/inttegro/financial_account/details.rb,<br> lib/inttegro/financial_account/mandate.rb,<br> lib/inttegro/financial_account/updated.rb,<br> lib/inttegro/message_template/envelope.rb,<br> lib/inttegro/message_template/rendered.rb,<br> lib/inttegro/message_template/variable.rb,<br> lib/inttegro/order/create_new_customer.rb,<br> lib/inttegro/otp/transmission_sent_via.rb,<br> lib/inttegro/product/add_price_request.rb,<br> lib/inttegro/product/dimensions_custom.rb,<br> lib/inttegro/purchase_intent/questions.rb,<br> lib/inttegro/resources/file_references.rb,<br> lib/inttegro/resources/payment_methods.rb,<br> lib/inttegro/resources/upload_requests.rb,<br> lib/inttegro/secret_key/lookup_request.rb,<br> lib/inttegro/secret_key/update_request.rb,<br> lib/inttegro/shared/fee_line_item_type.rb,<br> lib/inttegro/shared/shipping_line_item.rb,<br> lib/inttegro/shared/upload_fulfillment.rb,<br> lib/inttegro/shared/upload_review_type.rb,<br> lib/inttegro/balance_transaction/amount.rb,<br> lib/inttegro/checkout/mobile_money_data.rb,<br> lib/inttegro/message_template/reference.rb,<br> lib/inttegro/message_template/variables.rb,<br> lib/inttegro/payment_method/owner_input.rb,<br> lib/inttegro/price/catalog_price_params.rb,<br> lib/inttegro/product/add_price_response.rb,<br> lib/inttegro/product/dimensions_digital.rb,<br> lib/inttegro/resources/purchase_intents.rb,<br> lib/inttegro/secret_key/destroy_request.rb,<br> lib/inttegro/secret_key/lookup_response.rb,<br> lib/inttegro/secret_key/update_response.rb,<br> lib/inttegro/shared/country_bank_branch.rb,<br> lib/inttegro/upload_request/constraints.rb,<br> lib/inttegro/checkout/order_created_from.rb,<br> lib/inttegro/file/contents_delivery_mode.rb,<br> lib/inttegro/file/service_ready_response.rb,<br> lib/inttegro/financial_account/connected.rb,<br> lib/inttegro/financial_account/wire_page.rb,<br> lib/inttegro/message_template/id_request.rb,<br> lib/inttegro/payment_method/bank_account.rb,<br> lib/inttegro/payment_method/mobile_money.rb,<br> lib/inttegro/payment_method/page_request.rb,<br> lib/inttegro/payment_method/type_setting.rb,<br> lib/inttegro/payment_method/verification.rb,<br> lib/inttegro/payout/get_settings_request.rb,<br> lib/inttegro/product/dimensions_physical.rb,<br> lib/inttegro/product/shipment_input_type.rb,<br> lib/inttegro/purchase_intent/usage_order.rb,<br> lib/inttegro/purchase_intent/variant_set.rb,<br> lib/inttegro/resources/message_templates.rb,<br> lib/inttegro/secret_key/destroy_response.rb,<br> lib/inttegro/secret_key/generate_request.rb,<br> lib/inttegro/shared/mobile_money_network.rb,<br> lib/inttegro/upload_request/latest_error.rb,<br> lib/inttegro/upload_request/page_request.rb,<br> lib/inttegro/balance_transaction/response.rb,<br> lib/inttegro/checkout/invoice_view_format.rb,<br> lib/inttegro/checkout/invoice_view_status.rb,<br> lib/inttegro/checkout/payment_method_data.rb,<br> lib/inttegro/chime/recipient_detail_email.rb,<br> lib/inttegro/chime/recipient_detail_phone.rb,<br> lib/inttegro/file/service_health_response.rb,<br> lib/inttegro/financial_account/id_request.rb,<br> lib/inttegro/message_template/sms_content.rb,<br> lib/inttegro/order/product_line_item_type.rb,<br> lib/inttegro/payment/confirmation_channel.rb,<br> lib/inttegro/payment/latest_attempt_error.rb,<br> lib/inttegro/payment/next_action_redirect.rb,<br> lib/inttegro/payment/payout_configuration.rb,<br> lib/inttegro/payment_method/owner_address.rb,<br> lib/inttegro/payment_method/page_response.rb,<br> lib/inttegro/payment_method/tokenize_base.rb,<br> lib/inttegro/payout/get_settings_response.rb,<br> lib/inttegro/purchase_intent/activity_log.rb,<br> lib/inttegro/purchase_intent/page_request.rb,<br> lib/inttegro/purchase_intent/variant_axis.rb,<br> lib/inttegro/resources/financial_accounts.rb,<br> lib/inttegro/secret_key/generate_response.rb,<br> lib/inttegro/shared/content_safety_status.rb,<br> lib/inttegro/shared/country_specification.rb,<br> lib/inttegro/shared/financial_institution.rb,<br> lib/inttegro/upload_request/page_response.rb,<br> lib/inttegro/upload_request/review_reason.rb,<br> lib/inttegro/balance_transaction/questions.rb,<br> lib/inttegro/file_reference/reconciliation.rb,<br> lib/inttegro/financial_account/owner_input.rb,<br> lib/inttegro/message_template/page_request.rb,<br> lib/inttegro/message_template/rendered_sms.rb,<br> lib/inttegro/message_template/scanned_link.rb,<br> lib/inttegro/order/discount_line_item_type.rb,<br> lib/inttegro/order/payout_settings_request.rb,<br> lib/inttegro/order/shipping_line_item_type.rb,<br> lib/inttegro/payment/billing_details_owner.rb,<br> lib/inttegro/payment/method_snapshot_owner.rb,<br> lib/inttegro/payment/next_action_authorize.rb,<br> lib/inttegro/payment_method/lookup_request.rb,<br> lib/inttegro/payment_method/payment_method.rb,<br> lib/inttegro/payment_method/update_request.rb,<br> lib/inttegro/purchase_intent/activity_type.rb,<br> lib/inttegro/purchase_intent/page_response.rb,<br> lib/inttegro/shared/country_bank_directory.rb,<br> lib/inttegro/shared/country_specifications.rb,<br> lib/inttegro/shared/upload_review_decision.rb,<br> lib/inttegro/upload_request/cancel_request.rb,<br> lib/inttegro/upload_request/create_request.rb,<br> lib/inttegro/upload_request/lookup_request.rb,<br> lib/inttegro/upload_request/upload_request.rb,<br> lib/inttegro/broadcast/request_request_meta.rb,<br> lib/inttegro/checkout/order_line_item_group.rb,<br> lib/inttegro/chime/saved_customer_recipient.rb,<br> lib/inttegro/financial_account/bank_request.rb,<br> lib/inttegro/financial_account/created_bank.rb,<br> lib/inttegro/financial_account/dosh_request.rb,<br> lib/inttegro/financial_account/request_base.rb,<br> lib/inttegro/financial_account/updated_bank.rb,<br> lib/inttegro/financial_account/verification.rb,<br> lib/inttegro/message_template/create_fields.rb,<br> lib/inttegro/message_template/email_content.rb,<br> lib/inttegro/message_template/page_envelope.rb,<br> lib/inttegro/message_template/safety_result.rb,<br> lib/inttegro/message_template/variable_item.rb,<br> lib/inttegro/message_template/variable_type.rb,<br> lib/inttegro/money/currency_deserialization.rb,<br> lib/inttegro/order/create_existing_customer.rb,<br> lib/inttegro/order/document_delivery_result.rb,<br> lib/inttegro/payment_method/archive_request.rb,<br> lib/inttegro/payment_method/lookup_response.rb,<br> lib/inttegro/payment_method/update_response.rb,<br> lib/inttegro/purchase_intent/cancel_request.rb,<br> lib/inttegro/purchase_intent/create_request.rb,<br> lib/inttegro/purchase_intent/lookup_request.rb,<br> lib/inttegro/purchase_intent/original_price.rb,<br> lib/inttegro/purchase_intent/update_request.rb,<br> lib/inttegro/resources/balance_transactions.rb,<br> lib/inttegro/shared/shipping_line_item_type.rb,<br> lib/inttegro/upload_request/fulfill_request.rb,<br> lib/inttegro/bank_account/ghana_bank_account.rb,<br> lib/inttegro/chime/inline_recipient_variant1.rb,<br> lib/inttegro/chime/inline_recipient_variant2.rb,<br> lib/inttegro/chime/send_request_request_meta.rb,<br> lib/inttegro/financial_account/created_owner.rb,<br> lib/inttegro/financial_account/page_response.rb,<br> lib/inttegro/financial_account/updated_owner.rb,<br> lib/inttegro/message_template/attachment_ids.rb,<br> lib/inttegro/message_template/create_request.rb,<br> lib/inttegro/message_template/rendered_email.rb,<br> lib/inttegro/message_template/update_request.rb,<br> lib/inttegro/message_template/variable_input.rb,<br> lib/inttegro/order/document_delivery_attempt.rb,<br> lib/inttegro/order/document_delivery_failure.rb,<br> lib/inttegro/order/document_delivery_request.rb,<br> lib/inttegro/order/product_line_item_product.rb,<br> lib/inttegro/otp/verification_attempt_result.rb,<br> lib/inttegro/payment_method/activate_request.rb,<br> lib/inttegro/payment_method/archive_response.rb,<br> lib/inttegro/payout/enable_automatic_request.rb,<br> lib/inttegro/payout/set_destinations_request.rb,<br> lib/inttegro/payout/settings_lookup_schedule.rb,<br> lib/inttegro/product/catalog_with_price_data.rb,<br> lib/inttegro/purchase_intent/purchase_intent.rb,<br> lib/inttegro/upload_request/attempts_request.rb,<br> lib/inttegro/balance/currency_snapshot_refund.rb,<br> lib/inttegro/balance_transaction/page_request.rb,<br> lib/inttegro/checkout/confirm_payment_request.rb,<br> lib/inttegro/checkout/invoice_view_format_pdf.rb,<br> lib/inttegro/checkout/invoice_view_format_web.rb,<br> lib/inttegro/checkout/order_checkout_settings.rb,<br> lib/inttegro/checkout/order_reference_request.rb,<br> lib/inttegro/file_reference/reconcile_request.rb,<br> lib/inttegro/financial_account/create_request.rb,<br> lib/inttegro/financial_account/update_request.rb,<br> lib/inttegro/financial_account/updated_wallet.rb,<br> lib/inttegro/financial_account/wallet_request.rb,<br> lib/inttegro/order/created_from_resource_type.rb,<br> lib/inttegro/payment_method/activate_response.rb,<br> lib/inttegro/payment_method/data_mobile_money.rb,<br> lib/inttegro/payment_method/tokenize_response.rb,<br> lib/inttegro/payment_method/unarchive_request.rb,<br> lib/inttegro/payout/disable_automatic_request.rb,<br> lib/inttegro/payout/enable_automatic_response.rb,<br> lib/inttegro/payout/set_destinations_response.rb,<br> lib/inttegro/purchase_intent/activity_visitor.rb,<br> lib/inttegro/balance_transaction/page_response.rb,<br> lib/inttegro/checkout/invoice_view_beneficiary.rb,<br> lib/inttegro/checkout/payment_method_data_type.rb,<br> lib/inttegro/financial_account/create_response.rb,<br> lib/inttegro/financial_account/created_address.rb,<br> lib/inttegro/financial_account/disable_request.rb,<br> lib/inttegro/financial_account/lookup_response.rb,<br> lib/inttegro/financial_account/update_response.rb,<br> lib/inttegro/financial_account/updated_address.rb,<br> lib/inttegro/message_template/message_template.rb,<br> lib/inttegro/order/shipping_line_item_shipping.rb,<br> lib/inttegro/payment_method/tokenize_base_type.rb,<br> lib/inttegro/payment_method/unarchive_response.rb,<br> lib/inttegro/payout/disable_automatic_response.rb,<br> lib/inttegro/payout/settings_mutation_schedule.rb,<br> lib/inttegro/shared/financial_institution_bank.rb,<br> lib/inttegro/shared/list_country_specs_request.rb,<br> lib/inttegro/upload_request/validation_failure.rb,<br> lib/inttegro/balance/currency_snapshot_reserved.rb,<br> lib/inttegro/balance_transaction/lookup_request.rb,<br> lib/inttegro/checkout/mobile_money_data_network.rb,<br> lib/inttegro/checkout/order_payment_next_action.rb,<br> lib/inttegro/financial_account/connect_response.rb,<br> lib/inttegro/payment_method/disactivate_request.rb,<br> lib/inttegro/payment_method/owner_input_address.rb,<br> lib/inttegro/upload_request/review_reason_input.rb,<br> lib/inttegro/checkout/order_payment_latest_error.rb,<br> lib/inttegro/financial_account/bank_request_type.rb,<br> lib/inttegro/financial_account/dosh_request_type.rb,<br> lib/inttegro/financial_account/financial_account.rb,<br> lib/inttegro/message_template/create_sms_request.rb,<br> lib/inttegro/message_template/variable_item_type.rb,<br> lib/inttegro/payment/next_action_confirm_payment.rb,<br> lib/inttegro/payment_method/disactivate_response.rb,<br> lib/inttegro/payment_method/get_settings_request.rb,<br> lib/inttegro/payment_method/update_request_owner.rb,<br> lib/inttegro/schedule/chime_request_request_meta.rb,<br> lib/inttegro/shared/request_confirmation_request.rb,<br> lib/inttegro/checkout/invoice_view_format_receipt.rb,<br> lib/inttegro/chime/inline_recipient_variant1_type.rb,<br> lib/inttegro/chime/inline_recipient_variant2_type.rb,<br> lib/inttegro/financial_account/owner_update_input.rb,<br> lib/inttegro/financial_account/pull_configuration.rb,<br> lib/inttegro/financial_account/push_configuration.rb,<br> lib/inttegro/financial_account/reconnect_response.rb,<br> lib/inttegro/message_template/variable_item_input.rb,<br> lib/inttegro/payment/method_snapshot_bank_account.rb,<br> lib/inttegro/payment/method_snapshot_mobile_money.rb,<br> lib/inttegro/payment_method/get_settings_response.rb,<br> lib/inttegro/product/catalog_with_price_reference.rb,<br> lib/inttegro/purchase_intent/activity_attribution.rb,<br> lib/inttegro/purchase_intent/create_request_price.rb,<br> lib/inttegro/purchase_intent/create_request_usage.rb,<br> lib/inttegro/upload_request/with_attempt_response.rb,<br> lib/inttegro/checkout/order_payment_latest_attempt.rb,<br> lib/inttegro/checkout/order_payment_payment_method.rb,<br> lib/inttegro/chime/inline_recipient_variant1_phone.rb,<br> lib/inttegro/chime/inline_recipient_variant2_email.rb,<br> lib/inttegro/financial_account/disconnect_response.rb,<br> lib/inttegro/financial_account/enable_pull_request.rb,<br> lib/inttegro/financial_account/owner_input_address.rb,<br> lib/inttegro/financial_account/wallet_mobile_money.rb,<br> lib/inttegro/financial_account/wallet_request_type.rb,<br> lib/inttegro/message_template/create_email_request.rb,<br> lib/inttegro/upload_request/review_attempt_request.rb,<br> lib/inttegro/app/create_request_relationship_policy.rb,<br> lib/inttegro/checkout/order_payment_billing_details.rb,<br> lib/inttegro/financial_account/enable_pull_response.rb,<br> lib/inttegro/financial_account/enable_push_response.rb,<br> lib/inttegro/financial_account/page_response_inline.rb,<br> lib/inttegro/financial_account/verification_request.rb,<br> lib/inttegro/order/create_new_customer_request_meta.rb,<br> lib/inttegro/payout/settings_mutation_schedule_spec.rb,<br> lib/inttegro/product/set_default_unit_price_request.rb,<br> lib/inttegro/purchase_intent/create_request_product.rb,<br> lib/inttegro/balance_transaction/balance_transaction.rb,<br> lib/inttegro/checkout/order_customer_billing_address.rb,<br> lib/inttegro/financial_account/disable_pull_response.rb,<br> lib/inttegro/financial_account/disable_push_response.rb,<br> lib/inttegro/financial_account/wallet_request_wallet.rb,<br> lib/inttegro/message_template/render_preview_request.rb,<br> lib/inttegro/purchase_intent/create_request_quantity.rb,<br> lib/inttegro/purchase_intent/product_attributes_item.rb,<br> lib/inttegro/purchase_intent/update_request_quantity.rb,<br> lib/inttegro/upload_request/validation_failure_error.rb,<br> lib/inttegro/balance_transaction/payout_configuration.rb,<br> lib/inttegro/checkout/order_customer_shipping_address.rb,<br> lib/inttegro/checkout/pay_request_payment_method_data.rb,<br> lib/inttegro/order/update_request_payment_method_data.rb,<br> lib/inttegro/payment/next_action_request_confirmation.rb,<br> lib/inttegro/payment/payout_configuration_destination.rb,<br> lib/inttegro/shared/financial_institution_bank_branch.rb,<br> lib/inttegro/financial_account/wire_page_accounts_item.rb,<br> lib/inttegro/order/payout_settings_request_destination.rb,<br> lib/inttegro/payment/next_action_redirect_latest_visit.rb,<br> lib/inttegro/payout/settings_lookup_schedule_aging_spec.rb,<br> lib/inttegro/financial_account/bank_request_bank_account.rb,<br> lib/inttegro/message_template/create_sms_request_channel.rb,<br> lib/inttegro/order/create_existing_customer_request_meta.rb,<br> lib/inttegro/order/create_new_customer_checkout_settings.rb,<br> lib/inttegro/payment/next_action_confirm_payment_attempt.rb,<br> lib/inttegro/payment/next_action_confirm_payment_request.rb,<br> lib/inttegro/payment_method/update_request_owner_address.rb,<br> lib/inttegro/upload_request/review_attempt_by_id_request.rb,<br> lib/inttegro/checkout/payment_method_data_billing_details.rb,<br> lib/inttegro/financial_account/owner_update_input_address.rb,<br> lib/inttegro/payment_method/tokenize_mobile_money_request.rb,<br> lib/inttegro/checkout/pay_request_payment_method_data_type.rb,<br> lib/inttegro/message_template/create_email_request_channel.rb,<br> lib/inttegro/order/update_request_payment_method_data_type.rb,<br> lib/inttegro/purchase_intent/create_request_price_original.rb,<br> lib/inttegro/payment_method/bank_account_ghana_bank_account.rb,<br> lib/inttegro/financial_account/financial_account_page_request.rb,<br> lib/inttegro/order/create_existing_customer_checkout_settings.rb,<br> lib/inttegro/upload_request/review_attempt_by_ordinal_request.rb,<br> lib/inttegro/financial_account/page_financial_accounts_request.rb,<br> lib/inttegro/financial_account/request_base_pull_configuration.rb,<br> lib/inttegro/financial_account/request_base_push_configuration.rb,<br> lib/inttegro/payment_method/tokenize_mobile_money_request_type.rb,<br> lib/inttegro/shared/financial_institution_mobile_money_provider.rb,<br> lib/inttegro/balance_transaction/payout_configuration_destination.rb,<br> lib/inttegro/financial_account/wallet_request_wallet_mobile_money.rb,<br> lib/inttegro/payment/next_action_request_confirmation_last_request.rb,<br> lib/inttegro/payment/method_snapshot_bank_account_ghana_bank_account.rb,<br> lib/inttegro/payment_method/tokenize_mobile_money_request_mobile_money.rb,<br> lib/inttegro/financial_account/bank_request_bank_account_ghana_bank_account.rb</span>
+
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>typed: strict</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Inttegro/Balance.html" title="Inttegro::Balance (module)">Balance</a></span>, <span class='object_link'><a href="Inttegro/BankAccount.html" title="Inttegro::BankAccount (module)">BankAccount</a></span>, <span class='object_link'><a href="Inttegro/Broadcast.html" title="Inttegro::Broadcast (module)">Broadcast</a></span>, <span class='object_link'><a href="Inttegro/Checkout.html" title="Inttegro::Checkout (module)">Checkout</a></span>, <span class='object_link'><a href="Inttegro/FileReference.html" title="Inttegro::FileReference (module)">FileReference</a></span>, <span class='object_link'><a href="Inttegro/Money.html" title="Inttegro::Money (module)">Money</a></span>, <span class='object_link'><a href="Inttegro/OTP.html" title="Inttegro::OTP (module)">OTP</a></span>, <span class='object_link'><a href="Inttegro/Operations.html" title="Inttegro::Operations (module)">Operations</a></span>, <span class='object_link'><a href="Inttegro/Resources.html" title="Inttegro::Resources (module)">Resources</a></span>, <span class='object_link'><a href="Inttegro/Schedule.html" title="Inttegro::Schedule (module)">Schedule</a></span>, <span class='object_link'><a href="Inttegro/Shared.html" title="Inttegro::Shared (module)">Shared</a></span>, <span class='object_link'><a href="Inttegro/Types.html" title="Inttegro::Types (module)">Types</a></span>, <span class='object_link'><a href="Inttegro/Wallet.html" title="Inttegro::Wallet (module)">Wallet</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Inttegro/APIError.html" title="Inttegro::APIError (class)">APIError</a></span>, <span class='object_link'><a href="Inttegro/APIErrorReportContext.html" title="Inttegro::APIErrorReportContext (class)">APIErrorReportContext</a></span>, <span class='object_link'><a href="Inttegro/Application.html" title="Inttegro::Application (class)">Application</a></span>, <span class='object_link'><a href="Inttegro/AuthenticationError.html" title="Inttegro::AuthenticationError (class)">AuthenticationError</a></span>, <span class='object_link'><a href="Inttegro/BalanceTransaction.html" title="Inttegro::BalanceTransaction (class)">BalanceTransaction</a></span>, <span class='object_link'><a href="Inttegro/Chime.html" title="Inttegro::Chime (class)">Chime</a></span>, <span class='object_link'><a href="Inttegro/Client.html" title="Inttegro::Client (class)">Client</a></span>, <span class='object_link'><a href="Inttegro/Customer.html" title="Inttegro::Customer (class)">Customer</a></span>, <span class='object_link'><a href="Inttegro/Error.html" title="Inttegro::Error (class)">Error</a></span>, <span class='object_link'><a href="Inttegro/ErrorReport.html" title="Inttegro::ErrorReport (class)">ErrorReport</a></span>, <span class='object_link'><a href="Inttegro/File.html" title="Inttegro::File (class)">File</a></span>, <span class='object_link'><a href="Inttegro/FileDownload.html" title="Inttegro::FileDownload (class)">FileDownload</a></span>, <span class='object_link'><a href="Inttegro/FileLink.html" title="Inttegro::FileLink (class)">FileLink</a></span>, <span class='object_link'><a href="Inttegro/FinancialAccount.html" title="Inttegro::FinancialAccount (class)">FinancialAccount</a></span>, <span class='object_link'><a href="Inttegro/HTTPClient.html" title="Inttegro::HTTPClient (class)">HTTPClient</a></span>, <span class='object_link'><a href="Inttegro/HTTPReportContext.html" title="Inttegro::HTTPReportContext (class)">HTTPReportContext</a></span>, <span class='object_link'><a href="Inttegro/MessageTemplate.html" title="Inttegro::MessageTemplate (class)">MessageTemplate</a></span>, <span class='object_link'><a href="Inttegro/NetworkError.html" title="Inttegro::NetworkError (class)">NetworkError</a></span>, <span class='object_link'><a href="Inttegro/Order.html" title="Inttegro::Order (class)">Order</a></span>, <span class='object_link'><a href="Inttegro/Payment.html" title="Inttegro::Payment (class)">Payment</a></span>, <span class='object_link'><a href="Inttegro/PaymentMethod.html" title="Inttegro::PaymentMethod (class)">PaymentMethod</a></span>, <span class='object_link'><a href="Inttegro/Payout.html" title="Inttegro::Payout (class)">Payout</a></span>, <span class='object_link'><a href="Inttegro/Price.html" title="Inttegro::Price (class)">Price</a></span>, <span class='object_link'><a href="Inttegro/Product.html" title="Inttegro::Product (class)">Product</a></span>, <span class='object_link'><a href="Inttegro/PurchaseIntent.html" title="Inttegro::PurchaseIntent (class)">PurchaseIntent</a></span>, <span class='object_link'><a href="Inttegro/RateLimitError.html" title="Inttegro::RateLimitError (class)">RateLimitError</a></span>, <span class='object_link'><a href="Inttegro/Refund.html" title="Inttegro::Refund (class)">Refund</a></span>, <span class='object_link'><a href="Inttegro/ResponseObject.html" title="Inttegro::ResponseObject (class)">ResponseObject</a></span>, <span class='object_link'><a href="Inttegro/SDKReportContext.html" title="Inttegro::SDKReportContext (class)">SDKReportContext</a></span>, <span class='object_link'><a href="Inttegro/SecretKey.html" title="Inttegro::SecretKey (class)">SecretKey</a></span>, <span class='object_link'><a href="Inttegro/TimeoutError.html" title="Inttegro::TimeoutError (class)">TimeoutError</a></span>, <span class='object_link'><a href="Inttegro/TraceReportContext.html" title="Inttegro::TraceReportContext (class)">TraceReportContext</a></span>, <span class='object_link'><a href="Inttegro/TransportResponse.html" title="Inttegro::TransportResponse (class)">TransportResponse</a></span>, <span class='object_link'><a href="Inttegro/UploadRequest.html" title="Inttegro::UploadRequest (class)">UploadRequest</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>6.0.1</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="DEFAULT_BASE_URL-constant" class="">DEFAULT_BASE_URL =
+          
+        </dt>
+        <dd><pre class="code"><span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_let'>let</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://api.inttegro.com</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>String</span><span class='rparen'>)</span></pre></dd>
+      
+        <dt id="ErrorReporter-constant" class="">ErrorReporter =
+          
+        </dt>
+        <dd><pre class="code"><span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_type_alias'>type_alias</span> <span class='lbrace'>{</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_proc'>proc</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='lparen'>(</span><span class='label'>report:</span> <span class='const'><span class='object_link'><a href="Inttegro/ErrorReport.html" title="Inttegro::ErrorReport (class)">ErrorReport</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_void'>void</span> <span class='rbrace'>}</span></pre></dd>
+      
+        <dt id="TEMPORAL_FIELDS-constant" class="">TEMPORAL_FIELDS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Field names whose OpenAPI values are RFC 3339 timestamps rather than opaque strings.</p>
+<p>The deserializer uses this allowlist only after it has entered a generated model payload.
+Timestamp-like strings inside merchant-controlled metadata remain unchanged.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_let'>let</span><span class='lparen'>(</span><span class='qwords_beg'>%w[</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>after</span><span class='words_sep'> </span><span class='tstring_content'>archived_at</span><span class='words_sep'> </span><span class='tstring_content'>as_of</span><span class='words_sep'> </span><span class='tstring_content'>at</span><span class='words_sep'> </span><span class='tstring_content'>attempted_at</span><span class='words_sep'> </span><span class='tstring_content'>available_at</span><span class='words_sep'> </span><span class='tstring_content'>canceled_at</span><span class='words_sep'> </span><span class='tstring_content'>checked_at</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>claimed_at</span><span class='words_sep'> </span><span class='tstring_content'>completed_at</span><span class='words_sep'> </span><span class='tstring_content'>created_after</span><span class='words_sep'> </span><span class='tstring_content'>created_at</span><span class='words_sep'> </span><span class='tstring_content'>created_before</span><span class='words_sep'> </span><span class='tstring_content'>deleted_at</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>delivered_at</span><span class='words_sep'> </span><span class='tstring_content'>disconnected_at</span><span class='words_sep'> </span><span class='tstring_content'>due_at</span><span class='words_sep'> </span><span class='tstring_content'>enabled_at</span><span class='words_sep'> </span><span class='tstring_content'>execute_after</span><span class='words_sep'> </span><span class='tstring_content'>executed_at</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>expected_at</span><span class='words_sep'> </span><span class='tstring_content'>expired_at</span><span class='words_sep'> </span><span class='tstring_content'>expires_at</span><span class='words_sep'> </span><span class='tstring_content'>expires_on</span><span class='words_sep'> </span><span class='tstring_content'>failed_at</span><span class='words_sep'> </span><span class='tstring_content'>fulfilled_at</span><span class='words_sep'> </span><span class='tstring_content'>inactive_at</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>includes_transactions_before</span><span class='words_sep'> </span><span class='tstring_content'>initialized_at</span><span class='words_sep'> </span><span class='tstring_content'>initiated_at</span><span class='words_sep'> </span><span class='tstring_content'>issued_at</span><span class='words_sep'> </span><span class='tstring_content'>last_accessed_at</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>last_attempted_at</span><span class='words_sep'> </span><span class='tstring_content'>last_email_event_at</span><span class='words_sep'> </span><span class='tstring_content'>last_used_at</span><span class='words_sep'> </span><span class='tstring_content'>occurred_at</span><span class='words_sep'> </span><span class='tstring_content'>paid_at</span><span class='words_sep'> </span><span class='tstring_content'>payment_due_at</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>processing_at</span><span class='words_sep'> </span><span class='tstring_content'>published_at</span><span class='words_sep'> </span><span class='tstring_content'>queued_at</span><span class='words_sep'> </span><span class='tstring_content'>reviewed_at</span><span class='words_sep'> </span><span class='tstring_content'>revoked_at</span><span class='words_sep'> </span><span class='tstring_content'>scheduled_at</span><span class='words_sep'> </span><span class='tstring_content'>sealed_at</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>send_after</span><span class='words_sep'> </span><span class='tstring_content'>sent_at</span><span class='words_sep'> </span><span class='tstring_content'>succeeded_at</span><span class='words_sep'> </span><span class='tstring_content'>supplied_at</span><span class='words_sep'> </span><span class='tstring_content'>suppressed_at</span><span class='words_sep'> </span><span class='tstring_content'>token_sent_at</span><span class='words_sep'> </span><span class='tstring_content'>updated_at</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>uploading_at</span><span class='words_sep'> </span><span class='tstring_content'>valid_until</span><span class='words_sep'> </span><span class='tstring_content'>verified_at</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_to_set'>to_set</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Set</span><span class='lbracket'>[</span><span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span></pre></dd>
+      
+        <dt id="OPAQUE_TIMESTAMP_CONTAINERS-constant" class="">OPAQUE_TIMESTAMP_CONTAINERS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Containers whose contents belong to the caller and must not be interpreted as model fields.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_let'>let</span><span class='lparen'>(</span><span class='qwords_beg'>%w[</span><span class='words_sep'>
+</span><span class='words_sep'>  </span><span class='tstring_content'>custom_data</span><span class='words_sep'> </span><span class='tstring_content'>details</span><span class='words_sep'> </span><span class='tstring_content'>headers</span><span class='words_sep'> </span><span class='tstring_content'>json_ld</span><span class='words_sep'> </span><span class='tstring_content'>mandate</span><span class='words_sep'> </span><span class='tstring_content'>metadata</span><span class='words_sep'> </span><span class='tstring_content'>variables</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_to_set'>to_set</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span><span class='comma'>,</span> <span class='const'>T</span><span class='op'>::</span><span class='const'>Set</span><span class='lbracket'>[</span><span class='const'>String</span><span class='rbracket'>]</span><span class='rparen'>)</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#deserialize-class_method" title="deserialize (class method)">.<strong>deserialize</strong>(value, klass)  &#x21d2; T::Struct </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Decode a JSON-compatible API object into a generated Sorbet model.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+    
+  
+
+
+  
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="deserialize-class_method">
+  
+    .<strong>deserialize</strong>(value, klass)  &#x21d2; <tt>T::Struct</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Decode a JSON-compatible API object into a generated Sorbet model.</p>
+<p>Keys are normalized to strings and known RFC 3339 timestamp fields are converted to
+<code>Time</code> instances before Sorbet validates the declared model shape. Arbitrary data stored
+in metadata-like containers is preserved verbatim.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>T::Struct</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>string- or symbol-keyed API data to decode</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>klass</span>
+      
+      
+        <span class='type'>(<tt>Class&lt;T::Struct&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>generated model class that describes the payload</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>T::Struct</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an instance of <code>klass</code></p></div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>TypeError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if <code>value</code> is not an object after normalization</p></div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if a recognized timestamp lacks an explicit UTC offset</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inttegro/model_serialization.rb', line 43</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_deserialize'>deserialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_stringify_json_keys'>stringify_json_keys</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='label'>decode_timestamps:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>expected an object for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_klass'>klass</span><span class='embexpr_end'>}</span><span class='tstring_content'>, got </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+
+  <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_cast'>cast</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_class_of'>class_of</span><span class='lparen'>(</span><span class='const'>T</span><span class='op'>::</span><span class='const'>Struct</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Fri Sep 11 10:51:46 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.3.12).
+</div>
+
+    </div>
+  </body>
+</html>

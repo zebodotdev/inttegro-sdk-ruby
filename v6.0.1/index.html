@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Inttegro Ruby SDK
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="Inttegro_Ruby_SDK">Inttegro Ruby SDK</h1>
+<p><a href="https://scorecard.dev/viewer/?uri=github.com/zebodotdev/inttegro-sdk-ruby"><img src="https://api.scorecard.dev/projects/github.com/zebodotdev/inttegro-sdk-ruby/badge" alt="OpenSSF Scorecard" /></a></p>
+<p>The official Ruby client for building server-side Inttegro integrations.</p>
+<p><a href="https://ruby.inttegro.dev/">API documentation</a> · <a href="https://studio.inttegro.com/sdks/ruby">Integration guides</a></p>
+<blockquote>
+<p><strong>Fastest, most modern path:</strong> connect an agent to <a href="https://studio.inttegro.com/inttegro-mcp">Inttegro MCP</a> at <code>https://mcp.inttegro.com</code>, then ask it to run <code>design_integration</code>. It will produce an implementation and test plan for your application. Use this SDK when you are ready to connect that plan to your Ruby service.</p>
+</blockquote>
+<p>All official Inttegro SDKs expose the same API capabilities. This gem adds strict Sorbet types and Ruby-native resource methods.</p>
+<h2 id="Install">Install</h2>
+<p>Requires Ruby 3.0 or newer.</p>
+<pre class="code bash"><code class="bash">bundle add inttegro
+</code></pre>
+<p>Store your secret key in the server environment:</p>
+<pre class="code bash"><code class="bash">export INTTEGRO_API_KEY=&quot;your_secret_key&quot;
+</code></pre>
+<p>Never put the key in browser code, a mobile app, or source control. The client uses <code>https://api.inttegro.com</code> by default.</p>
+<h2 id="Create_a_hosted_checkout">Create a hosted checkout</h2>
+<p>Create and finalize an order, then send the customer to its hosted invoice URL:</p>
+<pre class="code ruby"><code class="ruby"><span class='comment'># typed: strict
+</span>
+<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>inttegro</span><span class='tstring_end'>&quot;</span></span>
+
+<span class='id identifier rubyid_inttegro'>inttegro</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Client.html" title="Inttegro::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Inttegro/Client.html#initialize-instance_method" title="Inttegro::Client#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>api_key:</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>INTTEGRO_API_KEY</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+<span class='kw'>begin</span>
+  <span class='id identifier rubyid_order'>order</span> <span class='op'>=</span> <span class='id identifier rubyid_inttegro'>inttegro</span><span class='period'>.</span><span class='id identifier rubyid_orders'>orders</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span>
+    <span class='label'>request_meta:</span> <span class='lbrace'>{</span> <span class='label'>idempotency_key:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>checkout-cart-123</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='label'>customer_data:</span> <span class='lbrace'>{</span>
+      <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Akua Mensah</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>email_address:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>akua@example.com</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>phone_number:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>+233544998605</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='label'>finalize:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>checkout_settings:</span> <span class='lbrace'>{</span>
+      <span class='label'>redirect_url:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://example.com/orders/complete</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>cancel_url:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://example.com/cart</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='label'>line_items:</span> <span class='lbracket'>[</span><span class='lbrace'>{</span>
+      <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>product</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>product:</span> <span class='lbrace'>{</span>
+        <span class='label'>type:</span> <span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product.html" title="Inttegro::Product (class)">Product</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product/Type.html" title="Inttegro::Product::Type (class)">Type</a></span></span><span class='op'>::</span><span class='const'>DIGITAL</span><span class='comma'>,</span>
+        <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Monthly subscription</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+        <span class='label'>quantity:</span> <span class='int'>1</span><span class='comma'>,</span>
+        <span class='label'>price:</span> <span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Price.html" title="Inttegro::Price (class)">Price</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Price/PriceParams.html" title="Inttegro::Price::PriceParams (class)">PriceParams</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+          <span class='label'>currency:</span> <span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Money.html" title="Inttegro::Money (module)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Money/Currency.html" title="Inttegro::Money::Currency (class)">Currency</a></span></span><span class='op'>::</span><span class='const'>GHS</span><span class='comma'>,</span>
+          <span class='label'>value:</span> <span class='int'>5000</span>
+        <span class='rparen'>)</span>
+      <span class='rbrace'>}</span>
+    <span class='rbrace'>}</span><span class='rbracket'>]</span>
+  <span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_checkout_url'>checkout_url</span> <span class='op'>=</span> <span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_invoice'>invoice</span><span class='op'>&amp;.</span><span class='id identifier rubyid_format_value'>format_value</span><span class='op'>&amp;.</span><span class='id identifier rubyid_web'>web</span><span class='op'>&amp;.</span><span class='id identifier rubyid_url'>url</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Order did not include a checkout URL</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_checkout_url'>checkout_url</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_checkout_url'>checkout_url</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/APIError.html" title="Inttegro::APIError (class)">APIError</a></span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_error'>error</span>
+  <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_error'>error</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>api_error</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_error'>error</span><span class='period'>.</span><span class='id identifier rubyid_detail'>detail</span> <span class='op'>||</span> <span class='id identifier rubyid_error'>error</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_raise'>raise</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>Amounts use integer minor units: <code>5000</code> GHS is GHS 50.00. Reuse the same idempotency key when retrying the same logical write. If you omit one, the SDK generates a UUIDv7 key for mutating calls.</p>
+<h2 id="Observe_SDK_operations">Observe SDK operations</h2>
+<p>The SDK emits vendor-neutral OpenTelemetry spans through your application's provider. It never configures an exporter or sends telemetry by itself. Configure OpenTelemetry before creating the client:</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>opentelemetry/sdk</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>inttegro</span><span class='tstring_end'>&quot;</span></span>
+
+<span class='const'>OpenTelemetry</span><span class='op'>::</span><span class='const'>SDK</span><span class='period'>.</span><span class='id identifier rubyid_configure'>configure</span>
+<span class='id identifier rubyid_inttegro'>inttegro</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Client.html" title="Inttegro::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Inttegro/Client.html#initialize-instance_method" title="Inttegro::Client#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>api_key:</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>INTTEGRO_API_KEY</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+</code></pre>
+<p>Spans are named after logical operations such as <code>inttegro.orders.create</code>. HTTP attempts, response receipt, and decoding are span events. API keys, bodies, resource IDs, dynamic URLs, and exception messages are never recorded. See <a href="https://studio.inttegro.com/sdk-observability">SDK observability</a> for the complete contract and set <code>telemetry_enabled: false</code> when needed.</p>
+<h3 id="Report_SDK_failures">Report SDK failures</h3>
+<p>Provide an application-owned reporter to receive one immutable, typed, privacy-safe report after an SDK operation finally fails. The default <code>:unexpected</code> policy reports transport, timeout, decoding, SDK, <code>unknown_error</code>, and server-side failures while leaving normal 4xx API errors alone:</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_inttegro'>inttegro</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Client.html" title="Inttegro::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Inttegro/Client.html#initialize-instance_method" title="Inttegro::Client#initialize (method)">new</a></span></span><span class='lparen'>(</span>
+  <span class='label'>api_key:</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>INTTEGRO_API_KEY</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='label'>error_reporter:</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_report'>report</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='const'>ErrorCollector</span><span class='period'>.</span><span class='id identifier rubyid_enqueue'>enqueue</span><span class='lparen'>(</span><span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='rparen'>)</span>
+</code></pre>
+<p>Use <code>error_reporting_policy: :all</code> to include expected API failures; cancellations are never reported. Reports contain the logical operation, static route, server host, status and request IDs when available, duration, safe API error codes, SDK identity, stable fingerprint, exception type, and trace IDs when tracing is active. They exclude credentials, headers, bodies, resource IDs, dynamic URLs, exception messages, and stack traces. Reporter failures are isolated and the original SDK error is still raised.</p>
+<p>Error reporting is completely opt-in. Without <code>error_reporter</code>, the SDK does not calculate report metadata, create an event ID or timestamp, allocate a report, or serialize a payload.</p>
+<h2 id="Work_with_the_API">Work with the API</h2>
+<p>The SDK covers orders and checkout, customers, products and prices, purchase intents, payment methods, balances, payouts and refunds, notifications, files, application settings, keys, and country specifications. Resources use snake-case readers such as <code>purchase_intents</code> and <code>payment_methods</code>.</p>
+<h3 id="Navigate_resource_models">Navigate resource models</h3>
+<p>Each primary API resource uses the matching Ruby class, while related models and enums live beneath that class. This keeps autocomplete and generated API documentation focused on the resource you are working with:</p>
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product.html" title="Inttegro::Product (class)">Product</a></span></span>                 <span class='comment'># the product returned by the API
+</span><span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product.html" title="Inttegro::Product (class)">Product</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product/Type.html" title="Inttegro::Product::Type (class)">Type</a></span></span>           <span class='comment'># product type enum
+</span><span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product.html" title="Inttegro::Product (class)">Product</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product/Dimensions.html" title="Inttegro::Product::Dimensions (class)">Dimensions</a></span></span>     <span class='comment'># related product model
+</span>
+<span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Payment.html" title="Inttegro::Payment (class)">Payment</a></span></span>                 <span class='comment'># the payment recorded on an order
+</span><span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Payment.html" title="Inttegro::Payment (class)">Payment</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Payment/Status.html" title="Inttegro::Payment::Status (class)">Status</a></span></span>         <span class='comment'># payment lifecycle enum
+</span><span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Payment.html" title="Inttegro::Payment (class)">Payment</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Payment/NextAction.html" title="Inttegro::Payment::NextAction (class)">NextAction</a></span></span>     <span class='comment'># action required to continue payment
+</span>
+<span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Refund.html" title="Inttegro::Refund (class)">Refund</a></span></span>                  <span class='comment'># a refund resource
+</span><span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Refund.html" title="Inttegro::Refund (class)">Refund</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Refund/Reason.html" title="Inttegro::Refund::Reason (class)">Reason</a></span></span>          <span class='comment'># refund reason enum
+</span><span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Refund.html" title="Inttegro::Refund (class)">Refund</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Refund/Status.html" title="Inttegro::Refund::Status (class)">Status</a></span></span>          <span class='comment'># refund lifecycle enum
+</span></code></pre>
+<p>Generated models are immutable <code>T::Struct</code> objects. Use <code>.new</code> when constructing a typed request, <code>.from_hash</code> when you already have string-keyed wire data, and <code>#serialize</code> when you need a JSON-ready hash. API responses are decoded for you by resource methods, including conversion of declared timestamps to <code>Time</code> objects.</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_product'>product</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product.html" title="Inttegro::Product (class)">Product</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>active</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>created_at</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2026-09-11T09:30:00Z</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>prod_abc123</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Field guide</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital</span><span class='tstring_end'>&quot;</span></span>
+<span class='rparen'>)</span>
+
+<span class='id identifier rubyid_product'>product</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Inttegro.html" title="Inttegro (module)">Inttegro</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product.html" title="Inttegro::Product (class)">Product</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Inttegro/Product/Type.html" title="Inttegro::Product::Type (class)">Type</a></span></span><span class='op'>::</span><span class='const'>DIGITAL</span> <span class='comment'># =&gt; true
+</span><span class='id identifier rubyid_product'>product</span><span class='period'>.</span><span class='id identifier rubyid_published?'>published?</span>                               <span class='comment'># =&gt; true when active and not archived
+</span><span class='id identifier rubyid_product'>product</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span>                               <span class='comment'># =&gt; string-keyed API data
+</span></code></pre>
+<p>Frequently needed lifecycle questions are methods on the main object: <code>payment.paid?</code>, <code>payment.required_action</code>, <code>order.terminal?</code>, <code>purchase_intent.used_order_id</code>, <code>product.published?</code>, and <code>payment_method.reusable?</code>. These methods inspect the current model only; they never make an API request. See the <a href="https://ruby.inttegro.dev/">generated API documentation</a> for every class, field, enum value, and method.</p>
+<p>Ruby-specific features:</p>
+<ul>
+<li><code>typed: strict</code> throughout the gem with signatures on every method.</li>
+<li>OpenAPI-generated <code>T::Struct</code> request and domain models for exact resource shapes.</li>
+<li>OpenAPI-generated <code>T::Enum</code> classes for public API values.</li>
+<li>Typed resource methods, binary downloads, and public RBI files included in the gem.</li>
+<li>Configurable connection/read timeouts and an injectable adapter for tests.</li>
+</ul>
+<p>Hash request payloads remain available for concise Ruby code. Sorbet applications can use the resource-scoped generated classes when they want construction-time field checks.</p>
+<p>See the <a href="https://studio.inttegro.com/api-reference">API reference</a> for request fields and lifecycle rules, <a href="https://studio.inttegro.com/errors">errors</a> for recovery guidance, and <a href="https://studio.inttegro.com/idempotency">idempotency</a> for safe retries.</p>
+<h2 id="Verify_a_release">Verify a release</h2>
+<p>The GitHub release for each version is the canonical record. It contains the exact gem uploaded to RubyGems.org, SHA-256 checksums, and GitHub and RubyGems Sigstore attestations tied to the source commit and release workflow.</p>
+<pre class="code bash"><code class="bash">sha256sum --check SHA256SUMS
+gh attestation verify inttegro-4.2.2.gem \
+  --repo zebodotdev/inttegro-sdk-ruby
+</code></pre>
+<h2 id="Develop">Develop</h2>
+<pre class="code bash"><code class="bash">bundle install
+bundle exec rake test
+bundle exec rake sorbet
+bundle exec rake openapi:check
+</code></pre></div></div>
+
+      <div id="footer">
+  Generated on Fri Sep 11 10:51:46 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.3.12).
+</div>
+
+    </div>
+  </body>
+</html>
