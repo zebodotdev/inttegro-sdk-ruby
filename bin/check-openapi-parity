@@ -31,7 +31,7 @@ errors = []
 end
 
 typed_calls = sources.scan(
-  %r{@http\.(?:post_model|post_resource|post_multipart_model|post_multipart_resource)\(\s*["'](/[a-z0-9_/-]+)["']\s*,\s*(Inttegro::[A-Za-z0-9_]+)}
+  %r{@http\.(?:post_model|post_resource|post_multipart_model|post_multipart_resource)\(\s*["'](/[a-z0-9_/-]+)["']\s*,\s*(Inttegro(?:::[A-Za-z0-9_]+)+)}
 ).to_h
 
 Inttegro::Operations::RESPONSE_MODELS.each_key do |path|

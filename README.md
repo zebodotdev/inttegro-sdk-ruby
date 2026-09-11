@@ -53,10 +53,10 @@ begin
     line_items: [{
       type: "product",
       product: {
-        type: Inttegro::ProductType::DIGITAL,
+        type: Inttegro::Product::Type::DIGITAL,
         name: "Monthly subscription",
         quantity: 1,
-        price: Inttegro::PriceParams.new(
+        price: Inttegro::Price::PriceParams.new(
           currency: Inttegro::Money::Currency::GHS,
           value: 5000
         )
@@ -108,6 +108,42 @@ Error reporting is completely opt-in. Without `error_reporter`, the SDK does not
 
 The SDK covers orders and checkout, customers, products and prices, purchase intents, payment methods, balances, payouts and refunds, notifications, files, application settings, keys, and country specifications. Resources use snake-case readers such as `purchase_intents` and `payment_methods`.
 
+### Navigate resource models
+
+Each primary API resource uses the matching Ruby class, while related models and enums live beneath that class. This keeps autocomplete and generated API documentation focused on the resource you are working with:
+
+```ruby
+Inttegro::Product                 # the product returned by the API
+Inttegro::Product::Type           # product type enum
+Inttegro::Product::Dimensions     # related product model
+
+Inttegro::Payment                 # the payment recorded on an order
+Inttegro::Payment::Status         # payment lifecycle enum
+Inttegro::Payment::NextAction     # action required to continue payment
+
+Inttegro::Refund                  # a refund resource
+Inttegro::Refund::Reason          # refund reason enum
+Inttegro::Refund::Status          # refund lifecycle enum
+```
+
+Generated models are immutable `T::Struct` objects. Use `.new` when constructing a typed request, `.from_hash` when you already have string-keyed wire data, and `#serialize` when you need a JSON-ready hash. API responses are decoded for you by resource methods, including conversion of declared timestamps to `Time` objects.
+
+```ruby
+product = Inttegro::Product.from_hash(
+  "active" => true,
+  "created_at" => "2026-09-11T09:30:00Z",
+  "id" => "prod_abc123",
+  "name" => "Field guide",
+  "type" => "digital"
+)
+
+product.type == Inttegro::Product::Type::DIGITAL # => true
+product.published?                               # => true when active and not archived
+product.serialize                               # => string-keyed API data
+```
+
+Frequently needed lifecycle questions are methods on the main object: `payment.paid?`, `payment.required_action`, `order.terminal?`, `purchase_intent.used_order_id`, `product.published?`, and `payment_method.reusable?`. These methods inspect the current model only; they never make an API request. See the [generated API documentation](https://ruby.inttegro.dev/) for every class, field, enum value, and method.
+
 Ruby-specific features:
 
 - `typed: strict` throughout the gem with signatures on every method.
@@ -116,7 +152,7 @@ Ruby-specific features:
 - Typed resource methods, binary downloads, and public RBI files included in the gem.
 - Configurable connection/read timeouts and an injectable adapter for tests.
 
-Hash request payloads remain available for concise Ruby code. Sorbet applications can use the generated classes under `Inttegro` when they want construction-time field checks.
+Hash request payloads remain available for concise Ruby code. Sorbet applications can use the resource-scoped generated classes when they want construction-time field checks.
 
 See the [API reference](https://studio.inttegro.com/api-reference) for request fields and lifecycle rules, [errors](https://studio.inttegro.com/errors) for recovery guidance, and [idempotency](https://studio.inttegro.com/idempotency) for safe retries.
 

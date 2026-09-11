@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [6.0.0] - 2026-09-11
+
+- Breaking: moved resource models and enums from the `Inttegro` root into singular resource modules such as `Inttegro::Payment::Payment`, with one public type per file.
+- Breaking: removed the obsolete root and plural-module compatibility aliases.
+- Added focused question and accessor methods for common resource state, actionability, amounts, customers, and payment methods.
+- Expanded and automatically verified the API documentation for resource types, enum values, and client operations.
+
 ## [5.0.0] - 2026-09-10
 
 - Breaking: replaced generic hashes with named models for balances, purchase intents, products, payment methods, payments, and orders.

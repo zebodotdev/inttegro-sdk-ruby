@@ -6,6 +6,41 @@ require "yaml"
 
 class OpenAPITypeGenerator
   IGNORED_LEGACY_COMPONENT_SCHEMAS = ["OrderCreateResponse"].freeze
+  PACKAGE_DEFINITIONS = {
+    "Application" => { directory: "app", tokens: %w[Application App] },
+    "BalanceTransaction" => { directory: "balance_transaction", tokens: %w[BalanceTransaction] },
+    "FinancialAccount" => { directory: "financial_account", tokens: %w[FinancialAccount] },
+    "MessageTemplate" => { directory: "message_template", tokens: %w[MessageTemplate] },
+    "PurchaseIntent" => { directory: "purchase_intent", tokens: %w[PurchaseIntent] },
+    "PaymentMethod" => { directory: "payment_method", tokens: %w[PaymentMethod] },
+    "FileReference" => { directory: "file_reference", tokens: %w[FileReference] },
+    "UploadRequest" => { directory: "upload_request", tokens: %w[UploadRequest] },
+    "FileLink" => { directory: "file_link", tokens: %w[FileLink] },
+    "SecretKey" => { directory: "secret_key", tokens: %w[SecretKey] },
+    "Checkout" => { directory: "checkout", tokens: %w[Checkout] },
+    "Product" => { directory: "product", tokens: %w[Product] },
+    "Payment" => { directory: "payment", tokens: %w[Payment] },
+    "Order" => { directory: "order", tokens: %w[Order] },
+    "Refund" => { directory: "refund", tokens: %w[Refund] },
+    "Payout" => { directory: "payout", tokens: %w[Payout] },
+    "Price" => { directory: "price", tokens: %w[CatalogPrice Price] },
+    "Customer" => { directory: "customer", tokens: %w[Customer] },
+    "Chime" => { directory: "chime", tokens: %w[Chime] },
+    "Broadcast" => { directory: "broadcast", tokens: %w[Broadcast] },
+    "Schedule" => { directory: "schedule", tokens: %w[Schedule] },
+    "OTP" => { directory: "otp", tokens: %w[OTP Otp] },
+    "Balance" => { directory: "balance", tokens: %w[Balance] },
+    "BankAccount" => { directory: "bank_account", tokens: %w[GhanaBankAccount BankAccount] },
+    "Wallet" => { directory: "wallet", tokens: %w[Wallet] },
+    "File" => { directory: "file", tokens: %w[File] },
+    "Money" => { directory: "money", tokens: [] },
+    "Shared" => { directory: "shared", tokens: [] }
+  }.freeze
+  CLASS_PACKAGES = %w[
+    Application BalanceTransaction FinancialAccount MessageTemplate PurchaseIntent
+    PaymentMethod FileLink UploadRequest SecretKey Product Payment Order Refund
+    Payout Price Customer Chime File
+  ].freeze
   MODEL_NAME_OVERRIDES = {
     "Error" => "ErrorPayload",
     "BalanceTransactionPageResponsePage" => "BalanceTransactionPage",
@@ -147,6 +182,8 @@ class OpenAPITypeGenerator
 
   Node = Struct.new(:name, :schema, :origin, keyword_init: true)
   Operation = Struct.new(:path, :operation_id, :request_type, :response_type, :binary, keyword_init: true)
+  Location = Struct.new(:package, :directory, :local_name, :class_package, keyword_init: true)
+  EnumMetadata = Struct.new(:schema, :origin, :candidate, keyword_init: true)
 
   def initialize(spec)
     @spec = spec
@@ -156,7 +193,10 @@ class OpenAPITypeGenerator
     @used_names = {}
     @enum_names = {}
     @enums = {}
+    @enum_metadata = {}
     @operations = []
+    @model_locations = {}
+    @enum_locations = {}
 
     @component_schemas.each do |name, schema|
       next if IGNORED_LEGACY_COMPONENT_SCHEMAS.include?(name)
@@ -175,15 +215,120 @@ class OpenAPITypeGenerator
   def generate
     collect_operations
     collect_nested_types
+    assign_locations
 
-    {
-      "lib/inttegro/generated/enums.rb" => render_enums,
-      "lib/inttegro/generated/models.rb" => render_models,
+    render_package_files.merge(
+      "lib/inttegro/generated/enums.rb" => render_enum_manifest,
+      "lib/inttegro/generated/models.rb" => render_model_manifest,
       "lib/inttegro/generated/operations.rb" => render_operations
-    }
+    )
   end
 
   private
+
+  def assign_locations
+    model_names = @nodes.values.reject { |node| enum_backed_node?(node) }.map(&:name)
+    entries = model_names.map { |name| [:model, name] } + @enums.keys.map { |name| [:enum, name] }
+    proposed = entries.to_h do |kind, name|
+      package = package_for_name(name)
+      [[kind, name], [package, local_name_for(name, package)]]
+    end
+
+    collisions = proposed.group_by { |_, (package, local_name)| [package, local_name] }
+      .select { |_, values| values.length > 1 }
+      .keys
+
+    entries.each do |kind, name|
+      package, local_name = proposed.fetch([kind, name])
+      local_name = name if collisions.include?([package, local_name])
+      definition = PACKAGE_DEFINITIONS.fetch(package)
+      location = Location.new(
+        package: package,
+        directory: definition.fetch(:directory),
+        local_name: local_name,
+        class_package: CLASS_PACKAGES.include?(package)
+      )
+      (kind == :model ? @model_locations : @enum_locations)[name] = location
+    end
+
+    duplicate_constants = (@model_locations.to_a.map { |name, location| [qualified_name(name, location), [:model, name]] } +
+      @enum_locations.to_a.map { |name, location| [qualified_name(name, location), [:enum, name]] })
+      .group_by(&:first)
+      .select { |_, values| values.length > 1 }
+    return if duplicate_constants.empty?
+
+    details = duplicate_constants.map do |constant, values|
+      "#{constant}: #{values.map { |_, (_, name)| name }.join(', ')}"
+    end
+    raise "generated type namespace collisions: #{details.join('; ')}"
+  end
+
+  def package_for_name(name)
+    return "Payment" if name.start_with?("PaymentMethodSnapshot")
+    return "Money" if %w[Amount AmountParams Currency].include?(name)
+
+    matches = PACKAGE_DEFINITIONS.filter_map do |package, definition|
+      definition.fetch(:tokens).filter_map do |token|
+        index = name.index(token)
+        [index, -token.length, package] if index
+      end
+    end.flatten(1)
+    matches.min&.last || "Shared"
+  end
+
+  def local_name_for(name, package)
+    return name if name == package
+    return "PaymentMethod" if package == "Payment" && name == "PaymentMethodSnapshot"
+
+    tokens = PACKAGE_DEFINITIONS.fetch(package).fetch(:tokens)
+    token = tokens.filter_map do |candidate|
+      index = name.index(candidate)
+      [index, -candidate.length, candidate] if index
+    end.min&.last
+    return name unless token
+
+    local_name = name.sub(/#{Regexp.escape(token)}s?/, "")
+    local_name.empty? ? name : local_name
+  end
+
+  def qualified_name(name, location)
+    if location.class_package && name == location.package
+      "Inttegro::#{location.package}"
+    else
+      "Inttegro::#{location.package}::#{location.local_name}"
+    end
+  end
+
+  def model_reference(name)
+    location = @model_locations[name]
+    return qualified_name(name, location) if location
+    return enum_reference(name) if @enum_locations.key?(name)
+
+    "Inttegro::#{name}"
+  end
+
+  def enum_reference(name)
+    location = @enum_locations[name]
+    location ? qualified_name(name, location) : "Inttegro::#{name}"
+  end
+
+  def enum_backed_node?(node)
+    node.schema.is_a?(Hash) && node.schema["type"] == "string" &&
+      @enums[node.name] == node.schema["enum"]
+  end
+
+  def relocate_expression(expression)
+    expression.gsub(/Inttegro::([A-Za-z0-9_]+)/) do
+      name = Regexp.last_match(1)
+      if @model_locations.key?(name)
+        model_reference(name)
+      elsif @enum_locations.key?(name)
+        enum_reference(name)
+      else
+        Regexp.last_match(0)
+      end
+    end
+  end
 
   def collect_operations
     @spec.fetch("paths").each do |path, path_item|
@@ -288,7 +433,7 @@ class OpenAPITypeGenerator
       referenced = dereference(schema)
       return type_expression(referenced, candidate, origin) if map_schema?(referenced)
 
-      return "Inttegro::#{constantize(schema.fetch("$ref").split("/").last)}"
+      return model_reference(constantize(schema.fetch("$ref").split("/").last))
     end
 
     if schema["nullable"] && !ignore_nullable
@@ -297,7 +442,7 @@ class OpenAPITypeGenerator
     end
 
     if schema["enum"] && schema["type"] == "string"
-      return "Inttegro::#{enum_name(schema.fetch("enum"), candidate)}"
+      return enum_reference(enum_name(schema.fetch("enum"), candidate, schema, origin))
     end
 
     if object_schema?(schema)
@@ -309,7 +454,7 @@ class OpenAPITypeGenerator
       end
 
       name = @schema_names[schema.object_id] || register_inline_schema(candidate, schema, origin)
-      return "Inttegro::#{name}"
+      return model_reference(name)
     end
 
     variants = schema["oneOf"] || schema["anyOf"]
@@ -394,16 +539,28 @@ class OpenAPITypeGenerator
     required.uniq
   end
 
-  def enum_name(values, candidate)
+  def enum_name(values, candidate, schema, origin)
     signature = enum_signature(values)
     preferred = preferred_enum_name(values, candidate)
     key = [signature, preferred || constantize(candidate)]
-    return @enum_names.fetch(key) if @enum_names.key?(key)
+    if @enum_names.key?(key)
+      name = @enum_names.fetch(key)
+      remember_enum_metadata(name, schema, origin, candidate)
+      return name
+    end
 
     name = unique_enum_name(preferred || candidate)
     @enum_names[key] = name
     @enums[name] = values
+    remember_enum_metadata(name, schema, origin, candidate)
     name
+  end
+
+  def remember_enum_metadata(name, schema, origin, candidate)
+    current = @enum_metadata[name]
+    return if current && schema_description(current.schema)
+
+    @enum_metadata[name] = EnumMetadata.new(schema: schema, origin: origin, candidate: candidate)
   end
 
   def preferred_enum_name(values, candidate)
@@ -456,7 +613,154 @@ class OpenAPITypeGenerator
     name.empty? ? "VALUE" : name
   end
 
+  def schema_description(schema, seen = {})
+    return unless schema.is_a?(Hash)
+    return if seen[schema.object_id]
+
+    seen = seen.merge(schema.object_id => true)
+    direct = schema["description"] || schema["title"]
+    return normalize_doc_text(direct) unless direct.to_s.strip.empty?
+
+    if schema["$ref"]
+      referenced = dereference(schema)
+      return schema_description(referenced, seen)
+    end
+
+    schema.fetch("allOf", []).each do |part|
+      description = schema_description(part, seen)
+      return description if description
+    end
+    nil
+  end
+
+  def normalize_doc_text(text)
+    text.to_s.lines.map(&:strip).reject(&:empty?).join(" ").gsub(/\s+/, " ").strip
+  end
+
+  def humanize_constant(name)
+    name
+      .gsub(/([A-Z\d]+)([A-Z][a-z])/, '\\1 \\2')
+      .gsub(/([a-z\d])([A-Z])/, '\\1 \\2')
+      .downcase
+  end
+
+  def wrapped_doc_lines(text, width: 92)
+    words = normalize_doc_text(text).split
+    return [] if words.empty?
+
+    words.each_with_object([]) do |word, lines|
+      if lines.empty? || lines.last.length + word.length + 1 > width
+        lines << word.dup
+      else
+        lines[-1] << " #{word}"
+      end
+    end
+  end
+
+  def render_doc_comment(lines)
+    lines.flatten.compact.map { |line| line.empty? ? "#" : "# #{line}" }.join("\n")
+  end
+
+  def yard_type(expression)
+    if expression.start_with?("T.nilable(") && expression.end_with?(")")
+      return "#{yard_type(expression[10...-1])}, nil"
+    end
+    if expression.start_with?("T::Array[") && expression.end_with?("]")
+      return "Array<#{yard_type(expression[9...-1])}>"
+    end
+    if expression.start_with?("T::Hash[") && expression.end_with?("]")
+      key, value = split_type_arguments(expression[8...-1])
+      return "Hash{#{yard_type(key)} => #{yard_type(value)}}"
+    end
+    if expression.start_with?("T.any(") && expression.end_with?(")")
+      return split_type_arguments(expression[6...-1]).map { |type| yard_type(type) }.join(", ")
+    end
+
+    expression == "T::Boolean" ? "Boolean" : expression
+  end
+
+  def split_type_arguments(expression)
+    arguments = []
+    depth = 0
+    start = 0
+    expression.each_char.with_index do |character, index|
+      depth += 1 if "([".include?(character)
+      depth -= 1 if ")]".include?(character)
+      next unless character == "," && depth.zero?
+
+      arguments << expression[start...index].strip
+      start = index + 1
+    end
+    arguments << expression[start..].strip
+    arguments
+  end
+
+  def model_description(node, location)
+    schema_description(node.schema) ||
+      "Typed representation of the #{humanize_constant(location.local_name)} object in the Inttegro API."
+  end
+
+  def property_description(property, schema)
+    schema_description(schema) || "Value of the `#{property}` field in the Inttegro API payload."
+  end
+
+  def model_documentation(node, location, properties)
+    lines = wrapped_doc_lines(model_description(node, location))
+    lines.concat([
+      "",
+      "This generated model is immutable. Construct it with `.new`, or decode a string-keyed API",
+      "payload with `.from_hash`. `#serialize` produces a string-keyed hash using the original wire",
+      "field names and serialized enum values.",
+      "",
+      "@api public"
+    ])
+    properties.each do |property|
+      requirement = if property.fetch(:required)
+        "Required in the API payload."
+      else
+        "Optional in the API payload; omitted values default to `nil`."
+      end
+      lines.concat([
+        "",
+        "@!attribute [r] #{property.fetch(:ruby_name)}",
+        *wrapped_doc_lines(property.fetch(:description)).map { |line| "  #{line}" },
+        "",
+        "  #{requirement} Wire name: `#{property.fetch(:wire_name)}`.",
+        "  @return [#{yard_type(property.fetch(:type))}]"
+      ])
+    end
+    render_doc_comment(lines)
+  end
+
+  def enum_description(name, location)
+    metadata = @enum_metadata[name]
+    schema_description(metadata&.schema) ||
+      "String-backed values accepted by the Inttegro API for #{qualified_name(name, location)}."
+  end
+
+  def enum_value_description(metadata, value, index)
+    descriptions = metadata&.schema&.[]("x-enum-descriptions") || metadata&.schema&.[]("x-enumDescriptions")
+    description = if descriptions.is_a?(Array)
+      descriptions[index]
+    elsif descriptions.is_a?(Hash)
+      descriptions[value]
+    end
+    normalize_doc_text(description) unless description.to_s.strip.empty?
+  end
+
   def dependency_names(node)
+    references = node_type_expressions(node).flat_map do |expression|
+      expression.scan(/Inttegro(?:::[A-Z][A-Za-z0-9_]*)+/)
+    end
+    locations_by_constant = @model_locations.to_h do |name, location|
+      [qualified_name(name, location), name]
+    end
+    references.filter_map { |reference| locations_by_constant[reference] }
+      .reject { |name| name == node.name }
+      .uniq
+  end
+
+  def node_type_expressions(node)
     expressions = []
     if object_schema?(node.schema)
       properties_for(node.schema).each do |property, schema|
@@ -465,10 +769,31 @@ class OpenAPITypeGenerator
     else
       expressions << type_expression(node.schema, node.name, node.origin)
     end
+    expressions
+  end
 
-    expressions.flat_map { |expression| expression.scan(/Inttegro::([A-Za-z0-9_]+)/).flatten }
-      .reject { |name| name == node.name }
-      .uniq
+  def dependency_require_paths(node, location)
+    references = node_type_expressions(node).flat_map do |expression|
+      expression.scan(/Inttegro(?:::[A-Z][A-Za-z0-9_]*)+/)
+    end.uniq
+    locations_by_constant = {}
+    @model_locations.each do |name, dependency_location|
+      locations_by_constant[qualified_name(name, dependency_location)] = [name, dependency_location]
+    end
+    @enum_locations.each do |name, dependency_location|
+      locations_by_constant[qualified_name(name, dependency_location)] = [name, dependency_location]
+    end
+
+    current_constant = model_reference(node.name)
+    references.filter_map do |reference|
+      next if reference == current_constant
+
+      name, dependency_location = locations_by_constant[reference]
+      next unless dependency_location
+
+      basename = snake_case(dependency_location.local_name)
+      dependency_location.directory == location.directory ? basename : "../#{dependency_location.directory}/#{basename}"
+    end.uniq.sort
   end
 
   def ordered_nodes
@@ -491,82 +816,191 @@ class OpenAPITypeGenerator
     output
   end
 
-  def render_enums
-    classes = @enums.sort_by { |name, _| name }.map do |name, values|
-      [
-        "class #{name} < T::Enum",
-        "  enums do",
-        *values.map { |value| "    #{enum_constant(value)} = new(#{value.inspect})" },
-        "  end",
-        "end"
-      ].join("\n")
+  def render_package_files
+    files = {}
+    used_packages = (@model_locations.values + @enum_locations.values).map(&:package).uniq.sort
+    used_packages.each do |package|
+      definition = PACKAGE_DEFINITIONS.fetch(package)
+      files["lib/inttegro/#{definition.fetch(:directory)}/base.rb"] = render_package_base(package)
     end
-    indented_classes = classes.map do |definition|
-      definition.lines.map { |line| line.strip.empty? ? line : "  #{line}" }.join
-    end.join("\n\n")
 
-    <<~RUBY
-      # frozen_string_literal: true
-      # typed: strict
-      # Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit.
+    @enums.sort_by { |name, _| enum_reference(name) }.each do |name, values|
+      location = @enum_locations.fetch(name)
+      path = "lib/inttegro/#{location.directory}/#{snake_case(location.local_name)}.rb"
+      files[path] = render_enum(name, values, location)
+    end
 
-      require "sorbet-runtime"
-      require "time"
+    ordered_nodes.each do |node|
+      next if enum_backed_node?(node)
 
-      module Inttegro
-      #{indented_classes}
+      location = @model_locations.fetch(node.name)
+      path = "lib/inttegro/#{location.directory}/#{snake_case(location.local_name)}.rb"
+      raise "generated file collision at #{path}" if files.key?(path)
+
+      files[path] = render_model(node, location)
+    end
+    files
+  end
+
+  def render_package_base(package)
+    location = (@model_locations.values + @enum_locations.values).find { |candidate| candidate.package == package }
+    declaration = location.class_package ? "class #{package} < T::Struct" : "module #{package}"
+    namespace_documentation = if location.class_package
+      nil
+    else
+      render_doc_comment([
+        "Namespace for generated #{humanize_constant(package)} models and enums.",
+        "",
+        "Each public type in this namespace is defined in its own file and follows the field names",
+        "and wire values declared by the Inttegro OpenAPI contract.",
+        "",
+        "@api public"
+      ])
+    end
+    lines = [generated_header.rstrip, "", "require \"sorbet-runtime\"", "", "module Inttegro"]
+    if namespace_documentation
+      lines.concat(namespace_documentation.lines(chomp: true).map { |line| line.empty? ? "  #" : "  #{line}" })
+    end
+    lines.concat(["  #{declaration}", "  end", "end", ""])
+    lines.join("\n")
+  end
+
+  def render_enum(name, values, location)
+    metadata = @enum_metadata[name]
+    enum_docs = render_doc_comment([
+      *wrapped_doc_lines(enum_description(name, location)),
+      "",
+      "Use the constants below when constructing a request. `#serialize` returns the documented",
+      "string wire value received from or sent to the API.",
+      "",
+      "@api public"
+    ])
+    definition = [
+      enum_docs,
+      "class #{location.local_name} < T::Enum",
+      "  enums do",
+      *values.each_with_index.flat_map do |value, index|
+        value_description = enum_value_description(metadata, value, index)
+        [
+          *wrapped_doc_lines(value_description).map { |line| "    # #{line}" },
+          "    # Serialized wire value: `#{value}`.",
+          "    # @return [#{qualified_name(name, location)}]",
+          "    #{enum_constant(value)} = new(#{value.inspect})"
+        ]
+      end,
+      "  end",
+      "end"
+    ].join("\n")
+    render_in_package(location, definition)
+  end
+
+  def render_model(node, location)
+    definition = if object_schema?(node.schema)
+      required = required_for(node.schema)
+      properties = properties_for(node.schema).map do |property, schema|
+        type = type_expression(schema, "#{node.name}#{constantize(property)}", "#{node.origin}.#{property}")
+        unless required.include?(property) || type.start_with?("T.nilable(")
+          type = "T.nilable(#{type})"
+        end
+        ruby_property = serialized_property_name(property)
+        options = []
+        options << "default: nil" unless required.include?(property)
+        options << "name: #{property.inspect}" if ruby_property != property
+        {
+          definition: "const :#{ruby_property}, #{type}#{options.empty? ? '' : ", #{options.join(', ')}"}",
+          description: property_description(property, schema),
+          required: required.include?(property),
+          ruby_name: ruby_property,
+          type: type,
+          wire_name: property
+        }
       end
+      documentation = model_documentation(node, location, properties)
+      props = properties.map { |property| property.fetch(:definition) }
+      body = props.empty? ? "# This object intentionally has no fields." : props.join("\n")
+      if location.class_package && node.name == location.package
+        return render_in_package(
+          location,
+          body,
+          package_documentation: documentation,
+          dependency_paths: dependency_require_paths(node, location)
+        )
+      else
+        nested_body = body.lines(chomp: true).map { |line| "  #{line}" }.join("\n")
+        [
+          documentation,
+          "class #{location.local_name} < T::Struct",
+          nested_body,
+          "end"
+        ].join("\n")
+      end
+    else
+      expression = type_expression(node.schema, node.name, node.origin)
+      return generated_header + "# #{model_reference(node.name)} is represented by another generated type.\n" if expression == model_reference(node.name)
+
+      documentation = render_doc_comment([
+        *wrapped_doc_lines(model_description(node, location)),
+        "",
+        "@api public",
+        "@return [#{yard_type(expression)}]"
+      ])
+      "#{documentation}\n#{location.local_name} = T.type_alias { #{expression} }"
+    end
+    render_in_package(location, definition, dependency_paths: dependency_require_paths(node, location))
+  end
+
+  def render_in_package(location, definition, package_documentation: nil, dependency_paths: [])
+    package_declaration = location.class_package ? "class #{location.package}" : "module #{location.package}"
+    dependency_requires = dependency_paths.map { |path| "require_relative #{path.inspect}" }
+    require_lines = (["require_relative \"base\""] + dependency_requires).join("\n")
+    lines = [generated_header.rstrip, "", require_lines, "", "module Inttegro"]
+    if package_documentation
+      lines.concat(package_documentation.lines(chomp: true).map { |line| line.empty? ? "  #" : "  #{line}" })
+    end
+    lines << "  #{package_declaration}"
+    lines.concat(definition.lines(chomp: true).map { |line| line.empty? ? "" : "    #{line}" })
+    lines.concat(["  end", "end", ""])
+    lines.join("\n")
+  end
+
+  def render_enum_manifest
+    paths = @enum_locations.map do |name, location|
+      [enum_reference(name), "../#{location.directory}/#{snake_case(location.local_name)}"]
+    end.sort.map { |_, path| "require_relative #{path.inspect}" }
+    render_manifest(paths)
+  end
+
+  def render_model_manifest
+    paths = ordered_nodes.reject { |node| enum_backed_node?(node) }.map do |node|
+      location = @model_locations.fetch(node.name)
+      "require_relative \"../#{location.directory}/#{snake_case(location.local_name)}\""
+    end
+    render_manifest(["require_relative \"enums\""] + paths)
+  end
+
+  def render_manifest(require_lines)
+    <<~RUBY
+      #{generated_header.rstrip}
+
+      #{require_lines.join("\n")}
     RUBY
   end
 
-  def render_models
-    definitions = ordered_nodes.filter_map do |node|
-      if object_schema?(node.schema)
-        required = required_for(node.schema)
-        props = properties_for(node.schema).map do |property, schema|
-          type = type_expression(schema, "#{node.name}#{constantize(property)}", "#{node.origin}.#{property}")
-          unless required.include?(property) || type.start_with?("T.nilable(")
-            type = "T.nilable(#{type})"
-          end
-          ruby_property = serialized_property_name(property)
-          options = []
-          options << "default: nil" unless required.include?(property)
-          options << "name: #{property.inspect}" if ruby_property != property
-          suffix = options.empty? ? "" : ", #{options.join(', ')}"
-          "      const :#{ruby_property}, #{type}#{suffix}"
-        end
-        body = props.empty? ? "      # This object intentionally has no fields." : props.join("\n")
-        <<~RUBY.rstrip
-          class #{node.name} < T::Struct
-      #{body}
-          end
-        RUBY
-      else
-        expression = type_expression(node.schema, node.name, node.origin)
-        next if expression == "Inttegro::#{node.name}"
-
-        "#{node.name} = T.type_alias { #{expression} }"
-      end
-    end
-    indented_definitions = definitions.map do |definition|
-      lines = definition.lines
-      content_lines = lines.reject { |line| line.strip.empty? }
-      margin = content_lines.map { |line| line[/\A */].length }.min || 0
-      lines.map { |line| line.strip.empty? ? line : "  #{line[margin..]}" }.join
-    end.join("\n\n")
-
+  def generated_header
     <<~RUBY
       # frozen_string_literal: true
       # typed: strict
+
       # Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit.
-
-      require "sorbet-runtime"
-      require_relative "enums"
-
-      module Inttegro
-      #{indented_definitions}
-      end
     RUBY
+  end
+
+  def snake_case(name)
+    name
+      .gsub(/IDs\b/, "Ids")
+      .gsub(/([A-Z\d]+)([A-Z][a-z])/, '\\1_\\2')
+      .gsub(/([a-z\d])([A-Z])/, '\\1_\\2')
+      .downcase
   end
 
   def serialized_property_name(property)
@@ -581,12 +1015,12 @@ class OpenAPITypeGenerator
     response_entries = @operations.filter_map do |operation|
       next unless operation.response_type
 
-      "      #{operation.path.inspect} => #{operation.response_type}"
+      "      #{operation.path.inspect} => #{relocate_expression(operation.response_type)}"
     end.join(",\n")
     request_entries = @operations.filter_map do |operation|
       next unless operation.request_type
 
-      "      #{operation.path.inspect} => #{operation.request_type.inspect}"
+      "      #{operation.path.inspect} => #{relocate_expression(operation.request_type).inspect}"
     end.join(",\n")
     operation_ids = @operations.map do |operation|
       "      #{operation.path.inspect} => #{operation.operation_id.inspect}"
@@ -622,31 +1056,45 @@ class OpenAPITypeGenerator
   end
 end
 
-sdk_root = Pathname.new(__dir__).join("..").expand_path
-spec_path = Pathname.new(ENV.fetch("INTTEGRO_OPENAPI_SPEC", sdk_root.join("..", "..", "openapi", "commerce.yml").to_s))
-abort "OpenAPI spec not found at #{spec_path}" unless spec_path.file?
+if $PROGRAM_NAME == __FILE__
+  sdk_root = Pathname.new(__dir__).join("..").expand_path
+  spec_path = Pathname.new(ENV.fetch("INTTEGRO_OPENAPI_SPEC", sdk_root.join("..", "..", "openapi", "commerce.yml").to_s))
+  abort "OpenAPI spec not found at #{spec_path}" unless spec_path.file?
 
-spec = YAML.load_file(spec_path)
-generated = OpenAPITypeGenerator.new(spec).generate
-stale = []
+  spec = YAML.load_file(spec_path)
+  generated = OpenAPITypeGenerator.new(spec).generate
+  stale = []
+  generated_marker = "# Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit."
+  existing_generated = Dir[sdk_root.join("lib", "inttegro", "**", "*.rb")].filter_map do |path|
+    relative_path = Pathname.new(path).relative_path_from(sdk_root).to_s
+    relative_path if File.foreach(path).first(4).any? { |line| line.chomp == generated_marker }
+  end
+  unexpected = existing_generated - generated.keys
 
-generated.each do |relative_path, content|
-  target = sdk_root.join(relative_path)
+  generated.each do |relative_path, content|
+    target = sdk_root.join(relative_path)
+    if ARGV == ["--check"]
+      stale << relative_path unless target.file? && target.read == content
+    else
+      target.dirname.mkpath
+      target.write(content)
+      puts "wrote #{relative_path}"
+    end
+  end
+
   if ARGV == ["--check"]
-    stale << relative_path unless target.file? && target.read == content
+    stale.concat(unexpected)
+    unless stale.empty?
+      warn "generated OpenAPI types are stale: #{stale.sort.join(', ')}; run bin/generate-openapi-types"
+      exit 1
+    end
+    puts "generated OpenAPI types are up to date"
+  elsif ARGV.empty?
+    unexpected.sort.each do |relative_path|
+      sdk_root.join(relative_path).delete
+      puts "removed #{relative_path}"
+    end
   else
-    target.dirname.mkpath
-    target.write(content)
-    puts "wrote #{relative_path}"
+    abort "usage: bin/generate-openapi-types [--check]"
   end
-end
-
-if ARGV == ["--check"]
-  unless stale.empty?
-    warn "generated OpenAPI types are stale: #{stale.join(', ')}; run bin/generate-openapi-types"
-    exit 1
-  end
-  puts "generated OpenAPI types are up to date"
-elsif !ARGV.empty?
-  abort "usage: bin/generate-openapi-types [--check]"
 end

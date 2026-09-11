@@ -15,6 +15,8 @@ YARD::Rake::YardocTask.new(:docs) do |task|
   task.files = ["lib/**/*.rb"]
   task.options = [
     "--no-private",
+    "--no-progress",
+    "--fail-on-warning",
     "--protected",
     "--readme", "README.md",
     "--title", "Inttegro Ruby SDK",

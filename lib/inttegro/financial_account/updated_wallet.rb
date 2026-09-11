@@ -1,0 +1,43 @@
+# frozen_string_literal: true
+# typed: strict
+
+# Generated from openapi/commerce.yml by bin/generate-openapi-types. Do not edit.
+
+require_relative "base"
+require_relative "../wallet/type"
+require_relative "wallet_mobile_money"
+
+module Inttegro
+  class FinancialAccount
+    # Update responses currently return the wallet ID without its type prefix.
+    #
+    # This generated model is immutable. Construct it with `.new`, or decode a string-keyed API
+    # payload with `.from_hash`. `#serialize` produces a string-keyed hash using the original wire
+    # field names and serialized enum values.
+    #
+    # @api public
+    #
+    # @!attribute [r] id
+    #   Value of the `id` field in the Inttegro API payload.
+    #
+    #   Required in the API payload. Wire name: `id`.
+    #   @return [String]
+    #
+    # @!attribute [r] type
+    #   Value of the `type` field in the Inttegro API payload.
+    #
+    #   Required in the API payload. Wire name: `type`.
+    #   @return [Inttegro::Wallet::Type]
+    #
+    # @!attribute [r] mobile_money
+    #   Value of the `mobile_money` field in the Inttegro API payload.
+    #
+    #   Optional in the API payload; omitted values default to `nil`. Wire name: `mobile_money`.
+    #   @return [Inttegro::FinancialAccount::WalletMobileMoney, nil]
+    class UpdatedWallet < T::Struct
+      const :id, String
+      const :type, Inttegro::Wallet::Type
+      const :mobile_money, T.nilable(Inttegro::FinancialAccount::WalletMobileMoney), default: nil
+    end
+  end
+end
