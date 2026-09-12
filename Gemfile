@@ -15,7 +15,7 @@ gem "opentelemetry-common", "~> 0.21.0"
 gem "opentelemetry-registry", "~> 0.3.1"
 gem "opentelemetry-semantic_conventions", "~> 1.10.1"
 
-gem "rubocop", "~> 1.21"
+gem "rubocop", "~> 1.90"
 
 gem "simplecov", "~> 0.22", require: false
 
