@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   yank:
-    if: github.repository == 'zebodotdev/inttegro-sdk-ruby'
+    if: github.repository == 'inttegro/inttegro-sdk-ruby'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: release

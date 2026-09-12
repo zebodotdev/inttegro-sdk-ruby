@@ -1,6 +1,6 @@
 # Inttegro Ruby SDK
 
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/zebodotdev/inttegro-sdk-ruby/badge)](https://scorecard.dev/viewer/?uri=github.com/zebodotdev/inttegro-sdk-ruby)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/inttegro/inttegro-sdk-ruby/badge)](https://scorecard.dev/viewer/?uri=github.com/inttegro/inttegro-sdk-ruby)
 
 The official Ruby client for building server-side Inttegro integrations.
 
@@ -163,7 +163,7 @@ The GitHub release for each version is the canonical record. It contains the exa
 ```bash
 sha256sum --check SHA256SUMS
 gh attestation verify inttegro-4.2.2.gem \
-  --repo zebodotdev/inttegro-sdk-ruby
+  --repo inttegro/inttegro-sdk-ruby
 ```
 
 ## Develop
