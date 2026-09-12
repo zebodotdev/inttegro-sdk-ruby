@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## [6.1.0] - 2026-09-12
+
+- Added opt-in response envelopes that expose status, headers, request IDs,
+  retry hints, and response metadata without changing existing resource return
+  values.
+
 ## [6.0.1] - 2026-09-11
 
 - Corrected the resource-namespace examples to show Ruby's class-backed layout accurately.

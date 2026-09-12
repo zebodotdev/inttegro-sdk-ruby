@@ -37,6 +37,42 @@ class InttegroClientTest < Minitest::Test
     assert_equal "api.inttegro.com", server_address
   end
 
+  def test_response_envelope_exposes_response_only_metadata
+    adapter = make_adapter(
+      body: {
+        order: {
+          id: "or_1",
+          customer: { id: "cu_123", guest: false, name: "Test User" },
+          status: "preparing",
+          initiated_at: "2026-09-10T10:00:00Z"
+        },
+        response_meta: {
+          request_id: "req_123",
+          debug: { provider_attempts: 1 }
+        }
+      },
+      headers: {
+        "Content-Type" => "application/json",
+        "x-request-id" => "req_123",
+        "Retry-After" => "15"
+      }
+    )
+    client = Inttegro::Client.new(token: "test", base_url: "https://api.inttegro.com", adapter: adapter)
+
+    response = client.orders.create_with_response(
+      customer_id: "cu_123",
+      line_items: [{ type: "product" }]
+    )
+
+    assert_instance_of Inttegro::APIResponse, response
+    assert_instance_of Inttegro::Order, response.data
+    assert_equal "or_1", response.data.id
+    assert_equal 200, response.status
+    assert_equal "req_123", response.request_id
+    assert_equal "15", response.retry_after
+    assert_equal "req_123", response.meta.fetch("request_id")
+  end
+
   def test_emits_redacted_opentelemetry_span_and_propagates_context
     exporter = OpenTelemetry::SDK::Trace::Export::InMemorySpanExporter.new
     provider = OpenTelemetry::SDK::Trace::TracerProvider.new
@@ -177,7 +213,11 @@ class InttegroClientTest < Minitest::Test
       "documented endpoints must not return Inttegro::ResponseObject"
 
     rbi = File.read(File.expand_path("../rbi/inttegro/generated.rbi", __dir__))
-    refute_match(/returns\(Inttegro::[A-Za-z0-9_]*(?:Response|Envelope)\)/, rbi)
+    leaked_response_returns = rbi
+      .scan(/returns\((Inttegro::[A-Za-z0-9_:]*(?:Response|Envelope))\)/)
+      .flatten
+      .uniq - ["Inttegro::APIResponse"]
+    assert_empty leaked_response_returns
   end
 
   def test_openapi_models_are_typed_structs
@@ -725,7 +765,7 @@ class InttegroClientTest < Minitest::Test
     resource_glob = File.expand_path("../lib/inttegro/resources/**/*.rb", __dir__)
     Dir[resource_glob].flat_map do |file|
       File.read(file).scan(
-        %r{@http\.(?:get|post|post_model|post_resource|post_object|post_with_headers|post_multipart|post_multipart_model|post_multipart_resource|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
+        %r{@http\.(?:get|post|post_model|post_resource|post_resource_with_response|post_object|post_with_headers|post_multipart|post_multipart_model|post_multipart_resource|post_binary_json)\(\s*["'](/[a-z0-9_/-]+)["']}
       ).flatten
     end.uniq.sort
   end

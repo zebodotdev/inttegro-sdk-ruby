@@ -8,6 +8,7 @@ require "time"
 require "uri"
 
 require_relative "errors"
+require_relative "api_response"
 require_relative "file_download"
 require_relative "models"
 require_relative "generated/operations"
@@ -144,6 +145,31 @@ module Inttegro
 
       decoded = Inttegro.deserialize(value, T.cast(model, T::Class[T::Struct]))
       return decoded if decoded.is_a?(model)
+
+      raise TypeError, "expected #{model} in #{field} from #{path}, got #{decoded.class}"
+    end
+
+    sig do
+      type_parameters(:Model)
+        .params(
+          path: String,
+          model: T::Class[T.type_parameter(:Model)],
+          field: Symbol,
+          body: Types::RequestBody,
+          headers: Types::Headers,
+          query: T.nilable(Types::Query)
+        )
+        .returns(APIResponse)
+    end
+    def post_resource_with_response(path, model, field, body, headers: {}, query: nil)
+      response = request_with_response(:post, path, body: body, headers: headers, query: query)
+      envelope = expect_response_object(T.cast(response.data, ResponseValue), path)
+      value = envelope.public_send(field)
+      value = value.to_h if value.is_a?(ResponseObject)
+      return response.with_data(T.cast(value, Object)) if value.is_a?(model)
+
+      decoded = Inttegro.deserialize(value, T.cast(model, T::Class[T::Struct]))
+      return response.with_data(decoded) if decoded.is_a?(model)
 
       raise TypeError, "expected #{model} in #{field} from #{path}, got #{decoded.class}"
     end
@@ -328,6 +354,30 @@ module Inttegro
       ).returns(ResponseValue)
     end
     def request(method, path, body: nil, headers: {}, query: nil, response_model: nil)
+      T.cast(
+        request_with_response(
+          method,
+          path,
+          body: body,
+          headers: headers,
+          query: query,
+          response_model: response_model
+        ).data,
+        ResponseValue
+      )
+    end
+
+    sig do
+      params(
+        method: T.any(String, Symbol),
+        path: String,
+        body: T.nilable(Types::RequestBody),
+        headers: Types::Headers,
+        query: T.nilable(Types::Query),
+        response_model: T.nilable(T::Class[T::Struct])
+      ).returns(APIResponse)
+    end
+    def request_with_response(method, path, body: nil, headers: {}, query: nil, response_model: nil)
       @telemetry.in_span(path, method, @base_url, Inttegro::VERSION) do |span|
         uri = build_uri(path, query)
         body = validate_body(path, coerce_body(body))
@@ -346,7 +396,12 @@ module Inttegro
         @telemetry.response(span, response, decoded: false)
         result = handle_response(path, response, response_model)
         @telemetry.decoded(span)
-        result
+        APIResponse.new(
+          data: result,
+          status: response.code.to_i,
+          headers: response.headers,
+          meta: response_meta(response.body)
+        )
       end
     rescue Timeout::Error, Errno::ETIMEDOUT => e
       raise TimeoutError.new("Request timed out", e)
@@ -572,6 +627,15 @@ module Inttegro
       normalize_wire_value(JSON.parse(body))
     rescue JSON::ParserError
       body
+    end
+
+    sig { params(body: String).returns(T.nilable(Types::Payload)) }
+    def response_meta(body)
+      data = parse_json(body)
+      return nil unless data.is_a?(Hash)
+
+      meta = data["response_meta"] || data[:response_meta]
+      meta.is_a?(Hash) ? normalize_payload(meta) : nil
     end
 
     sig { params(data: Object, response: TransportResponse).returns(String) }

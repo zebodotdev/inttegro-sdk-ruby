@@ -4,6 +4,7 @@
 require "sorbet-runtime"
 
 require_relative "inttegro/types"
+require_relative "inttegro/api_response"
 require_relative "inttegro/client"
 require_relative "inttegro/errors"
 require_relative "inttegro/error_reporting"
