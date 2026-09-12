@@ -15,10 +15,10 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.0.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/zebodotdev/inttegro-sdk-ruby"
+  spec.metadata["source_code_uri"] = "https://github.com/inttegro/inttegro-sdk-ruby"
   spec.metadata["documentation_uri"] = "https://ruby.inttegro.dev/"
-  spec.metadata["changelog_uri"] = "https://github.com/zebodotdev/inttegro-sdk-ruby/blob/master/CHANGELOG.md"
-  spec.metadata["github_repo"] = "ssh://github.com/zebodotdev/inttegro-sdk-ruby"
+  spec.metadata["changelog_uri"] = "https://github.com/inttegro/inttegro-sdk-ruby/blob/master/CHANGELOG.md"
+  spec.metadata["github_repo"] = "ssh://github.com/inttegro/inttegro-sdk-ruby"
   spec.metadata["rubygems_mfa_required"] = "true"
 
   gemspec = File.basename(__FILE__)
