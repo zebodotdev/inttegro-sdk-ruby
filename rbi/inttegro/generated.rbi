@@ -250,6 +250,9 @@ module Inttegro
       sig { params(payload: T.any(T.any(Inttegro::Order::CreateNewCustomer, Inttegro::Order::CreateExistingCustomer), Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def create(payload); end
 
+      sig { params(payload: T.any(T.any(Inttegro::Order::CreateNewCustomer, Inttegro::Order::CreateExistingCustomer), Inttegro::Types::Payload)).returns(Inttegro::APIResponse) }
+      def create_with_response(payload); end
+
       sig { params(order_id: String, request_meta: T.nilable(Inttegro::Types::Payload)).returns(Inttegro::Order) }
       def finalize(order_id:, request_meta: nil); end
 

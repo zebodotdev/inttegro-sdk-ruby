@@ -166,7 +166,7 @@ module Inttegro
       envelope = expect_response_object(T.cast(response.data, ResponseValue), path)
       value = envelope.public_send(field)
       value = value.to_h if value.is_a?(ResponseObject)
-      return response.with_data(value) if value.is_a?(model)
+      return response.with_data(T.cast(value, Object)) if value.is_a?(model)
 
       decoded = Inttegro.deserialize(value, T.cast(model, T::Class[T::Struct]))
       return response.with_data(decoded) if decoded.is_a?(model)

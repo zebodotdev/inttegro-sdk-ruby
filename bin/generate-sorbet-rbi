@@ -99,6 +99,8 @@ def method_paths(sdk_root, resource_name)
 end
 
 def return_type(resource, method_name, path)
+  return "Inttegro::APIResponse" if method_name.to_s.end_with?("_with_response")
+
   external = EXTERNAL_RETURN_TYPES[[resource, method_name]]
   return external if external
   public_type = PUBLIC_RETURN_TYPES[[resource, method_name]]

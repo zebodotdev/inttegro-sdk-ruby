@@ -213,7 +213,11 @@ class InttegroClientTest < Minitest::Test
       "documented endpoints must not return Inttegro::ResponseObject"
 
     rbi = File.read(File.expand_path("../rbi/inttegro/generated.rbi", __dir__))
-    refute_match(/returns\(Inttegro::[A-Za-z0-9_]*(?:Response|Envelope)\)/, rbi)
+    leaked_response_returns = rbi
+      .scan(/returns\((Inttegro::[A-Za-z0-9_:]*(?:Response|Envelope))\)/)
+      .flatten
+      .uniq - ["Inttegro::APIResponse"]
+    assert_empty leaked_response_returns
   end
 
   def test_openapi_models_are_typed_structs
